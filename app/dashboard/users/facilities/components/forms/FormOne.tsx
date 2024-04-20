@@ -3,11 +3,11 @@ import React from 'react';
 import { FieldErrors, UseFormRegister, UseFormSetValue, UseFormTrigger, UseFormWatch } from 'react-hook-form';
 
 import { TFacilityForm } from '../AddEditFacility';
-import { InputComponent } from '@/app/components/inputs/InputComponent';
-import { ComboBoxFormComponent } from '@/app/components/utils/ComboBoxes';
-import FormInfo from '@/app/components/utils/FormInfo';
-import { backupGenerators, facilityFormFields, numberOfMeters } from '@/app/constants/forms';
-import Queries from '@/app/context/Queries';
+import { InputComponent } from '@/app/_components/inputs/InputComponent';
+import { ComboBoxFormComponent } from '@/app/_components/utils/ComboBoxes';
+import FormInfo from '@/app/_components/utils/FormInfo';
+import { backupGenerators, facilityFormFields, numberOfMeters } from '@/app/_constants/forms';
+import Queries from '@/app/_context/Queries';
 import { TComboBoxSelector, TFacilityTabs, TOrg } from '@/app/types';
 import { Button } from '@/components/ui/button';
 

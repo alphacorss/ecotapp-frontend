@@ -1,7 +1,7 @@
 import { ArrowUp } from 'lucide-react';
 import React from 'react';
 
-import AreaComponent from '@/app/components/charts/AreaChart';
+import AreaComponent from '@/app/_components/charts/AreaChart';
 
 const DataPage = ({ viewType, barData }: { viewType: string | null; barData: { name: string; amt: number }[] }) => {
   return (

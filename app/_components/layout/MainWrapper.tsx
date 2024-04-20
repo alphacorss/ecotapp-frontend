@@ -4,8 +4,8 @@ import React from 'react';
 import Header from '../nav/Header';
 import SideNav from '../nav/SideNav';
 import { PageLoader } from '../utils/Loader';
-import ProtectedRoutes from '@/app/components/layout/ProtectedRoutes';
-import Auth from '@/app/context/User';
+import ProtectedRoutes from '@/app/_components/layout/ProtectedRoutes';
+import Auth from '@/app/_context/User';
 
 const MainWrapper = ({ children }: { children: React.ReactNode }) => {
   const { isLoading, isFetching } = React.useContext(Auth);

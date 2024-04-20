@@ -5,14 +5,14 @@ import React from 'react';
 import { DateRange } from 'react-day-picker';
 
 import DataPage from './DataPage';
-import EnergyFilter from '../../../components/forms/EnergyFilter';
+import EnergyFilter from '../../../_components/forms/EnergyFilter';
 import EmptyState from '../_components/EmptyState';
-import MainWrapper from '@/app/components/layout/MainWrapper';
-import FilterBtn from '@/app/components/utils/FilterBtn';
-import { ModalComponent } from '@/app/components/utils/Modal';
-import SectionHeader from '@/app/components/utils/SectionHeader';
-import ToggleSwitch from '@/app/components/utils/ToggleSwitch';
-import { barData, energyToggle } from '@/app/constants/data';
+import MainWrapper from '@/app/_components/layout/MainWrapper';
+import FilterBtn from '@/app/_components/utils/FilterBtn';
+import { ModalComponent } from '@/app/_components/utils/Modal';
+import SectionHeader from '@/app/_components/utils/SectionHeader';
+import ToggleSwitch from '@/app/_components/utils/ToggleSwitch';
+import { barData, energyToggle } from '@/app/_constants/data';
 import { capitalizeFirstLetter, convertDate } from '@/lib/utils';
 
 const EnergyConsumption = () => {

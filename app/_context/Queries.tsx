@@ -1,8 +1,8 @@
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import React, { createContext } from 'react';
 
-import { useHandleMutation } from '../hooks/useHandleMutation';
-import usePathParams from '../hooks/usePathParams';
+import { useHandleMutation } from '../_hooks/useHandleMutation';
+import usePathParams from '../_hooks/usePathParams';
 import { TMutationHandler, TRole } from '../types';
 import qry from '@/lib/queries';
 import { getRole } from '@/lib/utils';

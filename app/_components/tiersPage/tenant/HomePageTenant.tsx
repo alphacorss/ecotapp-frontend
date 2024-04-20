@@ -6,7 +6,7 @@ import React from 'react';
 import BarComponent from '../../charts/BarChart';
 import { DropdownMenuComponent } from '../../utils/DropDowns';
 import { SelectComponent } from '../../utils/SelectComponent';
-import Queries from '@/app/context/Queries';
+import Queries from '@/app/_context/Queries';
 import { TChart, TMessages } from '@/app/types';
 import { Button } from '@/components/ui/button';
 import { getTimeAgo } from '@/lib/utils';

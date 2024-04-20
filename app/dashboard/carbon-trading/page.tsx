@@ -1,6 +1,6 @@
 import React from 'react';
 
-import MainWrapper from '@/app/components/layout/MainWrapper';
+import MainWrapper from '@/app/_components/layout/MainWrapper';
 
 const CarbonTrading = () => {
   return <MainWrapper>CarbonTrading</MainWrapper>;

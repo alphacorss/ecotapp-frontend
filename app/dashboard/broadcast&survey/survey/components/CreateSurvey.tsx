@@ -4,12 +4,12 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import QuestionInput from './QuestionInput';
-import { ComboBoxFormComponent } from '@/app/components/utils/ComboBoxes';
-import ErrorMessage from '@/app/components/utils/ErrorMessage';
-import Queries from '@/app/context/Queries';
-import SurveyCtx from '@/app/context/Survey';
-import useClearError from '@/app/hooks/useClearError';
-import useClearErrorMessage from '@/app/hooks/useClearErrorMessage';
+import { ComboBoxFormComponent } from '@/app/_components/utils/ComboBoxes';
+import ErrorMessage from '@/app/_components/utils/ErrorMessage';
+import Queries from '@/app/_context/Queries';
+import SurveyCtx from '@/app/_context/Survey';
+import useClearError from '@/app/_hooks/useClearError';
+import useClearErrorMessage from '@/app/_hooks/useClearErrorMessage';
 import { TFacility, TOrg } from '@/app/types';
 import { Button } from '@/components/ui/button';
 import { zodInputValidators } from '@/lib/utils';

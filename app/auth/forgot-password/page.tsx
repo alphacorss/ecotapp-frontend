@@ -8,10 +8,10 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { InputComponent } from '@/app/components/inputs/InputComponent';
-import BackendError from '@/app/components/utils/FormError';
-import Loader from '@/app/components/utils/Loader';
-import useClearError from '@/app/hooks/useClearError';
+import { InputComponent } from '@/app/_components/inputs/InputComponent';
+import BackendError from '@/app/_components/utils/FormError';
+import Loader from '@/app/_components/utils/Loader';
+import useClearError from '@/app/_hooks/useClearError';
 import { Button } from '@/components/ui/button';
 import { baseUrl } from '@/lib/utils';
 

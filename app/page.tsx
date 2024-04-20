@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 
-import { sideNavItems } from './constants/sideNavData';
+import { sideNavItems } from './_constants/sideNavData';
 
 const Landing = () => {
   const avaLinks = [

@@ -4,13 +4,13 @@ import React from 'react';
 import { DateRange } from 'react-day-picker';
 
 import EmptyState from '../_components/EmptyState';
-import LineComponent from '@/app/components/charts/LineChart';
-import EnergyFilter from '@/app/components/forms/EnergyFilter';
-import MainWrapper from '@/app/components/layout/MainWrapper';
-import FilterBtn from '@/app/components/utils/FilterBtn';
-import { ModalComponent } from '@/app/components/utils/Modal';
-import SectionHeader from '@/app/components/utils/SectionHeader';
-import { largeDataSet } from '@/app/constants/data';
+import LineComponent from '@/app/_components/charts/LineChart';
+import EnergyFilter from '@/app/_components/forms/EnergyFilter';
+import MainWrapper from '@/app/_components/layout/MainWrapper';
+import FilterBtn from '@/app/_components/utils/FilterBtn';
+import { ModalComponent } from '@/app/_components/utils/Modal';
+import SectionHeader from '@/app/_components/utils/SectionHeader';
+import { largeDataSet } from '@/app/_constants/data';
 import { convertDate } from '@/lib/utils';
 
 const EnergyForecast = () => {

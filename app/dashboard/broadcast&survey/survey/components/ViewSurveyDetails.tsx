@@ -6,10 +6,10 @@ import { useDispatch } from 'react-redux';
 import OverviewTab from './tabs/OverviewTab';
 import ResponsesTab from './tabs/ResponsesTab';
 import q from '../../../../../lib/queries';
-import Loader from '@/app/components/utils/Loader';
-import SurveyCtx from '@/app/context/Survey';
-import usePathParams from '@/app/hooks/usePathParams';
-import { Modals, closeModal } from '@/app/slices/ModalSlice';
+import Loader from '@/app/_components/utils/Loader';
+import SurveyCtx from '@/app/_context/Survey';
+import usePathParams from '@/app/_hooks/usePathParams';
+import { Modals, closeModal } from '@/app/_slices/ModalSlice';
 import { TSurveyData } from '@/app/types';
 import { Button } from '@/components/ui/button';
 

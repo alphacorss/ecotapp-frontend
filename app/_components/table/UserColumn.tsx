@@ -4,8 +4,8 @@ import * as React from 'react';
 
 import { TUser } from '../../types';
 import { TableHeader } from '../table/TableHeader';
-import TableCell from '@/app/components/table/TableCell';
-import TableContext from '@/app/components/table/TableContext';
+import TableCell from '@/app/_components/table/TableCell';
+import TableContext from '@/app/_components/table/TableContext';
 
 export const UserColumnData = (
   // eslint-disable-next-line no-unused-vars

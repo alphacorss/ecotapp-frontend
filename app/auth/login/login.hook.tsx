@@ -4,9 +4,9 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import Auth from '@/app/context/User';
-import useClearError from '@/app/hooks/useClearError';
-import useLocalStorage from '@/app/hooks/useLocalStorage';
+import Auth from '@/app/_context/User';
+import useClearError from '@/app/_hooks/useClearError';
+import useLocalStorage from '@/app/_hooks/useLocalStorage';
 import { baseUrl, zodInputValidators } from '@/lib/utils';
 
 const email = zodInputValidators.email;

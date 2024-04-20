@@ -3,8 +3,8 @@ import React, { createContext } from 'react';
 
 import Main from './Main';
 import Queries from './Queries';
-import useEditableDiv from '../hooks/useEditableDiv';
-import { Modals } from '../slices/ModalSlice';
+import useEditableDiv from '../_hooks/useEditableDiv';
+import { Modals } from '../_slices/ModalSlice';
 import { TComboBoxSelector, TQuestion, TSurveyData } from '../types';
 
 export type TSurveyCtx = {

@@ -2,8 +2,8 @@ import Link from 'next/link';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-import ViewModalInfo from '@/app/components/view/ViewModalInfo';
-import { Modals, closeModal } from '@/app/slices/ModalSlice';
+import ViewModalInfo from '@/app/_components/view/ViewModalInfo';
+import { Modals, closeModal } from '@/app/_slices/ModalSlice';
 import { TSingleOrg } from '@/app/types';
 import { Button } from '@/components/ui/button';
 

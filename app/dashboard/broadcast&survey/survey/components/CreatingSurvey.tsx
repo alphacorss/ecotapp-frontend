@@ -2,7 +2,7 @@ import React from 'react';
 
 import CreateSurvey from './CreateSurvey';
 import Preview from './Preview';
-import SurveyCtx from '@/app/context/Survey';
+import SurveyCtx from '@/app/_context/Survey';
 
 const CreatingSurvey = () => {
   const { showPreview } = React.useContext(SurveyCtx);

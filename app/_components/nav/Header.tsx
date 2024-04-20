@@ -6,9 +6,9 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { InputComponent } from '../inputs/InputComponent';
-import Main from '@/app/context/Main';
-import User from '@/app/context/User';
-import useWindowDimensions from '@/app/hooks/useMediaQuery';
+import Main from '@/app/_context/Main';
+import User from '@/app/_context/User';
+import useWindowDimensions from '@/app/_hooks/useMediaQuery';
 import { capitalizeFirstLetter, currentDate, zodInputValidators } from '@/lib/utils';
 
 const searchParam = zodInputValidators.longText;

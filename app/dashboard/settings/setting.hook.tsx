@@ -4,9 +4,9 @@ import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import Queries from '@/app/context/Queries';
-import Auth from '@/app/context/User';
-import useClearError from '@/app/hooks/useClearError';
+import Queries from '@/app/_context/Queries';
+import Auth from '@/app/_context/User';
+import useClearError from '@/app/_hooks/useClearError';
 import { getRole, zodInputValidators } from '@/lib/utils';
 
 const firstName = zodInputValidators.name;

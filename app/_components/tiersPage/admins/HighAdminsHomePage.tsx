@@ -2,13 +2,18 @@ import React from 'react';
 
 import BarComponent from '../../charts/BarChart';
 import { PieComponent } from '../../charts/PieChart';
-import { FacilityHomeCard } from '../../utils/FacilityHomeCard';
 import HomeCard from '../../utils/HomeCard';
 import { SelectComponent } from '../../utils/SelectComponent';
-import Auth from '@/app/context/User';
-import { TChart, TFacilityUser } from '@/app/types';
+import Auth from '@/app/_context/User';
+import { TChart, TRole } from '@/app/types';
 
-const FacilityManagerHomePage = ({
+export type THomeData = {
+  title: string;
+  allowedRoles: TRole[];
+  data: { period: string; value: number; percentage: number }[];
+}[];
+
+const HighAdminHomePage = ({
   data,
   total,
   percentage,
@@ -16,29 +21,32 @@ const FacilityManagerHomePage = ({
   pieChart,
   handleSelect,
 }: {
-  data: {
-    title: string;
-    data: { period: string; value: number; percentage: number }[];
-  }[];
+  data: THomeData;
   total: number;
   percentage: number;
   barChart: TChart;
   pieChart: TChart;
-  // eslint-disable-next-line no-unused-vars
   handleSelect: (value: string) => void;
 }) => {
-  const user = React.useContext(Auth).user as TFacilityUser;
-
+  const role = React.useContext(Auth).role;
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <FacilityHomeCard title="Number of Units" info={user.facility.totalNumberOfUnits} />
-        <FacilityHomeCard title="Number of Common Areas" info={user.facility.totalCommonAreas} />
-        <HomeCard title="Number of Tenants" data={data[2].data} />
+      <div
+        className={`grid  gap-5 ${
+          role === 'superadmin' || role === ('psuedoadmin' as TRole)
+            ? 'grid-cols-1 md:grid-cols-3'
+            : 'grid-cols-1 md:grid-cols-2'
+        }`}
+      >
+        {data.map((item, i) => {
+          if (!item.allowedRoles.includes(role as TRole)) return null;
+          return <HomeCard key={i} title={item.title} data={item.data} />;
+        })}
       </div>
       <div className="card flex-1">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-lg font-[600] text-gray-600">Total Energy Consumption</h1>
+          {/* <More size={20} className="text-gray-600 cursor-pointer" /> */}
         </div>
         <div className="flex justify-between items-start mb-6 flex-col md:flex-row">
           <div className="flex flex-col gap-5">
@@ -48,7 +56,7 @@ const FacilityManagerHomePage = ({
             </div>
             <div>
               <p className="text-green-500 font-bold text-lg">+ {percentage}%</p>
-              <p className="text-xs text-gray-400 font-[500]">Current month</p>
+              <p className="text-xs text-gray-400 font-[500]">Next month</p>
             </div>
           </div>
           <div>
@@ -69,7 +77,7 @@ const FacilityManagerHomePage = ({
           <div className="flex-[7]">
             <BarComponent data={barChart.data} />
           </div>
-          <div className="flex-[3]">
+          <div className="flex-[3.5]">
             <PieComponent data={pieChart.data} />
           </div>
         </div>
@@ -78,4 +86,4 @@ const FacilityManagerHomePage = ({
   );
 };
 
-export default FacilityManagerHomePage;
+export default HighAdminHomePage;

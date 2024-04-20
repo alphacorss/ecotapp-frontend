@@ -1,7 +1,7 @@
 import { Trash } from 'iconsax-react';
 import React from 'react';
 
-import ErrorMessage from '@/app/components/utils/ErrorMessage';
+import ErrorMessage from '@/app/_components/utils/ErrorMessage';
 
 type QuestionInputProps = {
   index: number;
