@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .transition {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  .poppins_heading {
+    @apply font-[600] font-poppins text-[20px] text-[#3C3C3C] tracking-[-0.4px];
+  }
+
+  .neo {
+    border-radius: 10px;
+    background: white;
+    box-shadow:
+      5px 5px 5px #ebebeb,
+      -5px -5px 5px #ffffff;
+  }
+
+  .more {
+    @apply w-full text-gray-800 flex gap-2 items-center cursor-pointer rounded-[var(--rounded)] hover:bg-gray-100 p-1;
+  }
+
+  .card {
+    @apply bg-white border border-gray-100 shadow-md p-[32px] rounded-[var(--rounded)];
+  }
+
+  .chart {
+    @apply w-full h-[300px] px-3;
+  }
+
+  .chart-heading {
+    @apply text-sm font-[500] text-left hidden;
+  }
+
+  .input-label {
+    @apply font-[600] text-xs text-gray-600;
+  }
+
+  .side_nav {
+    @apply flex gap-3 items-center w-full mb-2 rounded-[var(--rounded)] text-sm h-10 whitespace-nowrap border border-white transition;
+  }
+
+  .error-input {
+    @apply text-xs font-[500] text-error-300 select-none whitespace-nowrap;
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+
+  .scrollbar {
+    scrollbar-width: auto;
+  }
+}
+
+:root {
+  --side-nav-width: 275px;
+  --rounded: 5px;
+  --rounded-lg: 10px;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: #cacaca;
+}
+::-webkit-scrollbar-track {
+  background: #ffffff;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #cacaca;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Montserrat', sans-serif;
+}

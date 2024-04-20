@@ -1,0 +1,42 @@
+#!/bin/sh
+
+# Define the names of the branches you want to protect
+protected_branch_main="main"
+protected_branch_dev="staging"
+
+# Get the current branch name
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+# Check if committing to the protected branches and reject if true, unless the "--no-verify" flag is used
+if [ "$current_branch" = "$protected_branch_main" ] || [ "$current_branch" = "$protected_branch_dev" ] && [ "$1" != "--no-verify" ]; then
+    echo "Committing directly to the '$current_branch' branch is not allowed."
+    echo "Create a separate branch with 'git checkout -b {branchname}' and try again."
+    exit 1
+fi
+
+. "$(dirname "$0")/_/husky.sh"
+
+echo 'Checking your code for errors...'
+echo 'Please be patient, this may take a while...'
+
+# Check ESLint Standards
+npm run lint || (
+    echo 'You have a problem in your code, please fix the error and try again.'
+    echo 'You can run "npm run lint" to see the error'
+    false
+)
+
+echo 'Committing...'
+
+npx lint-staged
+
+echo 'Code is clean, committed successfully!'
+
+echo 'Checking build...'
+
+npm run build || (
+    echo 'Build failed, please fix the error and try again.'
+    false
+)
+
+echo 'Build is successful!, ready to push!'
