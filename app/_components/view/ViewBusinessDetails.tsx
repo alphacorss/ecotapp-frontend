@@ -5,7 +5,7 @@ import React from 'react';
 import AdminsTab from '../../dashboard/users/organizations/components/tabs/admins/AdminsTab';
 import { Btns } from '../../dashboard/users/organizations/components/tabs/Buttons';
 import ManagersTab from '../../dashboard/users/organizations/components/tabs/managers/ManagersTab';
-import { viewDetailsTabs } from '@/app/constants/data';
+import { viewDetailsTabs } from '@/app/_constants/data';
 import FacilityManagersTab from '@/app/dashboard/users/facilities/components/FacilityManagersTab';
 import FacilityOverviewsTab from '@/app/dashboard/users/facilities/components/overview/OverviewsTab';
 import ManagersOverviewTab from '@/app/dashboard/users/organizations/components/tabs/overview/OverviewsTab';

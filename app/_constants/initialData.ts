@@ -1,4 +1,4 @@
-import { TAddressForm } from '../components/forms/AddEditAddress';
+import { TAddressForm } from '../_components/forms/AddEditAddress';
 import { TFacility, TOrg, TUser } from '../types';
 
 export const initialUser: TUser = {

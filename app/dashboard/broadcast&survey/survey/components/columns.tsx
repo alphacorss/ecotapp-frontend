@@ -4,10 +4,10 @@ import { Trash } from 'iconsax-react';
 import { Eye, MoreVertical } from 'lucide-react';
 import * as React from 'react';
 
-import TableCell from '@/app/components/table/TableCell';
-import { TableHeader } from '@/app/components/table/TableHeader';
-import { DropdownMenuComponent } from '@/app/components/utils/DropDowns';
-import SurveyCtx from '@/app/context/Survey';
+import TableCell from '@/app/_components/table/TableCell';
+import { TableHeader } from '@/app/_components/table/TableHeader';
+import { DropdownMenuComponent } from '@/app/_components/utils/DropDowns';
+import SurveyCtx from '@/app/_context/Survey';
 import { TSurveyData } from '@/app/types';
 import { cleanDate } from '@/lib/utils';
 

@@ -2,8 +2,8 @@ import React, { memo } from 'react';
 import { FieldErrors, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form';
 
 import GoBack from '../Back';
-import AddEditAddress, { TAddressForm } from '@/app/components/forms/AddEditAddress';
-import FormInfo from '@/app/components/utils/FormInfo';
+import AddEditAddress, { TAddressForm } from '@/app/_components/forms/AddEditAddress';
+import FormInfo from '@/app/_components/utils/FormInfo';
 import { TFacilityTabs } from '@/app/types';
 
 const FormFour = ({

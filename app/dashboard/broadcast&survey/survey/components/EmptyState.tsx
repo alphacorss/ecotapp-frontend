@@ -2,8 +2,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
-import Main from '@/app/context/Main';
-import { Modals } from '@/app/slices/ModalSlice';
+import Main from '@/app/_context/Main';
+import { Modals } from '@/app/_slices/ModalSlice';
 import { Button } from '@/components/ui/button';
 import { getRole } from '@/lib/utils';
 

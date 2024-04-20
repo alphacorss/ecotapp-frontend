@@ -4,12 +4,12 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import Loader from '../utils/Loader';
-import { InputComponent } from '@/app/components/inputs/InputComponent';
-import { InputComponentWithSelector } from '@/app/components/inputs/InputComponentWithSelector';
-import { countries } from '@/app/constants/countryCodes';
-import { userForm } from '@/app/constants/forms';
-import useClearError from '@/app/hooks/useClearError';
-import { Modals } from '@/app/slices/ModalSlice';
+import { InputComponent } from '@/app/_components/inputs/InputComponent';
+import { InputComponentWithSelector } from '@/app/_components/inputs/InputComponentWithSelector';
+import { countries } from '@/app/_constants/countryCodes';
+import { userForm } from '@/app/_constants/forms';
+import useClearError from '@/app/_hooks/useClearError';
+import { Modals } from '@/app/_slices/ModalSlice';
 import { TMutationHandler, TRole, TUser } from '@/app/types';
 import { Button } from '@/components/ui/button';
 import { cleanRoleSingular, zodInputValidators } from '@/lib/utils';

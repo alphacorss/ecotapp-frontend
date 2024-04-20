@@ -2,15 +2,15 @@
 import React from 'react';
 
 import useSettings, { SettingFormFieldsUser } from './setting.hook';
-import { InputComponent } from '@/app/components/inputs/InputComponent';
-import { InputComponentWithSelector } from '@/app/components/inputs/InputComponentWithSelector';
-import MainWrapper from '@/app/components/layout/MainWrapper';
-import BackendError from '@/app/components/utils/FormError';
-import Loader from '@/app/components/utils/Loader';
-import { ModalComponent } from '@/app/components/utils/Modal';
-import SuccessModalContent from '@/app/components/utils/SuccessModalContent';
-import { countries } from '@/app/constants/countryCodes';
-import { passwordForm, userForm } from '@/app/constants/forms';
+import { InputComponent } from '@/app/_components/inputs/InputComponent';
+import { InputComponentWithSelector } from '@/app/_components/inputs/InputComponentWithSelector';
+import MainWrapper from '@/app/_components/layout/MainWrapper';
+import BackendError from '@/app/_components/utils/FormError';
+import Loader from '@/app/_components/utils/Loader';
+import { ModalComponent } from '@/app/_components/utils/Modal';
+import SuccessModalContent from '@/app/_components/utils/SuccessModalContent';
+import { countries } from '@/app/_constants/countryCodes';
+import { passwordForm, userForm } from '@/app/_constants/forms';
 import { Button } from '@/components/ui/button';
 
 const Settings = () => {

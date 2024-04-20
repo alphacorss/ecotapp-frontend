@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ViewModalInfo from '@/app/components/view/ViewModalInfo';
+import ViewModalInfo from '@/app/_components/view/ViewModalInfo';
 import { TFacility } from '@/app/types';
 
 const FacilityOverviewsTab = ({ facility }: { facility: TFacility }) => {

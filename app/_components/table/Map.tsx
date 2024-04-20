@@ -3,8 +3,8 @@ import { Icon } from 'leaflet';
 import React from 'react';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 
-import Main from '@/app/context/Main';
-import useWindowDimensions from '@/app/hooks/useMediaQuery';
+import Main from '@/app/_context/Main';
+import useWindowDimensions from '@/app/_hooks/useMediaQuery';
 
 const Map = ({ data }: { data: any }) => {
   const { definedGlobalWidth } = React.useContext(Main);

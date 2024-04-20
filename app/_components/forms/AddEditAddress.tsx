@@ -4,8 +4,8 @@ import { z } from 'zod';
 
 import { InputComponent } from '../inputs/InputComponent';
 import { ComboBoxFormCountryState } from '../utils/ComboBoxes';
-import { countries } from '@/app/constants/countryCodes';
-import { addressFormFields } from '@/app/constants/forms';
+import { countries } from '@/app/_constants/countryCodes';
+import { addressFormFields } from '@/app/_constants/forms';
 import { TComboBoxSelector } from '@/app/types';
 import { zodInputValidators } from '@/lib/utils';
 

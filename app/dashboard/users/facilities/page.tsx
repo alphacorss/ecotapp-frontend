@@ -5,17 +5,17 @@ import React from 'react';
 
 import AddEditFacility from './components/AddEditFacility';
 import { FacilityColumn } from './components/FacilityColumn';
-import MainWrapper from '@/app/components/layout/MainWrapper';
-import DataTable from '@/app/components/table/Table';
-import DeleteModalContent from '@/app/components/utils/DeleteModalContent';
-import Loader from '@/app/components/utils/Loader';
-import { ModalComponent } from '@/app/components/utils/Modal';
-import SectionHeader from '@/app/components/utils/SectionHeader';
-import SuccessModalContent from '@/app/components/utils/SuccessModalContent';
-import ViewBusinessDetails from '@/app/components/view/ViewBusinessDetails';
-import Main from '@/app/context/Main';
-import Queries from '@/app/context/Queries';
-import { Modals } from '@/app/slices/ModalSlice';
+import MainWrapper from '@/app/_components/layout/MainWrapper';
+import DataTable from '@/app/_components/table/Table';
+import DeleteModalContent from '@/app/_components/utils/DeleteModalContent';
+import Loader from '@/app/_components/utils/Loader';
+import { ModalComponent } from '@/app/_components/utils/Modal';
+import SectionHeader from '@/app/_components/utils/SectionHeader';
+import SuccessModalContent from '@/app/_components/utils/SuccessModalContent';
+import ViewBusinessDetails from '@/app/_components/view/ViewBusinessDetails';
+import Main from '@/app/_context/Main';
+import Queries from '@/app/_context/Queries';
+import { Modals } from '@/app/_slices/ModalSlice';
 import { TFacility } from '@/app/types';
 import { Button } from '@/components/ui/button';
 

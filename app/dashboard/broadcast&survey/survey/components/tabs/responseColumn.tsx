@@ -2,8 +2,8 @@
 import { ColumnDef } from '@tanstack/react-table';
 import * as React from 'react';
 
-import TableCell from '@/app/components/table/TableCell';
-import { TableHeader } from '@/app/components/table/TableHeader';
+import TableCell from '@/app/_components/table/TableCell';
+import { TableHeader } from '@/app/_components/table/TableHeader';
 import { TResponseTable } from '@/app/types';
 
 export const ResponseTabColumns = () => {

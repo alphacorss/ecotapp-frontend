@@ -1,13 +1,13 @@
 'use client';
 import React from 'react';
 
-import MainWrapper from '@/app/components/layout/MainWrapper';
-import FacilityManagerHomePage from '@/app/components/tiersPage/admins/FacilityManagerHomePage';
-import HighAdminHomePage, { THomeData } from '@/app/components/tiersPage/admins/HighAdminsHomePage';
-import HomePageTenant from '@/app/components/tiersPage/tenant/HomePageTenant';
-import { barData, pieData, toggleData } from '@/app/constants/data';
-import Queries from '@/app/context/Queries';
-import Auth from '@/app/context/User';
+import MainWrapper from '@/app/_components/layout/MainWrapper';
+import FacilityManagerHomePage from '@/app/_components/tiersPage/admins/FacilityManagerHomePage';
+import HighAdminHomePage, { THomeData } from '@/app/_components/tiersPage/admins/HighAdminsHomePage';
+import HomePageTenant from '@/app/_components/tiersPage/tenant/HomePageTenant';
+import { barData, pieData, toggleData } from '@/app/_constants/data';
+import Queries from '@/app/_context/Queries';
+import Auth from '@/app/_context/User';
 import { TRole } from '@/app/types';
 
 const Home = () => {

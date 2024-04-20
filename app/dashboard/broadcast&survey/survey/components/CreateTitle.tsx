@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 
-import { InputComponent } from '@/app/components/inputs/InputComponent';
-import Main from '@/app/context/Main';
-import SurveyCtx from '@/app/context/Survey';
-import useClearErrorMessage from '@/app/hooks/useClearErrorMessage';
-import { Modals } from '@/app/slices/ModalSlice';
+import { InputComponent } from '@/app/_components/inputs/InputComponent';
+import Main from '@/app/_context/Main';
+import SurveyCtx from '@/app/_context/Survey';
+import useClearErrorMessage from '@/app/_hooks/useClearErrorMessage';
+import { Modals } from '@/app/_slices/ModalSlice';
 import { Button } from '@/components/ui/button';
 
 const CreateTitle = () => {

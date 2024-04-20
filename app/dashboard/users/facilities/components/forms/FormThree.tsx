@@ -2,8 +2,8 @@ import { ArrowRight2 } from 'iconsax-react';
 import React from 'react';
 
 import GoBack from '../Back';
-import FormInfo from '@/app/components/utils/FormInfo';
-import { certifications } from '@/app/constants/forms';
+import FormInfo from '@/app/_components/utils/FormInfo';
+import { certifications } from '@/app/_constants/forms';
 import { TFacilityTabs } from '@/app/types';
 import { Button } from '@/components/ui/button';
 

@@ -4,8 +4,8 @@ import dynamic from 'next/dynamic';
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import { MainCtxProvider } from './context/Main';
-import { UserCtxProvider } from './context/User';
+import { MainCtxProvider } from './_context/Main';
+import { UserCtxProvider } from './_context/User';
 import { store } from './store';
 import { ProvidersProps } from './types';
 

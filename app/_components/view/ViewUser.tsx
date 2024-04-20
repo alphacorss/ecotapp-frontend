@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import ViewModalInfo from './ViewModalInfo';
-import { useHandleMutation } from '@/app/hooks/useHandleMutation';
+import { useHandleMutation } from '@/app/_hooks/useHandleMutation';
 import { TFacility, TOrg, TRole, TUser, TUserExtended } from '@/app/types';
 import { Button } from '@/components/ui/button';
 import qry from '@/lib/queries';

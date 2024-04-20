@@ -1,13 +1,13 @@
 import React from 'react';
 
 import Responses from './Responses';
-import ErrorMessage from '@/app/components/utils/ErrorMessage';
-import Loader from '@/app/components/utils/Loader';
-import Main from '@/app/context/Main';
-import Queries from '@/app/context/Queries';
-import SurveyCtx from '@/app/context/Survey';
-import useClearErrorMessage from '@/app/hooks/useClearErrorMessage';
-import { Modals } from '@/app/slices/ModalSlice';
+import ErrorMessage from '@/app/_components/utils/ErrorMessage';
+import Loader from '@/app/_components/utils/Loader';
+import Main from '@/app/_context/Main';
+import Queries from '@/app/_context/Queries';
+import SurveyCtx from '@/app/_context/Survey';
+import useClearErrorMessage from '@/app/_hooks/useClearErrorMessage';
+import { Modals } from '@/app/_slices/ModalSlice';
 import { Button } from '@/components/ui/button';
 import { getUserAnswer, hasUserResponded } from '@/lib/utils';
 

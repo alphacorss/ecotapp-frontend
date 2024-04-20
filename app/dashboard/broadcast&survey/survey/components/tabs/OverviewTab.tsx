@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 
-import Queries from '@/app/context/Queries';
+import Queries from '@/app/_context/Queries';
 import { TOrg, TSurveyData } from '@/app/types';
 import { capitalizeFirstLetter, cleanDate, cleanTime } from '@/lib/utils';
 

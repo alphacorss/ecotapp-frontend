@@ -5,11 +5,11 @@ import { usePathname } from 'next/navigation';
 import React from 'react';
 
 import { CollapsibleSideNav } from './CollapsibleSideNav';
-import { analyticsNav, bottomNav, broadcastNav, sideNavItems, userNav } from '@/app/constants/sideNavData';
-import Main from '@/app/context/Main';
-import User from '@/app/context/User';
-import useLocalStorage from '@/app/hooks/useLocalStorage';
-import useWindowDimensions from '@/app/hooks/useMediaQuery';
+import { analyticsNav, bottomNav, broadcastNav, sideNavItems, userNav } from '@/app/_constants/sideNavData';
+import Main from '@/app/_context/Main';
+import User from '@/app/_context/User';
+import useLocalStorage from '@/app/_hooks/useLocalStorage';
+import useWindowDimensions from '@/app/_hooks/useMediaQuery';
 import { capitalizeFirstLetter, clearCookies, clearSessionStorage } from '@/lib/utils';
 
 const SideNav = () => {
