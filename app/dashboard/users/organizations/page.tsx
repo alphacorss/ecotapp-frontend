@@ -19,6 +19,7 @@ import Queries from '@/app/_context/Queries';
 import { Modals } from '@/app/_slices/ModalSlice';
 import { TOrg, TSingleOrg } from '@/app/types';
 import { Button } from '@/components/ui/button';
+import { setUrlParams } from '@/lib/utils';
 
 export default function OrganizationsComponent() {
   const router = useRouter();
@@ -32,7 +33,9 @@ export default function OrganizationsComponent() {
   const showDeleteModal = (id: string) => {
     orgCtx.orgs.data?.data.organization.forEach((org: TOrg) => {
       if (org._id === id) {
-        router.push(`/dashboard/users/organizations?tab=overview&orgId=${org._id}`);
+        const params = new URLSearchParams();
+        params.set('orgId', org._id);
+        window.history.replaceState({}, '', `?${params}`);
       }
     });
     handleCloseModal(Modals.viewOrgModal);
@@ -42,7 +45,7 @@ export default function OrganizationsComponent() {
   const showDetailsModal = (orgId: string) => {
     orgCtx.orgs.data?.data.organization.forEach((org: TOrg) => {
       if (org._id === orgId) {
-        router.push(`/dashboard/users/organizations?tab=overview&orgId=${org._id}`);
+        setUrlParams({ tab: 'overview', orgId: org._id });
       }
     });
     org.refetch();
@@ -52,7 +55,7 @@ export default function OrganizationsComponent() {
   const showEditOrgModal = (id: string) => {
     orgCtx.orgs.data?.data.organization.forEach((org: TOrg) => {
       if (org._id === id) {
-        router.push(`/dashboard/users/organizations?tab=overview&orgId=${org._id}`);
+        setUrlParams({ tab: 'overview', orgId: org._id });
       }
     });
     handleOpenModal(Modals.editOrgModal);

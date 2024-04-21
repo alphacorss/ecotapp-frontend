@@ -1,5 +1,5 @@
 import { NetworkIcon } from 'lucide-react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import React from 'react';
 
 import AdminsTab from '../../dashboard/users/organizations/components/tabs/admins/AdminsTab';
@@ -22,7 +22,6 @@ const ViewBusinessDetails = ({
   showDeleteModal: (id: string) => void;
   showEditModal: (id: string) => void;
 }) => {
-  const router = useRouter();
   const tab = useSearchParams().get('tab');
   const name = orgData?.organization.name || facilityData?.name;
 
@@ -43,14 +42,15 @@ const ViewBusinessDetails = ({
         }`}
       >
         {viewDetailsTabs.map((link, i) => {
-          const href = orgData
-            ? `/dashboard/users/organizations?tab=${link.href}&orgId=${orgData.organization._id}`
-            : `/dashboard/users/facilities?tab=${link.href}&facilityId=${facilityData?._id}`;
+          const params = new URLSearchParams();
+          params.set('tab', link.href);
+          if (facilityData) params.set('facilityId', facilityData?._id);
+          if (orgData) params.set('orgId', orgData?.organization._id);
           if (link.href === 'admins' && !orgData) return null;
           return (
             <li
               key={i}
-              onClick={() => router.push(href)}
+              onClick={() => window.history.replaceState({}, '', `?${params}`)}
               className={`cursor-pointer p-2 text-sm transition font-[600] ${
                 tab === link.href ? 'text-gray-700 bg-white rounded-[var(--rounded)]' : 'text-gray-500'
               }`}

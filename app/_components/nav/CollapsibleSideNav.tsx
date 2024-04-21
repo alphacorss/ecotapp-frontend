@@ -28,7 +28,7 @@ export function CollapsibleSideNav({
     <Collapsible open={isOpen} defaultOpen={true} onOpenChange={setIsOpen} className="w-full">
       <CollapsibleTrigger asChild>
         <button
-          onClick={() => setExpandDrawer(expandDrawer ? true : false)}
+          onClick={() => setExpandDrawer(!expandDrawer ? true : false)}
           className={`side_nav ${expandDrawer ? 'flex justify-between items-center px-4 py-2' : 'justify-center'} ${
             isActive
               ? 'bg-primary-300 text-white hover:bg-primary-300/90 transition'
