@@ -39,5 +39,16 @@ npm run build || (
     false
 )
 
+echo 'Build is successful!'
 git push -u origin $current_branch
-echo 'Build is successful!, pushed to remote successfully!'
+
+#clone the repo
+git remote rename origin upstream
+git remote add origin https://github.com/Phingaz/alphacor.git
+git push -u origin $current_branch
+
+#update the remote
+git remote rename origin upstream
+git remote add origin https://github.com/alphacorss/ecotapp-frontend.git
+
+echo 'Pushed to remote successfully!'
