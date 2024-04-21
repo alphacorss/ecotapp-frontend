@@ -18,6 +18,7 @@ import Queries from '@/app/_context/Queries';
 import { Modals } from '@/app/_slices/ModalSlice';
 import { TFacility } from '@/app/types';
 import { Button } from '@/components/ui/button';
+import { setUrlParams } from '@/lib/utils';
 
 const Facilities = () => {
   const router = useRouter();
@@ -31,7 +32,7 @@ const Facilities = () => {
   const showDeleteModal = (id: string) => {
     facilitiesCtx.facilities.data?.data.facilities.forEach((facility: TFacility) => {
       if (facility._id === id) {
-        router.push(`/dashboard/users/facilities?tab=overview&facilityId=${facility._id}`);
+        setUrlParams({ facilityId: facility._id });
       }
     });
     handleOpenModal(Modals.deleteFacilityModal);
@@ -40,7 +41,7 @@ const Facilities = () => {
   const showDetailsModal = (id: string) => {
     facilitiesCtx.facilities.data?.data.facilities.forEach((facility: TFacility) => {
       if (facility._id === id) {
-        router.push(`/dashboard/users/facilities?tab=overview&facilityId=${facility._id}`);
+        setUrlParams({ tab: 'overview', facilityId: facility._id });
       }
     });
     facility.refetch();
@@ -50,7 +51,7 @@ const Facilities = () => {
   const showEditFacilityModal = (id: string) => {
     facilitiesCtx.facilities.data?.data.facilities.forEach((facility: TFacility) => {
       if (facility._id === id) {
-        router.push(`/dashboard/users/facilities?tab=overview&facilityId=${facility._id}`);
+        setUrlParams({ tab: 'overview', facilityId: facility._id });
       }
     });
     handleOpenModal(Modals.editFacilityModal);

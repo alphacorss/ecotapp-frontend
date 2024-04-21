@@ -29,7 +29,11 @@ const AdminsTab = ({ org }: { org: TOrg }) => {
   const showDetailsModal = (id: string) => {
     orgAdminsData.forEach((user: TUser) => {
       if (user._id === id) {
-        router.push(`/dashboard/users/organizations?tab=admins&orgId=${org._id}&orgAdminId=${user._id}`);
+        const params = new URLSearchParams();
+        params.set('tab', 'admins');
+        params.set('orgId', org._id);
+        params.set('orgAdminId', user._id);
+        window.history.replaceState({}, '', `?${params}`);
       }
     });
     orgAdmin.refetch();
@@ -39,7 +43,11 @@ const AdminsTab = ({ org }: { org: TOrg }) => {
   const showDeleteModal = (id: string) => {
     orgAdminsData.forEach((user: TUser) => {
       if (user._id === id) {
-        router.push(`/dashboard/users/organizations?tab=admins&orgId=${org._id}&orgAdminId=${user._id}`);
+        const params = new URLSearchParams();
+        params.set('tab', 'admins');
+        params.set('orgId', org._id);
+        params.set('orgAdminId', user._id);
+        window.history.replaceState({}, '', `?${params}`);
       }
     });
     handleCloseModal(Modals.viewOrgAdminModal);

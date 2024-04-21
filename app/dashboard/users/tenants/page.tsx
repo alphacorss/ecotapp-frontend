@@ -19,6 +19,7 @@ import Queries from '@/app/_context/Queries';
 import { Modals } from '@/app/_slices/ModalSlice';
 import { TUserExtended } from '@/app/types';
 import { Button } from '@/components/ui/button';
+import { setUrlParams } from '@/lib/utils';
 
 export default function TenantsComponent() {
   const router = useRouter();
@@ -33,7 +34,7 @@ export default function TenantsComponent() {
   const showDetailsModal = (id: string) => {
     tenantsData.forEach((user: TUserExtended) => {
       if (user._id === id) {
-        router.push(`/dashboard/users/tenants?tab=overview&tenantId=${user._id}`);
+        setUrlParams({ tab: 'overview', tenantId: user._id });
       }
     });
     tenant.refetch();
@@ -43,7 +44,7 @@ export default function TenantsComponent() {
   const showDeleteModal = (id: string) => {
     tenantsData.forEach((user: TUserExtended) => {
       if (user._id === id) {
-        router.push(`/dashboard/users/tenants?tenantId=${user._id}`);
+        setUrlParams({ tab: 'overview', tenantId: user._id });
       }
     });
     handleCloseModal(Modals.viewTenantModal);

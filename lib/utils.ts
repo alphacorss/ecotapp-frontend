@@ -201,4 +201,12 @@ export const getUserAnswer = (surveyInfo: TSurveyData | null) => {
   return userAnswer;
 };
 
+export const setUrlParams = (items: Object) => {
+  const params = new URLSearchParams();
+  Object.entries(items).forEach(([key, value]) => {
+    params.set(key, value);
+  });
+  window.history.replaceState({}, '', `?${params}`);
+};
+
 export const baseUrl = `http://ecotapp-app-elb-dev-2089191536.ca-central-1.elb.amazonaws.com:4000/api/v1`;

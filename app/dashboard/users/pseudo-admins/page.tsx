@@ -19,6 +19,7 @@ import Queries from '@/app/_context/Queries';
 import { Modals } from '@/app/_slices/ModalSlice';
 import { TUser } from '@/app/types';
 import { Button } from '@/components/ui/button';
+import { setUrlParams } from '@/lib/utils';
 
 export default function PseudoAdminsComponent() {
   const router = useRouter();
@@ -33,7 +34,7 @@ export default function PseudoAdminsComponent() {
   const showDetailsModal = (id: string) => {
     pseudoAdminsData.forEach((user: TUser) => {
       if (user._id === id) {
-        router.push(`/dashboard/users/pseudo-admins?tab=overview&pseudoAdminId=${user._id}`);
+        setUrlParams({ pseudoAdminId: user._id });
       }
     });
     pseudoAdmin.refetch();
@@ -43,7 +44,7 @@ export default function PseudoAdminsComponent() {
   const showDeleteModal = (id: string) => {
     pseudoAdminsData.forEach((user: TUser) => {
       if (user._id === id) {
-        router.push(`/dashboard/users/pseudo-admins?pseudoAdminId=${user._id}`);
+        setUrlParams({ pseudoAdminId: user._id });
       }
     });
     handleCloseModal(Modals.viewPseudoAdminModal);
