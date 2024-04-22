@@ -3,7 +3,7 @@ services:
   ecotapp:
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: ./devops/development/dockerfile
     container_name: ecotapp_frontend
     restart: always
     ports:

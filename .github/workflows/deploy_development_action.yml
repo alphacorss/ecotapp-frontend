@@ -1,0 +1,48 @@
+name: deploy to development server
+on:
+  push:
+    branches: [ development ]
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    env:
+      AWS_INSTANCE_SG_ID: ${{ secrets.ECTOAPP_EC2_SG_ID }}
+    steps:
+    - name: configure aws credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.ECTOAPP_ACCESS_KEY}}
+        aws-secret-access-key: ${{ secrets.ECTOAPP_SECRET_KEY}}
+        aws-region: ${{ secrets.ECTOAPP_EC2_REGION}}
+    - name: get runner ip address
+      id: ip
+      uses: haythem/public-ip@v1.2
+    - name: whitelist runner ip address
+      run: |
+        aws ec2 authorize-security-group-ingress \
+          --group-id $AWS_INSTANCE_SG_ID \
+          --protocol tcp \
+          --port 22 \
+          --cidr ${{ steps.ip.outputs.ipv4 }}/32
+    - name: check out code for github action
+      uses: actions/checkout@v2     
+    - name: executing remote ssh commands for development server
+      uses: appleboy/ssh-action@master
+      with:
+          host: ${{ secrets.ECTOAPP_EC2_HOST }}
+          username: ${{ secrets.ECTOAPP_EC2_USERNAME }}
+          key: ${{ secrets.ECTOAPP_EC2_KEY }}
+          port: 22
+          script: |
+            cd /home/ubuntu/ecotapp_frontend/
+            git checkout development
+            git pull
+            sudo docker compose -f docker-compose.yml up --build -d
+    - name: revoke runner ip address
+      run: |
+        aws ec2 revoke-security-group-ingress \
+          --group-id $AWS_INSTANCE_SG_ID \
+          --protocol tcp \
+          --port 22 \
+          --cidr ${{ steps.ip.outputs.ipv4 }}/32
