@@ -40,4 +40,4 @@ npm run build || (
 )
 
 echo 'Build is successful!'
-git push -u origin $current_branch
+git push
