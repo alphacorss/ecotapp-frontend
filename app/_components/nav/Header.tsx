@@ -1,14 +1,17 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
-import { Notification, SearchNormal } from 'iconsax-react';
+import { SearchNormal } from 'iconsax-react';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { InputComponent } from '../inputs/InputComponent';
+import { NotificationDropDown } from '../utils/DropDowns';
 import Main from '@/app/_context/Main';
+import Queries from '@/app/_context/Queries';
 import User from '@/app/_context/User';
 import useWindowDimensions from '@/app/_hooks/useMediaQuery';
+import { TMessages } from '@/app/types';
 import { capitalizeFirstLetter, currentDate, zodInputValidators } from '@/lib/utils';
 
 const searchParam = zodInputValidators.longText;
@@ -20,6 +23,7 @@ type SearchSchema = z.infer<typeof searchSchema>;
 const Header = () => {
   const { mobileNav, toggleMobileNav, definedGlobalWidth } = React.useContext(Main);
   const { user, cleanRole, role } = React.useContext(User);
+  const { myMessages } = React.useContext(Queries);
   const { currentWindowWidth } = useWindowDimensions();
 
   const {
@@ -29,6 +33,8 @@ const Header = () => {
     reValidateMode: 'onChange',
     resolver: zodResolver(searchSchema),
   });
+
+  const notifications: TMessages[] = myMessages?.data?.data?.messages;
 
   return (
     <header className="h-[80px] flex justify-between items-center w-full px-5 bg-[#fafafa]">
@@ -54,9 +60,7 @@ const Header = () => {
             className="bg-transparent"
             before={<SearchNormal size={20} color="gray" className="ml-3" />}
           />
-          <span className="border-l-[1px] border-gray-200 px-3 py-3">
-            <Notification size={20} color="gray" />
-          </span>
+          {role !== 'tenant' && role !== 'superadmin' && <NotificationDropDown notifications={notifications} />}
         </div>
       )}
       {currentWindowWidth < definedGlobalWidth && (

@@ -40,4 +40,4 @@ npm run build || (
 )
 
 echo 'Build is successful!'
-git push
+echo '✅✅✅ All checks passed, you are good to go! 🚀🚀🚀'

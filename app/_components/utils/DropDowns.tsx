@@ -1,11 +1,12 @@
 import { DropdownMenuLabel } from '@radix-ui/react-dropdown-menu';
 import { Table } from '@tanstack/react-table';
-import { Setting4 } from 'iconsax-react';
+import { Notification, Setting4 } from 'iconsax-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 
 import FilterBtn from './FilterBtn';
-import { TComboBoxSelector } from '@/app/types';
+import NotificationComponent from './NotificationComponent';
+import { TComboBoxSelector, TMessages } from '@/app/types';
 import { Dialog } from '@/components/ui/dialog';
 import {
   DropdownMenu,
@@ -25,6 +26,31 @@ export const DropdownMenuComponent = ({ array, trigger }: { array?: React.ReactN
       </DropdownMenuTrigger>
       <DropdownMenuContent className="text-sm font-[400] flex flex-col gap-2 p-2">
         {array && array.map((item, i) => <Dialog key={i}>{item}</Dialog>)}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
+export const NotificationDropDown = ({ notifications }: { notifications: TMessages[] }) => {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild className="ring-0 outline-0 cursor-pointer bg-transparent border-l-[1px] px-3 py-3">
+        <span>
+          <Notification size={24} color="gray" />
+        </span>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        sideOffset={15}
+        className="text-sm font-[400] flex gap-2 px-5 justify-end w-fit h-fit bg-transparent border-none ring-0 shadow-none"
+      >
+        <Dialog>
+          <div className="max-w-[400px] h-fit bg-white card">
+            <NotificationComponent
+              notifications={notifications}
+              containerClass={notifications?.length > 0 ? 'h-fit max-h-[400px]' : ''}
+            />
+          </div>
+        </Dialog>
       </DropdownMenuContent>
     </DropdownMenu>
   );
