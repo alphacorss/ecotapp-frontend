@@ -1,18 +1,23 @@
-import Link from 'next/link';
+'use client';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
-import { sideNavItems } from './_constants/sideNavData';
-
 const Landing = () => {
-  const avaLinks = [
-    ...sideNavItems,
-    { title: 'Login', href: '/auth/login' },
-    { title: 'Forgot Password', href: '/auth/forgot-password' },
-    { title: 'Reset Password', href: '/auth/reset-password' },
-  ];
+  const router = useRouter();
+  React.useEffect(() => {
+    router.replace('/dashboard/home');
+  }, [router]);
+  // const avaLinks = [
+  //   ...sideNavItems,
+  //   { title: 'Login', href: '/auth/login' },
+  //   { title: 'Forgot Password', href: '/auth/forgot-password' },
+  //   { title: 'Reset Password', href: '/auth/reset-password' },
+  // ];
   return (
     <div className="flex gap-3 flex-wrap p-5">
-      {avaLinks.map((item, index) => {
+      <p>Landing page</p>
+
+      {/* {avaLinks.map((item, index) => {
         return (
           <Link
             key={index}
@@ -22,7 +27,7 @@ const Landing = () => {
             {item.title}
           </Link>
         );
-      })}
+      })} */}
     </div>
   );
 };
