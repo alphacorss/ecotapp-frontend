@@ -40,5 +40,4 @@ npm run build || (
 )
 
 echo 'Build is successful!'
-git push -u origin $current_branch
-echo 'Pushed to remote successfully!'
+git push
