@@ -2,6 +2,8 @@
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
+import { PageLoader } from './_components/utils/Loader';
+
 const Landing = () => {
   const router = useRouter();
   React.useEffect(() => {
@@ -15,7 +17,7 @@ const Landing = () => {
   // ];
   return (
     <div className="flex gap-3 flex-wrap p-5">
-      <p>Landing page</p>
+      <PageLoader />
 
       {/* {avaLinks.map((item, index) => {
         return (
