@@ -1,15 +1,14 @@
 import { Filter } from 'iconsax-react';
 import { ChevronDown } from 'lucide-react';
-import Image from 'next/image';
 import React from 'react';
 
 import BarComponent from '../../charts/BarChart';
 import { DropdownMenuComponent } from '../../utils/DropDowns';
+import NotificationComponent from '../../utils/NotificationComponent';
 import { SelectComponent } from '../../utils/SelectComponent';
 import Queries from '@/app/_context/Queries';
 import { TChart, TMessages } from '@/app/types';
 import { Button } from '@/components/ui/button';
-import { getTimeAgo } from '@/lib/utils';
 
 const HomePageTenant = ({
   chart,
@@ -96,47 +95,7 @@ const HomePageTenant = ({
           </div>
         </div>
         <div className="card flex-[4]">
-          <div className="border-b-[1px] mb-5 flex justify-between items-center">
-            <h3 className="text-lg font-[700] text-gray-600 pb-1">Notification</h3>
-          </div>
-          <div className="h-[250px] overflow-auto">
-            {notifications.length === 0 && (
-              <div className="flex flex-col justify-center items-center">
-                <Image src="/notification.svg" width={80} height={80} alt="notification" />
-                <div className="flex flex-col justify-center items-center">
-                  <h3 className="text-gray-600 font-[600] text-lg py-4 text-center -mb-3">No Notification yet</h3>
-                  <p className="text-xs text-gray-500 font-[500] text-center">
-                    You haven’t received any notifications yet
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {notifications.length > 0 &&
-              notifications.map((notification, index) => (
-                <div
-                  key={index}
-                  className="flex flex-col gap-2 py-3 p-2 transition rounded-tl-[var(--rounded)] rounded-bl-[var(--rounded)] border-l-4 border-[#FCD19A] mb-3"
-                >
-                  <div className="flex justify-between items-center">
-                    <h3 className="text-gray-500 font-[500] text-sm flex gap-3 items-center">
-                      Broadcast
-                      <span className="text-[10px]">&#9679;</span>
-                      <span className="text-xs">{getTimeAgo(notification.createdAt)}</span>
-                    </h3>
-                    {index === 0 && (
-                      <div className="flex justify-end items-center bg-green-100/60 px-2 py-1 rounded-[var(--rounded)]">
-                        <p className="text-xs text-green-700 font-[500]">New</p>
-                      </div>
-                    )}
-                  </div>
-                  <h3 className="text-gray-700 font-[600]">{notification.subject}</h3>
-                  <p className="text-gray-500 font-[400] text-[12px] tracking-wide leading-[20px] line-clamp-3 hover:line-clamp-none">
-                    {notification.content}
-                  </p>
-                </div>
-              ))}
-          </div>
+          <NotificationComponent notifications={notifications} />
         </div>
       </div>
       <div className="card w-full">

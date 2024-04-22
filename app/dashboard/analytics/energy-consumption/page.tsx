@@ -9,7 +9,7 @@ import EnergyFilter from '../../../_components/forms/EnergyFilter';
 import EmptyState from '../_components/EmptyState';
 import MainWrapper from '@/app/_components/layout/MainWrapper';
 import FilterBtn from '@/app/_components/utils/FilterBtn';
-import { ModalComponent } from '@/app/_components/utils/Modal';
+import { ModalComponent } from '@/app/_components/utils/Modals';
 import SectionHeader from '@/app/_components/utils/SectionHeader';
 import ToggleSwitch from '@/app/_components/utils/ToggleSwitch';
 import { barData, energyToggle } from '@/app/_constants/data';
