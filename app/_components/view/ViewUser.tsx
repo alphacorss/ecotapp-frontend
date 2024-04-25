@@ -5,7 +5,7 @@ import React from 'react';
 
 import ViewModalInfo from './ViewModalInfo';
 import { useHandleMutation } from '@/app/_hooks/useHandleMutation';
-import { TFacility, TOrg, TRole, TUser, TUserExtended } from '@/app/types';
+import { TFacility, TOrg, TRole, TUser, TFacilityUser } from '@/app/types';
 import { Button } from '@/components/ui/button';
 import qry from '@/lib/queries';
 import { cleanRole, cleanRoleSingular } from '@/lib/utils';
@@ -23,7 +23,7 @@ const ViewUser = ({
   showDeleteModal,
 }: {
   role: TRole;
-  user: TUser | TUserExtended;
+  user: TUser | TFacilityUser;
   org?: TOrg;
   facility?: TFacility;
   showEditModal: () => void;
@@ -32,7 +32,7 @@ const ViewUser = ({
   const router = useRouter();
   const userRole = cleanRole(role);
   const userRoleSingular = cleanRoleSingular(role);
-  const extendedUser = user as TUserExtended;
+  const extendedUser = user as TFacilityUser;
   const requestPasswordLink = useHandleMutation(qry.resetPasswordRq, []);
   const { mutate, isError, error: rawError, isPending, isSuccess } = requestPasswordLink;
   const error = rawError as CustomError;
