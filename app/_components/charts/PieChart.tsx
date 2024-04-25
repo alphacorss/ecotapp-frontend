@@ -1,15 +1,25 @@
 'use client';
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 
+import { TCurrentMonthEnergyBreakdown } from '@/app/types';
+
 const COLORS = ['#94169F', '#FFB200', '#65DC1C', '#42A1E5 ', '#FF00FF', '#23d4d4', '#FFed00'];
 
-export function PieComponent({ data }: { data: any[] }) {
+export function PieComponent({ data }: { data: TCurrentMonthEnergyBreakdown }) {
+  const arrayData = () => {
+    return [
+      { name: 'Water', amt: data.water },
+      { name: 'Electricity', amt: data.electricity },
+      { name: 'Gas', amt: data.gas },
+      { name: 'Heat', amt: data.heat },
+    ];
+  };
   return (
     <div className="chart">
       <ResponsiveContainer width="100%" height="90%" className={'w-full h-full'}>
         <PieChart>
           <Pie
-            data={data}
+            data={arrayData()}
             cx="50%"
             cy="50%"
             label={({ cx, cy, midAngle, innerRadius, outerRadius, index }) => {
@@ -27,7 +37,7 @@ export function PieComponent({ data }: { data: any[] }) {
                   textAnchor={x > cx ? 'start' : 'end'}
                   dominantBaseline="central"
                 >
-                  {`${data[index].amt}kWh`}
+                  {arrayData()[index].name === 'Water' ? `${arrayData()[index].amt}oZ` : `${arrayData()[index].amt}kWh`}
                 </text>
               );
             }}
@@ -36,7 +46,7 @@ export function PieComponent({ data }: { data: any[] }) {
             fill="#8884d8"
             dataKey="amt"
           >
-            {data.map((_, index) => (
+            {arrayData().map((_, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
@@ -44,7 +54,7 @@ export function PieComponent({ data }: { data: any[] }) {
           <Legend
             content={
               <div className="flex flex-wrap justify-center items-center gap-2">
-                {data.map((item, index) => (
+                {arrayData().map((item, index) => (
                   <div key={index} className="flex items-center gap-2">
                     <div
                       style={{

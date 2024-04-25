@@ -1,25 +1,21 @@
 import { UseMutationResult } from '@tanstack/react-query';
 import React from 'react';
 
+//providers
 export type ProvidersProps = {
   children: React.ReactNode;
 };
 
-export type TFormUser = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  role: TRole;
-};
+// role
+export type TRole =
+  | 'superadmin'
+  | 'pseudoadmin'
+  | 'organizationadmin'
+  | 'organizationmanager'
+  | 'facilitymanager'
+  | 'tenant';
 
-export type TFormUserUpdate = {
-  firstName: string;
-  lastName: string;
-  password: string | null | undefined;
-  phone: string;
-};
-
+//user
 export type TUser = {
   _id: string;
   user: {
@@ -49,14 +45,7 @@ export interface TFacilityUser extends TUser {
   facility: TFacility;
 }
 
-export type TRole =
-  | 'superadmin'
-  | 'pseudoadmin'
-  | 'organizationadmin'
-  | 'organizationmanager'
-  | 'facilitymanager'
-  | 'tenant';
-
+//select
 export type TCountry = {
   name: string;
   code: string;
@@ -65,8 +54,15 @@ export type TCountry = {
   mobileCode: string;
 };
 
+export type TComboBoxSelector = {
+  label: string;
+  value: string;
+};
+
+//mutations
 export type TMutationHandler = UseMutationResult<unknown, Error, any, unknown>;
 
+//homepage
 export type TChart = {
   data: {
     name: string;
@@ -79,12 +75,35 @@ export type TChart = {
   }[];
 };
 
-export interface TUserExtended extends TUser {
-  facility: TFacility;
-}
+export type THomeCharts = {
+  array_of_energy: number[];
+  current_month_energy: number;
+  current_month_energy_breakdown: TCurrentMonthEnergyBreakdown;
+  percentage_increase_from_last_month: number;
+};
+
+export type THomeCards = {
+  organizationStat: { totalOrganizations: number; percentageOrganizationChange: number };
+  facilityStat: { totalFacilities: number; percentageFacillityChange: number };
+  tenantStat: { totalTenants: number; percentageTenantChange: number };
+};
+
+export type THomeCardData = {
+  total: number;
+  percentage: number;
+  queryKey: string;
+};
+
+export type TCurrentMonthEnergyBreakdown = {
+  electricity: number;
+  gas: number;
+  heat: number;
+  water: number;
+};
 
 export type TFacilityTabs = 'form' | 'amenities' | 'certifications' | 'address';
 
+//forms
 export type TOrgForm = {
   name: string;
   apt: string;
@@ -95,6 +114,22 @@ export type TOrgForm = {
   postalCode: string;
 };
 
+export type TFormUser = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  role: TRole;
+};
+
+export type TFormUserUpdate = {
+  firstName: string;
+  lastName: string;
+  password: string | null | undefined;
+  phone: string;
+};
+
+//user routes
 export interface TOrg extends TOrgForm {
   _id: string;
   name: string;
@@ -114,11 +149,6 @@ export interface TSingleOrg {
   facilities: TFacility[];
   organization: TOrg;
 }
-
-export type TComboBoxSelector = {
-  label: string;
-  value: string;
-};
 
 export type TFacility = {
   _id: string;

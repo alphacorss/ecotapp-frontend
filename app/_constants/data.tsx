@@ -1,5 +1,7 @@
 import { Chart1, Firstline, Location, PresentionChart } from 'iconsax-react';
 
+import { getDateIndexes } from '@/lib/utils';
+
 export const viewDetailsTabs = [
   {
     title: 'Overview',
@@ -67,6 +69,20 @@ export const energyToggle = [
     label: 'Real Time',
     icon: () => <PresentionChart size={16} />,
   },
+];
+
+export const homeSelectOptions = [
+  { name: 'Last 30 days', value: 'last_30' },
+  { name: 'Last 60 days', value: 'last_60' },
+  { name: 'Last 90 days', value: 'last_90' },
+];
+
+const { dayIndex, monthIndex, year } = getDateIndexes();
+
+export const chartSelectOptions = [
+  { value: `${year}-${monthIndex}-${dayIndex}`, name: 'Last 30 days' },
+  { value: `${year}-${monthIndex - 1}-${dayIndex}`, name: 'Last 60 days' },
+  { value: `${year}-${monthIndex - 2}-${dayIndex}`, name: 'Last 90 days' },
 ];
 
 export const barData = [

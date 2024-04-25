@@ -1,139 +1,27 @@
 'use client';
 import React from 'react';
 
+import FacilityManagerHomePage from './_components/admins/Facility/FacilityManagerHomePage';
+import HomePageTenant from './_components/tenant/HomePageTenant';
+import { high, low, mid } from './helpers';
 import MainWrapper from '@/app/_components/layout/MainWrapper';
-import FacilityManagerHomePage from '@/app/_components/tiersPage/admins/FacilityManagerHomePage';
-import HighAdminHomePage, { THomeData } from '@/app/_components/tiersPage/admins/HighAdminsHomePage';
-import HomePageTenant from '@/app/_components/tiersPage/tenant/HomePageTenant';
-import { barData, pieData, toggleData } from '@/app/_constants/data';
-import Queries from '@/app/_context/Queries';
-import Auth from '@/app/_context/User';
-import { TRole } from '@/app/types';
+import User from '@/app/_context/User';
+import HighAdminHomePage from '@/app/dashboard/home/_components/admins/HighAdminsHomePage';
 
 const Home = () => {
-  const { orgs, facilities, tenants } = React.useContext(Queries);
-  const orgsCount = orgs?.data?.data?.count;
-  const facilitiesCount = facilities?.data?.data?.count;
-  const tenantCount = tenants?.data?.data?.count;
-
-  const data: THomeData = [
-    {
-      title: 'Total Organizations',
-      allowedRoles: ['superadmin', 'psuedoadmin' as TRole],
-      data: [
-        {
-          period: 'last_7_days',
-          value: orgsCount,
-          percentage: 20,
-        },
-        {
-          period: 'last_30_days',
-          value: 20000,
-          percentage: 30,
-        },
-        {
-          period: 'last_90_days',
-          value: 30000,
-          percentage: 40,
-        },
-      ],
-    },
-    {
-      title: 'Total Facilities',
-      allowedRoles: ['superadmin', 'psuedoadmin' as TRole, 'organizationadmin', 'organizationmanager'],
-      data: [
-        {
-          period: 'last_7_days',
-          value: facilitiesCount,
-          percentage: 20,
-        },
-        {
-          period: 'last_30_days',
-          value: 20000,
-          percentage: 30,
-        },
-        {
-          period: 'last_90_days',
-          value: 30000,
-          percentage: 40,
-        },
-      ],
-    },
-    {
-      title: 'Total Tenants',
-      allowedRoles: ['superadmin', 'psuedoadmin' as TRole, 'organizationadmin', 'organizationmanager'],
-      data: [
-        {
-          period: 'last_7_days',
-          value: tenantCount,
-          percentage: 20,
-        },
-        {
-          period: 'last_30_days',
-          value: 20000,
-          percentage: 30,
-        },
-        {
-          period: 'last_90_days',
-          value: 30000,
-          percentage: 40,
-        },
-      ],
-    },
-  ];
-
-  const barChart = {
-    data: [...barData],
-    total: [...toggleData],
-  };
-  const pieChart = {
-    data: [...pieData],
-    total: [...toggleData],
-  };
-
-  const [total, setTotal] = React.useState(0.0);
-  const [percentage, setPercentage] = React.useState(0.0);
-  const [selected, setSelected] = React.useState('last_7_days');
-
-  const handleSelect = (value: string) => {
-    setSelected(value);
-  };
-
-  React.useEffect(() => {
-    const totalAmnt = barChart.total.find((item) => item.period === selected);
-    const totalPercentage = barChart.total.find((item) => item.period === selected);
-    setTotal(totalAmnt?.value || 0);
-    setPercentage(totalPercentage?.percentage || 0);
-  }, [barChart.total, selected]);
-
-  const { role } = React.useContext(Auth);
-  const allowedRoles = ['superadmin', 'psuedoadmin', 'organizationadmin', 'organizationmanager'];
+  const role = React.useContext(User).role;
 
   return (
     <MainWrapper>
-      <div className="flex flex-col gap-5 min-h-full">
-        {allowedRoles.includes(role as string) ? (
-          <HighAdminHomePage
-            data={data}
-            total={total}
-            percentage={percentage}
-            barChart={barChart}
-            pieChart={pieChart}
-            handleSelect={handleSelect}
-          />
-        ) : role === 'facilitymanager' ? (
-          <FacilityManagerHomePage
-            data={data}
-            total={total}
-            percentage={percentage}
-            barChart={barChart}
-            pieChart={pieChart}
-            handleSelect={handleSelect}
-          />
-        ) : (
-          <HomePageTenant chart={barChart} handleSelect={handleSelect} />
-        )}
-      </div>
+      {high.includes(role as string) ? (
+        <HighAdminHomePage />
+      ) : mid.includes(role as string) ? (
+        <HighAdminHomePage />
+      ) : low.includes(role as string) ? (
+        <FacilityManagerHomePage />
+      ) : (
+        <HomePageTenant />
+      )}
     </MainWrapper>
   );
 };

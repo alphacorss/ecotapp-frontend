@@ -37,7 +37,7 @@ interface SelectProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, Var
   title: string;
   placeholder?: string;
   icon?: React.ReactNode;
-  // eslint-disable-next-line no-unused-vars
+  defaultValue?: string;
   handleSelect: (value: string) => void;
   array: { name: string; value: string }[];
 }
@@ -50,16 +50,17 @@ export function SelectComponent({
   variant,
   className,
   placeholder,
+  defaultValue,
   handleSelect,
 }: SelectProps) {
   return (
-    <Select onValueChange={handleSelect} defaultValue={!placeholder ? array[0]?.value : ''}>
+    <Select onValueChange={handleSelect} defaultValue={!placeholder ? defaultValue ?? array[0]?.value : ''}>
       <SelectTrigger className={cn(selectVariant({ variant, size }))}>
         <div className="flex justify-start gap-3">
           {icon ? icon : null}
           <SelectValue
             placeholder={placeholder}
-            defaultValue={array[0]?.value}
+            defaultValue={defaultValue ?? array[0]?.value}
             className="placeholder:text-gray-400 text-gray-400 p-0"
           />
         </div>

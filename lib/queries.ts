@@ -174,6 +174,27 @@ const tenantDeleteSurveyRq = async (id: string) => {
   return response;
 };
 
+// homepage data
+const homeCardsRq = async (q: string) => {
+  const response = await axios.get(`${baseUrl}/statistic/appstat/organizatiofacilitytenantinfo?q=${q}`);
+  return response;
+};
+
+const homeCardsFacilityRq = async (q: string, faciltyId: string) => {
+  const response = await axios.get(`${baseUrl}/statistic/appstat/tenantinfo/${faciltyId}?q=${q}`);
+  return response;
+};
+
+const homeChartsRq = async (date: string, unit: string) => {
+  const response = await axios.get(`${baseUrl}/statistic/energyStat/history?date=${date}&unit=${unit}`);
+  return response;
+};
+
+const homeChartsTntRq = async (date: string, unit: string) => {
+  const response = await axios.get(`${baseUrl}/statistic/energyStat/history?date=${date}&unit=${unit}`);
+  return response;
+};
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   listByRoleRq,
@@ -204,4 +225,8 @@ export default {
   respondToSurveyRq,
   deleteSurveyRq,
   tenantDeleteSurveyRq,
+  homeCardsRq,
+  homeCardsFacilityRq,
+  homeChartsRq,
+  homeChartsTntRq,
 };
