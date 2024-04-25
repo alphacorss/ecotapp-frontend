@@ -12,19 +12,28 @@ import {
   YAxis,
 } from 'recharts';
 
-import { currentDate } from '@/lib/utils';
+import { getDateIndexes } from '@/lib/utils';
 
-export default function BarComponent({ data }: { data: any[] }) {
-  const currentMonth = currentDate().split(',')[1];
-  const activeMonth = data.find((item) => currentMonth.includes(item.name));
+export default function BarComponent({ data }: { data: number[] }) {
+  const { monthIndex } = getDateIndexes();
+
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+  const cleanData = data.map((item, index) => {
+    const monthIndex = index % 12;
+    return {
+      name: months[monthIndex],
+      amt: item,
+    };
+  });
 
   return (
     <div className="chart">
       <ResponsiveContainer width="100%" height="100%" className={'w-full h-full'}>
         <BarChart
           width={500}
-          height={300}
-          data={data}
+          height={350}
+          data={cleanData}
           margin={{
             top: 0,
             right: 0,
@@ -56,8 +65,8 @@ export default function BarComponent({ data }: { data: any[] }) {
             fill="#dedede"
             activeBar={<Rectangle fill="#DB17B2" stroke="#DB17B2" />}
           >
-            {data.map((entry, index) => {
-              return <Cell key={index} fill={entry === activeMonth ? '#DB17B2' : '#dedede'} />;
+            {cleanData.map((_, index) => {
+              return <Cell key={index} fill={index + 1 === monthIndex ? '#DB17B2' : '#dedede'} />;
             })}
           </Bar>
         </BarChart>

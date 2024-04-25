@@ -30,7 +30,7 @@
   }
 
   .chart {
-    @apply w-full h-[300px] px-3;
+    @apply w-full h-[350px] px-3;
   }
 
   .chart-heading {
@@ -48,6 +48,11 @@
   .error-input {
     @apply text-xs font-[500] text-error-300 select-none whitespace-nowrap;
   }
+
+  .error-page {
+    @apply w-full h-full grid place-content-center font-[600] text-error-300 card text-center;
+  }
+
   .no-scrollbar {
     scrollbar-width: none;
   }

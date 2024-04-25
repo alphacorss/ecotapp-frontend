@@ -13,12 +13,12 @@ import { userForm } from '@/app/_constants/forms';
 import Queries from '@/app/_context/Queries';
 import useClearError from '@/app/_hooks/useClearError';
 import { Modals } from '@/app/_slices/ModalSlice';
-import { TComboBoxSelector, TFacility, TMutationHandler, TRole, TUserExtended } from '@/app/types';
+import { TComboBoxSelector, TFacility, TMutationHandler, TRole, TFacilityUser } from '@/app/types';
 import { Button } from '@/components/ui/button';
 import { capitalizeFirstLetter, zodInputValidators } from '@/lib/utils';
 
 type Props = {
-  user: TUserExtended;
+  user: TFacilityUser;
   action: 'add' | 'edit';
   role: TRole;
   modalToOpen: Modals;

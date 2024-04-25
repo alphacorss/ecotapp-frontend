@@ -54,6 +54,15 @@ export const currentDate = () => {
   return `${longDay}, ${month} ${year}`;
 };
 
+export const getDateIndexes = () => {
+  const date = new Date();
+  const year = date.getFullYear();
+  const monthIndex = date.getMonth() + 1;
+  const dayIndex = date.getDate();
+
+  return { year, monthIndex, dayIndex };
+};
+
 export const cleanDate = (date: string) => {
   return new Date(date).toDateString();
 };
@@ -207,6 +216,10 @@ export const setUrlParams = (items: Object) => {
     params.set(key, value);
   });
   window.history.replaceState({}, '', `?${params}`);
+};
+
+export const futurePercentage = (next: number, current: number) => {
+  return ((next - current) / current) * 100 ?? 0;
 };
 
 export const baseUrl = `http://ecotapp-app-elb-dev-2089191536.ca-central-1.elb.amazonaws.com:4000/api/v1`;

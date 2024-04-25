@@ -16,7 +16,7 @@ import ViewUser from '@/app/_components/view/ViewUser';
 import Main from '@/app/_context/Main';
 import Queries from '@/app/_context/Queries';
 import { Modals } from '@/app/_slices/ModalSlice';
-import { TUserExtended } from '@/app/types';
+import { TFacilityUser } from '@/app/types';
 import { Button } from '@/components/ui/button';
 import { setUrlParams } from '@/lib/utils';
 
@@ -25,13 +25,13 @@ export default function TenantsComponent() {
   const tenantId = useSearchParams().get('tenantId');
   const tenantsCtx = React.useContext(Queries);
   const { tenant, tenants, addTenant, editTenant, deleteTenant } = tenantsCtx;
-  const tenantData: TUserExtended = tenant?.data?.data?.data?.user;
+  const tenantData: TFacilityUser = tenant?.data?.data?.data?.user;
   const tenantsData = tenants?.data?.data?.users;
 
   const { modalState, handleCloseModal, handleOpenModal } = React.useContext(Main);
 
   const showDetailsModal = (id: string) => {
-    tenantsData.forEach((user: TUserExtended) => {
+    tenantsData.forEach((user: TFacilityUser) => {
       if (user._id === id) {
         setUrlParams({ tab: 'overview', tenantId: user._id });
       }
@@ -41,7 +41,7 @@ export default function TenantsComponent() {
   };
 
   const showDeleteModal = (id: string) => {
-    tenantsData.forEach((user: TUserExtended) => {
+    tenantsData.forEach((user: TFacilityUser) => {
       if (user._id === id) {
         setUrlParams({ tab: 'overview', tenantId: user._id });
       }

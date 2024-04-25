@@ -49,9 +49,6 @@ const NotificationComponent = ({
     }
   };
 
-  // const arrayToMap =
-  //   activeToggle === 'All' ? notifications : notifications.filter((item) => item?.type === activeToggle);
-
   return (
     <React.Fragment>
       <div className="mb-7 flex flex-col gap-3 justify-between">
@@ -65,7 +62,7 @@ const NotificationComponent = ({
           />
         )}
       </div>
-      <div className={cn(`h-[250px] overflow-auto`, containerClass)}>
+      <div className={cn(`h-[200px] overflow-auto`, containerClass)}>
         {notifications?.length === 0 && (
           <div className="flex flex-col justify-center items-center">
             <Image src="/notification.svg" width={80} height={80} alt="notification" />

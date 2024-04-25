@@ -9,7 +9,7 @@ import { ComboBoxFormComponent } from '@/app/_components/utils/ComboBoxes';
 import { DatePickerWithRange } from '@/app/_components/utils/DateRange';
 import Queries from '@/app/_context/Queries';
 import useClearError from '@/app/_hooks/useClearError';
-import { TFacility, TOrg, TUserExtended } from '@/app/types';
+import { TFacility, TOrg, TFacilityUser } from '@/app/types';
 import { Button } from '@/components/ui/button';
 import { convertDate, zodInputValidators } from '@/lib/utils';
 
@@ -81,8 +81,8 @@ const EnergyFilter = ({
     }));
 
   const tenantsOption = tenants.data?.data?.users
-    .filter((user: TUserExtended) => user.facility._id === selectedFacility)
-    .map((user: TUserExtended) => ({
+    .filter((user: TFacilityUser) => user.facility._id === selectedFacility)
+    .map((user: TFacilityUser) => ({
       label: user.user.firstName + ' ' + user.user.lastName,
       value: user._id,
     }));
