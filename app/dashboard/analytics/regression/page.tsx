@@ -19,7 +19,7 @@ const RegressionAnalysis = () => {
       <div className="flex justify-between items-start mb-5">
         <SectionHeader title="Regression Analysis" description="" />
       </div>
-      <div className="flex justify-end items-end mb-5 gap-3">
+      <div className="flex justify-end items-end mb-5 gap-3 z-[1]">
         <div className="h-[40px]">
           <SelectComponent
             size="h40"
