@@ -1,14 +1,18 @@
 'use client';
 import { Area, AreaChart, Cell, Label, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
-import { currentDate } from '@/lib/utils';
-
-export default function AreaComponent({ data, type }: { data: any[]; type: 'monotone' | 'temperature' }) {
-  const currentMonth = currentDate().split(',')[1];
-  const activeMonth = data.find((item) => currentMonth.includes(item.name));
-
+export default function AreaComponent({
+  data,
+  type,
+}: {
+  data: {
+    time: string;
+    value: number;
+  }[];
+  type: 'monotone' | 'temperature';
+}) {
   return (
-    <div className="chart h-[calc(100%)] min-h-[350px] -mb-5">
+    <div className="chart h-full min-h-[350px] -mb-5">
       <ResponsiveContainer width="100%" height="90%" className={'w-full h-full'}>
         <AreaChart
           width={500}
@@ -16,9 +20,9 @@ export default function AreaComponent({ data, type }: { data: any[]; type: 'mono
           data={data}
           margin={{
             top: 0,
-            right: 0,
+            right: 14,
             left: 0,
-            bottom: 0,
+            bottom: 12,
           }}
         >
           <defs>
@@ -27,7 +31,7 @@ export default function AreaComponent({ data, type }: { data: any[]; type: 'mono
               <stop offset="95%" stopColor="#386FDC" stopOpacity={0.1} />
             </linearGradient>
           </defs>
-          <XAxis dataKey="name" tick={{ fontSize: 13, fill: '#868686' }} />
+          <XAxis dataKey="time" tickMargin={3} tick={{ fontSize: type === 'temperature' ? 11 : 13, fill: '#868686' }} />
           <YAxis tick={{ fontSize: 13, fill: '#868686' }}>
             <Label
               style={{
@@ -37,14 +41,14 @@ export default function AreaComponent({ data, type }: { data: any[]; type: 'mono
                 fill: '#868686',
               }}
               angle={270}
-              value={'kWh'}
+              value={'(kwh)'}
               position="insideLeft"
             />
           </YAxis>
           <Tooltip labelFormatter={(e) => e} formatter={(value) => `${value}kWh`} />
           <Area
             type={type as any}
-            dataKey="amt"
+            dataKey="value"
             name="Energy Consumption"
             label="Amt"
             stroke="#386FDC"
@@ -52,9 +56,9 @@ export default function AreaComponent({ data, type }: { data: any[]; type: 'mono
             fillOpacity={1}
             fill="url(#colorUv)"
           >
-            {data.map((entry, index) => {
-              return <Cell key={index} fill={entry === activeMonth ? '#DB17B2' : '#dedede'} />;
-            })}
+            {data.map((_, i) => (
+              <Cell key={i} />
+            ))}
           </Area>
         </AreaChart>
       </ResponsiveContainer>

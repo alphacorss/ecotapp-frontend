@@ -1,38 +1,19 @@
-import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
-import { SearchNormal } from 'iconsax-react';
 import React from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
-import { InputComponent } from '../inputs/InputComponent';
 import { NotificationDropDown } from '../utils/DropDowns';
 import Main from '@/app/_context/Main';
 import Queries from '@/app/_context/Queries';
 import User from '@/app/_context/User';
 import useWindowDimensions from '@/app/_hooks/useMediaQuery';
 import { TMessages } from '@/app/types';
-import { capitalizeFirstLetter, currentDate, zodInputValidators } from '@/lib/utils';
-
-const searchParam = zodInputValidators.longText;
-
-const searchSchema = z.object({ searchParam });
-
-type SearchSchema = z.infer<typeof searchSchema>;
+import { capitalizeFirstLetter, currentDate } from '@/lib/utils';
 
 const Header = () => {
   const { mobileNav, toggleMobileNav, definedGlobalWidth } = React.useContext(Main);
   const { user, cleanRole, role } = React.useContext(User);
   const { myMessages } = React.useContext(Queries);
   const { currentWindowWidth } = useWindowDimensions();
-
-  const {
-    register,
-    formState: { errors },
-  } = useForm<SearchSchema>({
-    reValidateMode: 'onChange',
-    resolver: zodResolver(searchSchema),
-  });
 
   const notifications: TMessages[] = myMessages?.data?.data?.messages;
 
@@ -49,17 +30,7 @@ const Header = () => {
         <p className="text-gray-500 font-[500] text-xs">{currentDate()}</p>
       </div>
       {currentWindowWidth > definedGlobalWidth && (
-        <div className="flex justify-center items-center w-[35%] gap-5">
-          <InputComponent
-            id="search-page"
-            name="search-page"
-            placeholder="Search here..."
-            autoComplete="off"
-            register={register}
-            error={errors.searchParam?.message}
-            className="bg-transparent"
-            before={<SearchNormal size={20} color="gray" className="ml-3" />}
-          />
+        <div className="flex justify-center items-center gap-5">
           {role !== 'tenant' && role !== 'superadmin' && <NotificationDropDown notifications={notifications} />}
         </div>
       )}

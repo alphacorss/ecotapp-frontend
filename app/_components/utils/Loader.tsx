@@ -45,4 +45,25 @@ export const HomeMainLoader = () => {
   );
 };
 
+export const BoxLoader = () => {
+  return <div className="h-[45px] border w-[100px] animate-pulse bg-gray-200 rounded-md"></div>;
+};
+
+export const ChartLoader = ({ showTop, showBottom }: { showTop?: boolean; showBottom?: boolean }) => {
+  return (
+    <div className="border rounded-md p-5 h-[full] w-full min-h-[calc(100px)] flex flex-col gap-5">
+      {showTop && (
+        <div className="flex gap-5 mb-10">
+          <div className="size-[50px] animate-pulse rounded-md bg-gray-200"></div>
+          <div className="size-[50px] w-[200px] animate-pulse rounded-md bg-gray-200"></div>
+        </div>
+      )}
+      <div className="flex flex-col gap-2">
+        <div className="h-[350px] mb-5 w-full animate-pulse rounded-md bg-gray-200"></div>
+        {showBottom && <div className="h-[150px] w-full animate-pulse rounded-md bg-gray-200"></div>}
+      </div>
+    </div>
+  );
+};
+
 export default Loader;

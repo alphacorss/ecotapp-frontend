@@ -75,7 +75,7 @@ export const DeleteModalContent = ({
   mutation: TMutationHandler;
   onCancel: () => void;
 }) => {
-  const { mutate, isPending, isSuccess, isError, reset } = mutation;
+  const { mutate, isPending, isSuccess, isError, error, reset } = mutation;
 
   const handleDelete = () => {
     mutate(id);
@@ -92,6 +92,7 @@ export const DeleteModalContent = ({
 
     return () => clearTimeout(timeout);
   }, [isSuccess, onCancel, reset]);
+
   return (
     <div className="flex flex-col justify-center items-center w-full gap-3 p-5">
       <span className="bg-error-300 p-2 rounded-full grid place-content-center">
@@ -101,12 +102,15 @@ export const DeleteModalContent = ({
       <p className="text-xs font-[500] text-gray-500 -mt-2 mb-3 text-center">{message}</p>
       <div className="flex justify-center items-cente gap-4 w-full">
         <Button variant="destructive" className={`btn btn-secondary w-full`} onClick={handleDelete}>
-          {isPending ? 'Deleting...' : isSuccess ? 'Deleted' : isError ? 'Something went wrong' : 'Delete'}
+          {isPending ? 'Deleting...' : isSuccess ? 'Deleted' : 'Delete'}
         </Button>
         <Button variant="destructiveOutline" className="btn btn-primary w-full" onClick={onCancel}>
           Cancel
         </Button>
       </div>
+      {isError && (
+        <p className="text-xs font-[500] text-red-500  text-center">{(error as any).response?.data?.message}</p>
+      )}
     </div>
   );
 };

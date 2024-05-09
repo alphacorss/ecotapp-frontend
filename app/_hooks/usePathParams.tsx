@@ -20,6 +20,14 @@ const usePathParams = () => {
   const allowOnlyHighAdmin = getRole() === 'superadmin' || getRole() === ('psuedoadmin' as TRole);
   const blockFacilityManager = getRole() !== 'facilitymanager';
 
+  const viewType = useSearchParams().get('vt');
+  const filter = useSearchParams().get('filter');
+  const from = useSearchParams().get('from');
+  const to = useSearchParams().get('to');
+  const energy_type = useSearchParams().get('energy_type');
+  const unit = useSearchParams().get('unit');
+  const refreshTime = useSearchParams().get('refreshtime');
+
   return {
     pseudoAdminId,
     orgId,
@@ -34,6 +42,13 @@ const usePathParams = () => {
     allowOnlySuperAdmin,
     allowOnlyHighAdmin,
     blockFacilityManager,
+    viewType,
+    filter,
+    from,
+    to,
+    energy_type,
+    unit,
+    refreshTime,
   };
 };
 

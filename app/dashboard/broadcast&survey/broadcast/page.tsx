@@ -6,7 +6,6 @@ import { z } from 'zod';
 
 import { InputComponent } from '@/app/_components/inputs/InputComponent';
 import { TextArea } from '@/app/_components/inputs/TextArea';
-import MainWrapper from '@/app/_components/layout/MainWrapper';
 import BackendError from '@/app/_components/utils/FormError';
 import Loader from '@/app/_components/utils/Loader';
 import { ModalComponent } from '@/app/_components/utils/Modals';
@@ -74,7 +73,7 @@ const Broadcast = () => {
   const options = broadcastRoles.filter((role) => role.allowedRoles.includes(getRole() as string));
 
   return (
-    <MainWrapper>
+    <React.Fragment>
       <ModalComponent
         open={successModal}
         setOpen={setSuccessModal}
@@ -91,7 +90,7 @@ const Broadcast = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5 w-[min(100%,600px)] mx-auto">
           <div className="text-center mb-4">
             <h3 className="text-xl font-[600] text-gray-60 mb-1">Broadcast Message</h3>
-            <p className="text-xs text-gray-400">Manage and review your Pseudo Admin details here.</p>
+            <p className="text-xs text-gray-400">Reach All Admins and Tenants with Important Updates</p>
           </div>
           <MultiSelectComponent error={noRole} options={options} selected={selected} setSelected={setSelected} />
           <InputComponent
@@ -116,7 +115,7 @@ const Broadcast = () => {
           <BackendError errors={errors} />
         </form>
       </div>
-    </MainWrapper>
+    </React.Fragment>
   );
 };
 

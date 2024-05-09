@@ -1,52 +1,41 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
-import { DateRange } from 'react-day-picker';
+// import { DateRange } from 'react-day-picker';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { ComboBoxFormComponent } from '@/app/_components/utils/ComboBoxes';
-import { DatePickerWithRange } from '@/app/_components/utils/DateRange';
+// import { DatePickerWithRange } from '@/app/_components/utils/DateRange';
 import Queries from '@/app/_context/Queries';
 import useClearError from '@/app/_hooks/useClearError';
+import usePathParams from '@/app/_hooks/usePathParams';
 import { TFacility, TOrg, TFacilityUser } from '@/app/types';
 import { Button } from '@/components/ui/button';
-import { convertDate, zodInputValidators } from '@/lib/utils';
+import { setUrlParams, zodInputValidators } from '@/lib/utils';
 
-const energyType = zodInputValidators.dropDown;
+const energy_type = zodInputValidators.dropDown;
 const organization = zodInputValidators.optionalDropDown;
 const facility = zodInputValidators.optionalDropDown;
 const tenant = zodInputValidators.optionalDropDown;
 
 const schema = z.object({
-  energyType,
+  energy_type,
   organization,
   facility,
   tenant,
+  refreshTime: z.union([zodInputValidators.refreshTime.nullish(), z.literal('')]),
 });
 
 type EnergyFilterProps = z.infer<typeof schema>;
 
 const EnergyFilter = ({
-  dateError,
-  setDateError,
-  date,
-  setDate,
+  showRefreshTime,
   setShowFilterModal,
 }: {
-  dateError: string | undefined;
-  setDateError: React.Dispatch<React.SetStateAction<string | undefined>>;
-  date: DateRange | undefined;
-  setDate: React.Dispatch<React.SetStateAction<DateRange | undefined>>;
+  showRefreshTime?: boolean;
   setShowFilterModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const router = useRouter();
-  const currentPath = usePathname();
-  const energyType = useSearchParams().get('energyType');
-  const orgId = useSearchParams().get('orgId');
-  const facilityId = useSearchParams().get('facilityId');
-  const tenantId = useSearchParams().get('tenantId');
-  const viewType = useSearchParams().get('vt');
+  const { facilityId, tenantId, orgId, viewType, energy_type, refreshTime } = usePathParams();
 
   const {
     register,
@@ -57,10 +46,11 @@ const EnergyFilter = ({
     formState: { errors },
   } = useForm<EnergyFilterProps>({
     defaultValues: {
-      energyType: energyType || '',
+      energy_type: energy_type || '',
       organization: orgId || '',
       facility: facilityId || '',
       tenant: tenantId || '',
+      refreshTime: refreshTime || '',
     },
     resolver: zodResolver(schema),
   });
@@ -90,36 +80,40 @@ const EnergyFilter = ({
   useClearError(errors, clearErrors);
 
   const onSubmit = (data: EnergyFilterProps) => {
-    if (!date?.from || !date?.to) {
-      setDateError('Please select a date range');
-      return;
-    }
-    const from = convertDate(date.from?.toISOString().split('T')[0], true);
-    const to = convertDate(date.to?.toISOString().split('T')[0], true);
-
     setShowFilterModal(false);
-    router.push(
-      `${currentPath}?vt=${viewType}&filter=true&from=${from}&to=${to}&energyType=${
-        data.energyType
-      }${data.organization && `&orgId=${data.organization}`}${
-        data.facility &&
-        `&facilityId=${data.facility}${data.tenant && `&tenantId=${data.tenant}`}
-      `
-      }`,
-    );
+    setUrlParams({
+      vt: viewType,
+      energy_type: data.energy_type,
+      refreshtime: data.refreshTime,
+      ...(data.organization && { orgId: data.organization }),
+      ...(data.facility && { facilityId: data.facility }),
+      ...(data.tenant && { tenantId: data.tenant }),
+    });
   };
 
   return (
     <div>
       <h1 className="text-xl font-[600] mb-5">Filter</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
-        <DatePickerWithRange
-          label="Date Range"
-          date={date}
-          setDate={setDate}
-          error={dateError}
-          setDateError={setDateError}
-        />
+        {showRefreshTime && (
+          <ComboBoxFormComponent
+            label="Refresh Time"
+            data={[
+              { label: '1 minute', value: '1m' },
+              { label: '5 minutes', value: '5m' },
+              { label: '15 minutes', value: '15m' },
+              { label: '30 minutes', value: '30m' },
+              { label: '1 hour', value: '1h' },
+            ]}
+            selectorName="refreshTime"
+            setValue={setValue}
+            title="Refresh Time"
+            watch={watch}
+            error={errors.refreshTime?.message}
+            register={register}
+          />
+        )}
+
         <ComboBoxFormComponent
           label="Type of Energy"
           data={[
@@ -128,11 +122,11 @@ const EnergyFilter = ({
             { label: 'Gas', value: 'gas' },
             { label: 'Heat', value: 'heat' },
           ]}
-          selectorName="energyType"
+          selectorName="energy_type"
           setValue={setValue}
           title="Energy Type"
           watch={watch}
-          error={errors.energyType?.message}
+          error={errors.energy_type?.message}
           register={register}
         />
 
@@ -177,8 +171,10 @@ const EnergyFilter = ({
             className="w-full"
             variant="outline"
             onClick={() => {
-              setShowFilterModal(false);
-              router.push(`${currentPath}?vt=${viewType}&filter=false`);
+              setValue('energy_type', '');
+              setValue('organization', '');
+              setValue('facility', '');
+              setValue('tenant', '');
             }}
           >
             Reset

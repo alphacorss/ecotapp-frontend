@@ -42,10 +42,10 @@ export function DatePickerWithRange({ error, label, date, setDate, className, se
                 {date?.from ? (
                   date.to ? (
                     <>
-                      {format(date.from, 'LLL dd, y')} - {format(date.to, 'LLL dd, y')}
+                      {format(date.from, 'LLL y')} - {format(date.to, 'LLL y')}
                     </>
                   ) : (
-                    format(date.from, 'LLL dd, y')
+                    format(date.from, 'LLL y')
                   )
                 ) : (
                   <span className="text-[#C0C0C0] font-[300]">Pick a date</span>
@@ -67,6 +67,7 @@ export function DatePickerWithRange({ error, label, date, setDate, className, se
           <Calendar
             initialFocus
             mode="range"
+            max={90}
             defaultMonth={date?.from}
             selected={date}
             onSelect={setDate}

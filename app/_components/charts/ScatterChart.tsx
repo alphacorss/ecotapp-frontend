@@ -36,7 +36,7 @@ export default function ScatterComponent({ data }: { data: any[] }) {
           height={400}
           data={data}
           margin={{
-            top: 0,
+            top: -50,
             right: 0,
             left: 10,
             bottom: 0,

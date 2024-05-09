@@ -19,13 +19,13 @@ const OverviewTab = ({ surveyDetail }: { surveyDetail: TSurveyData | undefined }
         return org._id === surveyDetail?.to[0]?.split('_')[1];
       });
 
-      to = `${org?.name}`;
+      to = `${org?.name ?? 'Organization Not Found'}`;
     } else {
       const facility = facilities?.data?.data?.facility?.find((facility: TOrg) => {
         return facility._id === surveyDetail?.to[0]?.split('_')[1];
       });
 
-      to = `${facility?.name}`;
+      to = `${facility?.name ?? 'Facilty Not Found'}`;
     }
   }
 

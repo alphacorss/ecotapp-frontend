@@ -132,7 +132,6 @@ export function QueriesCtxProvider({ children }: React.PropsWithChildren<{}>) {
     facilityId,
     facilityManagerId,
     tenantId,
-    surveyId,
     defaultEnable,
     blockTenant,
     blockFacilityManager,
@@ -300,7 +299,7 @@ export function QueriesCtxProvider({ children }: React.PropsWithChildren<{}>) {
 
   const createSurvey = useHandleMutation(qry.createSurveyRq, [createdSurveys]);
   const respondToSurvey = useHandleMutation(qry.respondToSurveyRq, [mySurveys]);
-  const deleteSurvey = useHandleMutation(() => qry.deleteSurveyRq(surveyId as string), [createdSurveys]);
+  const deleteSurvey = useHandleMutation(qry.deleteSurveyRq, [createdSurveys]);
   const tenantDeleteSurvey = useHandleMutation(qry.tenantDeleteSurveyRq, [mySurveys]);
 
   const contextValue = {

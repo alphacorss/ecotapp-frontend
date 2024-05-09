@@ -22,6 +22,7 @@ const selectVariant = cva('w-full h-11', {
     },
     size: {
       default: 'h-[45px]',
+      h40: 'h-[40px]',
       small: 'h-[35px]',
       auto: 'h-auto',
     },

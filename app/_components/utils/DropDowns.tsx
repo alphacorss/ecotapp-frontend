@@ -34,7 +34,7 @@ export const DropdownMenuComponent = ({ array, trigger }: { array?: React.ReactN
 export const NotificationDropDown = ({ notifications }: { notifications: TMessages[] }) => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild className="ring-0 outline-0 cursor-pointer bg-transparent border-l-[1px] px-3 py-3">
+      <DropdownMenuTrigger asChild className="ring-0 outline-0 cursor-pointer bg-transparent px-3 py-3">
         <span>
           <Notification size={24} color="gray" />
         </span>

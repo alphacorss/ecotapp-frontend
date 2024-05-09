@@ -56,13 +56,13 @@ export default function BarComponent({ data }: { data: number[] }) {
               position="insideLeft"
             />
           </YAxis>
-          <Tooltip labelFormatter={(e) => e} formatter={(value) => `${value}kWh`} />
+          <Tooltip labelFormatter={(e) => e} formatter={(value) => `${value}kWh`} cursor={false} />
           <Bar
             dataKey="amt"
             name="Energy Consumption"
             label="Amt"
             radius={[10, 10, 0, 0]}
-            fill="#dedede"
+            fill="gray"
             activeBar={<Rectangle fill="#DB17B2" stroke="#DB17B2" />}
           >
             {cleanData.map((_, index) => {

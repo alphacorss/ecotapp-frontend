@@ -1,6 +1,6 @@
 'use client';
 import { useQuery } from '@tanstack/react-query';
-import { ArrowUp, Buliding, People } from 'iconsax-react';
+import { Buliding, People } from 'iconsax-react';
 import { NetworkIcon } from 'lucide-react';
 import React from 'react';
 
@@ -31,6 +31,8 @@ const HomeCards = ({ data }: TCardProps) => {
     queryKey: ['homeCards', selected, data.queryKey],
     queryFn: () => qry.homeCardsRq(q),
     retry: 0,
+    staleTime: Infinity,
+    refetchOnMount: false,
   });
 
   const cards = homeCard.data?.data?.data;
@@ -90,10 +92,6 @@ const HomeCards = ({ data }: TCardProps) => {
           <p className="text-xs lg:text-sm font-[400] text-gray-400">Total {cardData.title}</p>
           <p>{cardData?.total}</p>
         </div>
-        <span className="text-xs text-[#0B7041] border border-[#9EE1C2] bg-[#E7F8F0] rounded-[var(--rounded)] p-1 lg:p-2 font-[500] flex gap-1 items-center">
-          {<ArrowUp size={15} />}
-          {cardData?.percentage ?? 0}%
-        </span>
       </div>
     </div>
   );
