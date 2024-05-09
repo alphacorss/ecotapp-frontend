@@ -1,5 +1,4 @@
 'use client';
-import { useSearchParams } from 'next/navigation';
 import React from 'react';
 
 import LineComponent from '@/app/_components/charts/LineChart';
@@ -10,8 +9,6 @@ import SectionHeader from '@/app/_components/utils/SectionHeader';
 import { largeDataSet } from '@/app/_constants/data';
 
 const EnergyForecast = () => {
-  const filter = useSearchParams().get('filter');
-
   const [showFilterModal, setShowFilterModal] = React.useState(false);
 
   const barData = [...largeDataSet];
@@ -21,18 +18,15 @@ const EnergyForecast = () => {
       <div className="flex justify-between items-start mb-5">
         <SectionHeader title="Energy Forecast" description="" />
       </div>
-      <div className="flex justify-end items-end mb-5">
-        {filter !== 'false' && (
-          <span className="h-[40px]" onClick={() => setShowFilterModal(!showFilterModal)}>
-            <FilterBtn />
-          </span>
-        )}
+      <div className="flex justify-end items-end mb-5 z-[1]">
+        <span className="h-[40px]" onClick={() => setShowFilterModal(!showFilterModal)}>
+          <FilterBtn />
+        </span>
       </div>
-      {filter !== 'false' && (
-        <div className="flex flex-col h-full">
-          <LineComponent data={barData} />
-        </div>
-      )}
+
+      <div className="flex flex-col h-full">
+        <LineComponent data={barData} />
+      </div>
 
       <ModalComponent
         open={showFilterModal}

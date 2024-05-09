@@ -68,7 +68,7 @@ const CarbonTrading = () => {
       <div className="flex justify-between items-start mb-5">
         <SectionHeader title="Carbon" description="" />
       </div>
-      <div className="flex justify-end items-end mb-5 gap-3 z-[1000]">
+      <div className="flex justify-end items-end mb-5 gap-3 z-[1]">
         <div>
           <SelectComponent
             array={[

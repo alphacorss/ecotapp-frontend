@@ -3,7 +3,7 @@ import React from 'react';
 
 import BarComponent from '@/app/_components/charts/BarChart';
 import { PieComponent } from '@/app/_components/charts/PieChart';
-import { HomeMainLoader } from '@/app/_components/utils/Loader';
+import { ChartLoader, HomeMainLoader } from '@/app/_components/utils/Loader';
 import { SelectComponent } from '@/app/_components/utils/SelectComponent';
 import { chartSelectOptions } from '@/app/_constants/data';
 import useLocalStorage from '@/app/_hooks/useLocalStorage';
@@ -36,7 +36,6 @@ const HomeMain = () => {
     <div className="card flex-1">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-lg font-[600] text-gray-600">Total Energy Consumption</h1>
-        {/* <More size={20} className="text-gray-600 cursor-pointer" /> */}
       </div>
 
       <div className="flex w-full h-full gap-5">
@@ -73,7 +72,7 @@ const HomeMain = () => {
             />
           </div>
 
-          <PieComponent data={chart.current_month_energy_breakdown} />
+          <>{homeChart.isLoading ? <ChartLoader /> : <PieComponent data={chart.current_month_energy_breakdown} />}</>
         </div>
       </div>
     </div>

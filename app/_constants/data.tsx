@@ -85,6 +85,13 @@ export const chartSelectOptions = [
   { value: `${year}-${monthIndex - 2}-${dayIndex}`, name: 'Last 90 days' },
 ];
 
+export const energyTypeArray = [
+  { label: 'Electricity', value: 'electricity' },
+  // { label: 'Water', value: 'water' },
+  // { label: 'Gas', value: 'gas' },
+  // { label: 'Heat', value: 'heat' },
+];
+
 export const barData = [
   { name: 'Jan', amt: 4000 },
   { name: 'Feb', amt: 3000 },

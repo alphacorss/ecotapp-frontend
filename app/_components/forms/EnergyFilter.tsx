@@ -1,11 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
-// import { DateRange } from 'react-day-picker';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { ComboBoxFormComponent } from '@/app/_components/utils/ComboBoxes';
-// import { DatePickerWithRange } from '@/app/_components/utils/DateRange';
+import { energyTypeArray } from '@/app/_constants/data';
 import Queries from '@/app/_context/Queries';
 import useClearError from '@/app/_hooks/useClearError';
 import usePathParams from '@/app/_hooks/usePathParams';
@@ -116,12 +115,7 @@ const EnergyFilter = ({
 
         <ComboBoxFormComponent
           label="Type of Energy"
-          data={[
-            { label: 'Electricity', value: 'electricity' },
-            { label: 'Water', value: 'water' },
-            { label: 'Gas', value: 'gas' },
-            { label: 'Heat', value: 'heat' },
-          ]}
+          data={energyTypeArray}
           selectorName="energy_type"
           setValue={setValue}
           title="Energy Type"

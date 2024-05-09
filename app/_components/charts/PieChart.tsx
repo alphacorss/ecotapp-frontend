@@ -17,7 +17,11 @@ export function PieComponent({ data }: { data: TCurrentMonthEnergyBreakdown }) {
   return (
     <div className="chart">
       <ResponsiveContainer width="100%" height="90%" className={'w-full h-full'}>
-        <PieChart>
+        <PieChart
+          margin={{
+            left: 0,
+          }}
+        >
           <Pie
             data={arrayData()}
             cx="50%"

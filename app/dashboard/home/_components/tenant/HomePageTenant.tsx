@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { Filter } from 'iconsax-react';
 import { ChevronDown } from 'lucide-react';
-import React from 'react';
+import React, { memo } from 'react';
 
 import BarComponent from '../../../../_components/charts/BarChart';
 import { DropdownMenuComponent } from '../../../../_components/utils/DropDowns';
@@ -137,4 +137,4 @@ const HomePageTenant = () => {
   );
 };
 
-export default HomePageTenant;
+export default memo(HomePageTenant);
