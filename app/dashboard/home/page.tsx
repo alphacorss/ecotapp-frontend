@@ -1,10 +1,9 @@
 'use client';
-import React from 'react';
+import React, { memo } from 'react';
 
 import FacilityManagerHomePage from './_components/admins/Facility/FacilityManagerHomePage';
 import HomePageTenant from './_components/tenant/HomePageTenant';
 import { high, low, mid } from './helpers';
-import MainWrapper from '@/app/_components/layout/MainWrapper';
 import User from '@/app/_context/User';
 import HighAdminHomePage from '@/app/dashboard/home/_components/admins/HighAdminsHomePage';
 
@@ -12,7 +11,7 @@ const Home = () => {
   const role = React.useContext(User).role;
 
   return (
-    <MainWrapper>
+    <React.Fragment>
       {high.includes(role as string) ? (
         <HighAdminHomePage />
       ) : mid.includes(role as string) ? (
@@ -22,8 +21,8 @@ const Home = () => {
       ) : (
         <HomePageTenant />
       )}
-    </MainWrapper>
+    </React.Fragment>
   );
 };
 
-export default Home;
+export default memo(Home);

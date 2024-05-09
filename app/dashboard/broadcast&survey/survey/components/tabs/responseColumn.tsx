@@ -11,7 +11,7 @@ export const ResponseTabColumns = () => {
     {
       accessorKey: 'questionId',
       header: ({ column }) => {
-        return <TableHeader title="Id" column={column} isSorted={column.getIsSorted()} />;
+        return <TableHeader title="Index" column={column} isSorted={column.getIsSorted()} />;
       },
       cell: ({ row }) => {
         const index = row.index;

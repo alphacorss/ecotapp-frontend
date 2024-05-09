@@ -1,28 +1,41 @@
 'use client';
-import { CartesianGrid, Label, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import React from 'react';
+import {
+  CartesianGrid,
+  ComposedChart,
+  Label,
+  Legend,
+  Line,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
 
-const COLORS = ['#7CD1E4'];
-
-const lines = [
-  {
-    COLORS: COLORS[0],
-    name: 'Actual Consumption',
-    dataKey: 'pv',
-  },
-];
-
-export default function LineComponent({ data }: { data: any[] }) {
+export default function DoubleLineComponent({
+  data,
+  lines,
+  COLORS,
+  showLine1,
+  showLine2,
+}: {
+  data: any[];
+  lines: any[];
+  COLORS: string[];
+  showLine1?: boolean;
+  showLine2?: boolean;
+}) {
   return (
     <div className="chart h-[calc(100%-15px)] min-h-[350px] -mb-5">
-      <ResponsiveContainer width="100%" height="98%" className="w-full h-full">
-        <LineChart
+      <ResponsiveContainer width="100%" height="98%" className={'w-full h-full'}>
+        <ComposedChart
           width={500}
           height={400}
           data={data}
           margin={{
             top: -50,
             right: 0,
-            left: 12,
+            left: 10,
             bottom: 0,
           }}
         >
@@ -34,22 +47,37 @@ export default function LineComponent({ data }: { data: any[] }) {
             content={
               <div className="flex flex-wrap justify-start items-center gap-5">
                 {lines.map((item, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <div
-                      style={{
-                        width: '15px',
-                        height: '15px',
-                        backgroundColor: COLORS[index % COLORS.length],
-                        borderRadius: '50%',
-                      }}
-                    ></div>
-                    <p className="text-[14px] font-[500] text-gray-600">{item.name}</p>
-                  </div>
+                  <React.Fragment key={index}>
+                    {item.show && (
+                      <div key={index} className="flex items-center gap-2">
+                        <div
+                          style={{
+                            width: '15px',
+                            height: '15px',
+                            backgroundColor: COLORS[index % COLORS.length],
+                            borderRadius: '50%',
+                          }}
+                        ></div>
+                        <p className="text-[14px] font-[500] text-gray-600">{item.name}</p>
+                      </div>
+                    )}
+                  </React.Fragment>
                 ))}
               </div>
             }
           />
-          <XAxis stroke="" dataKey="name" tick={{ fontSize: 13, fill: '#868686' }} />
+          <XAxis stroke="" dataKey="name" tick={{ fontSize: 13, fill: '#868686' }}>
+            <Label
+              style={{
+                textAnchor: 'middle',
+                fontSize: '100%',
+                fontWeight: '500',
+                fill: '#868686',
+              }}
+              value={'Months'}
+              position="bottom"
+            />
+          </XAxis>
           <YAxis stroke="" tick={{ fontSize: 13, fill: '#868686' }}>
             <Label
               style={{
@@ -59,7 +87,7 @@ export default function LineComponent({ data }: { data: any[] }) {
                 fill: '#868686',
               }}
               angle={270}
-              value={'(kWh)'}
+              value={'(Metric Tons)'}
               position="left"
             />
           </YAxis>
@@ -87,20 +115,14 @@ export default function LineComponent({ data }: { data: any[] }) {
               </div>
             )}
           />
-          {lines.map((line, index) => (
-            <Line
-              key={index}
-              dot={false}
-              dataKey={line.dataKey}
-              name={line.name}
-              label={line.name}
-              stroke={line.COLORS}
-              strokeWidth={2}
-            />
-          ))}
-        </LineChart>
+          {showLine1 && (
+            <Line type="monotone" dot={false} name="A school" dataKey="pv" stroke={COLORS[0]} strokeWidth={2} />
+          )}
+          {showLine2 && (
+            <Line type="monotone" dot={false} dataKey="uv" name="Upper Range" stroke={COLORS[1]} strokeWidth={2} />
+          )}
+        </ComposedChart>
       </ResponsiveContainer>
-      <p className="text-center text-gray-500 text-sm font-[500] mb-5">(Time)</p>
     </div>
   );
 }

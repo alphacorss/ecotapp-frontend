@@ -240,3 +240,27 @@ export type TSurveyData = {
   updatedAt: string;
   __v: number;
 };
+
+//analytics
+export type TAnalyticsConsumption = {
+  array_of_energy: number[];
+  energy_cost_intensity: TEnergyCostIntensity;
+  energy_efficiency: TEnergyEfficiency;
+  energy_use_intensity: TEnergyUseIntensity;
+  total_energy_consumed: number;
+};
+
+export type TEnergyCostIntensity = {
+  percentage_increase: number;
+  value: number;
+};
+
+export type TEnergyEfficiency = {
+  percentage_increase: number;
+  value: number;
+};
+
+export type TEnergyUseIntensity = {
+  percentage_increase: number;
+  value: number;
+};

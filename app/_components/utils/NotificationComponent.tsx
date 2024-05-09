@@ -65,7 +65,7 @@ const NotificationComponent = ({
       <div className={cn(`h-[200px] overflow-auto`, containerClass)}>
         {notifications?.length === 0 && (
           <div className="flex flex-col justify-center items-center">
-            <Image src="/notification.svg" width={80} height={80} alt="notification" />
+            <Image src="//pages/notification.svg" width={80} height={80} alt="notification" />
             <div className="flex flex-col justify-center items-center">
               <h3 className="text-gray-600 font-[600] text-lg py-4 text-center -mb-3">No Notification yet</h3>
               <p className="text-xs text-gray-500 font-[500] text-center">You haven’t received any notifications yet</p>

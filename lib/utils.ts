@@ -63,6 +63,15 @@ export const getDateIndexes = () => {
   return { year, monthIndex, dayIndex };
 };
 
+export const getTime = () => {
+  const date = new Date();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
+
+  return `${hours}:${minutes}:${seconds}`;
+};
+
 export const cleanDate = (date: string) => {
   return new Date(date).toDateString();
 };
@@ -128,6 +137,7 @@ export const zodInputValidators = {
   dateRange: z.string().min(1, { message: 'Please select a date range' }),
   optionalDropDown: z.string().optional(),
   message: z.string().min(3, { message: 'Minimum 3 characters' }),
+  refreshTime: z.string().min(1, { message: 'Please select an option' }),
 };
 
 export const cleanRole = (role: TRole) => {
@@ -158,13 +168,22 @@ export const cleanRoleSingular = (role: TRole) => {
   }
 };
 
+export const parseDate = (date: string) => {
+  let parts = date.split('-');
+  return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+};
+
 export const convertDate = (dateStr: string, convertToClean: boolean) => {
   if (convertToClean) {
     // Convert to "MM-DD-YY" format
-    const date = new Date(dateStr);
+
+    const parsed = parseDate(dateStr);
+    const date = new Date(parsed);
+
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
     const year = date.getFullYear().toString().slice(2);
+
     return `${month}-${day}-${year}`;
   } else {
     // Convert back to original format

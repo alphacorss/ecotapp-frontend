@@ -24,6 +24,7 @@ export const FacilityMainInfo = () => {
     queryKey: ['homeChart_facility', selected],
     queryFn: () => qry.homeChartsRq(selected, units),
     retry: 0,
+    refetchOnMount: false,
   });
 
   if (homeChart.isLoading) return <HomeMainLoader />;

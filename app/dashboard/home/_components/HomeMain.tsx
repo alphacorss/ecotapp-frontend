@@ -10,9 +10,8 @@ import useLocalStorage from '@/app/_hooks/useLocalStorage';
 import qry from '@/lib/queries';
 import { futurePercentage, getDateIndexes } from '@/lib/utils';
 
+const { year, monthIndex, dayIndex } = getDateIndexes();
 const HomeMain = () => {
-  const { year, monthIndex, dayIndex } = getDateIndexes();
-
   const [selected, setSelected] = useLocalStorage(`@homeChart`, `${year}-${monthIndex}-${dayIndex}`);
 
   const handleSelect = (value: string) => {
@@ -23,6 +22,7 @@ const HomeMain = () => {
     queryKey: ['homeChart', selected],
     queryFn: () => qry.homeChartsRq(selected, '201'),
     retry: 0,
+    refetchOnMount: false,
   });
 
   if (homeChart.isLoading) return <HomeMainLoader />;
@@ -38,40 +38,41 @@ const HomeMain = () => {
         <h1 className="text-lg font-[600] text-gray-600">Total Energy Consumption</h1>
         {/* <More size={20} className="text-gray-600 cursor-pointer" /> */}
       </div>
-      <div className="flex justify-between items-start mb-6 flex-col md:flex-row">
-        <div className="flex flex-col gap-5">
-          <div>
-            <h1 className="text-3xl font-bold text-primary-300">{chart.current_month_energy} kWh</h1>
-            <p className="text-xs text-gray-400 font-[500]">Current month</p>
-          </div>
-          <div>
-            <p
-              className={`text-green-500 font-bold text-lg ${
-                percentageForecast < 0 ? 'text-red-500' : 'text-green-500'
-              }`}
-            >
-              {percentageForecast.toFixed(2)}%
-            </p>
-            <p className="text-xs text-gray-400 font-[500]">Next month</p>
-          </div>
-        </div>
-        <div>
-          <SelectComponent
-            className="h-[100px]"
-            title="Filter"
-            defaultValue={selected}
-            array={chartSelectOptions}
-            handleSelect={handleSelect}
-          />
-        </div>
-      </div>
 
-      <div className="flex gap-5 justify-between items-center flex-col md:flex-row">
-        <div className="flex-[7]">
-          <BarComponent data={chart.array_of_energy} />
+      <div className="flex w-full h-full gap-5">
+        <div className="flex flex-[4] justify-between items-start mb-6 flex-col md:flex-row">
+          <div className="flex flex-col gap-5 w-full h-full">
+            <div>
+              <h1 className="text-3xl font-bold text-primary-300">{chart.current_month_energy} kWh</h1>
+              <p className="text-xs text-gray-400 font-[500]">Current month</p>
+            </div>
+            <div>
+              <p
+                className={`text-green-500 font-bold text-lg ${
+                  percentageForecast < 0 ? 'text-red-500' : 'text-green-500'
+                }`}
+              >
+                {percentageForecast.toFixed(2)}%
+              </p>
+              <p className="text-xs text-gray-400 font-[500]">Next month</p>
+            </div>
+            <div className="w-full">
+              <BarComponent data={chart.array_of_energy} />
+            </div>
+          </div>
         </div>
 
-        <div className="flex-[5]">
+        <div className="flex-[2] h-auto flex flex-col justify-between border p-[20px] rounded-[var(--rounded)]">
+          <div className="grid place-content-end">
+            <SelectComponent
+              className="h-[100px]"
+              title="Filter"
+              defaultValue={selected}
+              array={chartSelectOptions}
+              handleSelect={handleSelect}
+            />
+          </div>
+
           <PieComponent data={chart.current_month_energy_breakdown} />
         </div>
       </div>

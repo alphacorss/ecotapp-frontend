@@ -250,7 +250,7 @@ const SideNav = () => {
         </div>
 
         {expandDrawer && (
-          <h2 className="text-lg text-primary-300 font-bold" style={itemsStyle}>
+          <h2 className="text-2xl text-primary-300 font-bold" style={itemsStyle}>
             ecotapp
           </h2>
         )}

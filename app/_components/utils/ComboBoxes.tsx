@@ -191,6 +191,7 @@ export function ComboBoxFormComponent({
   error,
   disabled,
   labelClass,
+  defaultValue,
 }: {
   label: string;
   title: string;
@@ -202,6 +203,7 @@ export function ComboBoxFormComponent({
   error: string | undefined;
   register: UseFormRegister<any>;
   labelClass?: string;
+  defaultValue?: string;
 }) {
   const [open, setOpen] = React.useState(false);
   const value = watch(selectorName);

@@ -4,7 +4,6 @@ import React from 'react';
 import useSettings, { SettingFormFieldsUser } from './setting.hook';
 import { InputComponent } from '@/app/_components/inputs/InputComponent';
 import { InputComponentWithSelector } from '@/app/_components/inputs/InputComponentWithSelector';
-import MainWrapper from '@/app/_components/layout/MainWrapper';
 import BackendError from '@/app/_components/utils/FormError';
 import Loader from '@/app/_components/utils/Loader';
 import { ModalComponent } from '@/app/_components/utils/Modals';
@@ -32,7 +31,7 @@ const Settings = () => {
   } = useSettings();
 
   return (
-    <MainWrapper>
+    <React.Fragment>
       <ModalComponent
         open={updated}
         setOpen={() => setUpdated(false)}
@@ -130,7 +129,7 @@ const Settings = () => {
           <BackendError errors={errors} />
         </div>
       </form>
-    </MainWrapper>
+    </React.Fragment>
   );
 };
 

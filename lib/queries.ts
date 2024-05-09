@@ -195,6 +195,17 @@ const homeChartsTntRq = async (date: string, unit: string) => {
   return response;
 };
 
+//analytics
+const analyticsRq = async (q: string) => {
+  const response = await axios.get(`${baseUrl}/statistic/energystat/analytics/?${q}`);
+  return response;
+};
+
+const realTimeRq = async (q: string) => {
+  const response = await axios.get(`${baseUrl}/statistic/energystat/realtime/?${q}`);
+  return response;
+};
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   listByRoleRq,
@@ -229,4 +240,6 @@ export default {
   homeCardsFacilityRq,
   homeChartsRq,
   homeChartsTntRq,
+  analyticsRq,
+  realTimeRq,
 };

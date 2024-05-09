@@ -32,6 +32,7 @@ const HomePageTenant = () => {
     queryKey: ['homeChart', selected],
     queryFn: () => qry.homeChartsRq(selected, '201'),
     retry: 0,
+    refetchOnMount: false,
   });
 
   if (homeChart.isLoading) return <HomeMainLoader />;
