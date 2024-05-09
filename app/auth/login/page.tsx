@@ -8,7 +8,7 @@ import { InputComponent } from '@/app/_components/inputs/InputComponent';
 import BackendError from '@/app/_components/utils/FormError';
 import Loader from '@/app/_components/utils/Loader';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
+// import { Checkbox } from '@/components/ui/checkbox';
 
 const LoginPage = () => {
   const {
@@ -18,8 +18,8 @@ const LoginPage = () => {
     isSubmitSuccessful,
     onSubmit,
     register,
-    setStayLoggedIn,
-    stayLoggedIn,
+    // setStayLoggedIn,
+    // stayLoggedIn,
     authError,
   } = useLoginHook();
 
@@ -50,12 +50,12 @@ const LoginPage = () => {
             before={<Lock1 color="gray" size={18} className="ml-3" />}
           />
           <div className="justify-between items-center flex">
-            <span className="flex justify-center items-center gap-2">
+            {/* <span className="flex justify-center items-center gap-2">
               <Checkbox id="stayLoggedIn" checked={stayLoggedIn} onCheckedChange={(e) => setStayLoggedIn(Boolean(e))} />
               <label htmlFor="stayLoggedIn" className="text-xs font-[500] text-gray-500 select-none cursor-pointer">
                 Stay logged in
               </label>
-            </span>
+            </span> */}
 
             <Link href="/auth/forgot-password" className="text-xs font-[500] text-primary-300">
               Forgot password?
