@@ -49,7 +49,7 @@ const LoginPage = () => {
             placeholder="Enter your password"
             before={<Lock1 color="gray" size={18} className="ml-3" />}
           />
-          <div className="justify-between items-center flex">
+          <div className="justify-end items-center flex">
             {/* <span className="flex justify-center items-center gap-2">
               <Checkbox id="stayLoggedIn" checked={stayLoggedIn} onCheckedChange={(e) => setStayLoggedIn(Boolean(e))} />
               <label htmlFor="stayLoggedIn" className="text-xs font-[500] text-gray-500 select-none cursor-pointer">

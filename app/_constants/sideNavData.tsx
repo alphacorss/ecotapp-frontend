@@ -1,4 +1,5 @@
-import { Graph, Home2, LogoutCurve, Messages1, Setting2, Trade, UserEdit } from 'iconsax-react';
+import { Graph, Home2, LogoutCurve, Messages1, Setting2, UserEdit } from 'iconsax-react';
+import Image from 'next/image';
 
 export const sideNavItems = [
   {
@@ -20,7 +21,7 @@ export const sideNavItems = [
   },
   {
     title: 'Carbon Trading',
-    icon: (color: string) => <Trade size={20} color={color} />,
+    icon: (color: string) => <Image alt="" width={25} height={25} color={color} src="/icons/carbon-accounting.svg" />,
     href: '/dashboard/carbon-trading',
   },
   {

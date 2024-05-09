@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 
 import HomeCard from '../HomeCards';
 import HomeMain from '../HomeMain';
@@ -28,4 +28,4 @@ const HighAdminHomePage = () => {
   );
 };
 
-export default memo(HighAdminHomePage);
+export default HighAdminHomePage;
