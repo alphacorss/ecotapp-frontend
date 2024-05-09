@@ -8,10 +8,10 @@ const COLORS = ['#94169F', '#FFB200', '#65DC1C', '#42A1E5 ', '#FF00FF', '#23d4d4
 export function PieComponent({ data }: { data: TCurrentMonthEnergyBreakdown }) {
   const arrayData = () => {
     return [
-      { name: 'Water', amt: data.water },
+      // { name: 'Water', amt: data.water },
       { name: 'Electricity', amt: data.electricity },
-      { name: 'Gas', amt: data.gas },
-      { name: 'Heat', amt: data.heat },
+      // { name: 'Gas', amt: data.gas },
+      // { name: 'Heat', amt: data.heat },
     ];
   };
   return (
