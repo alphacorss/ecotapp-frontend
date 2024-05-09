@@ -21,7 +21,7 @@ const OverviewTab = ({ surveyDetail }: { surveyDetail: TSurveyData | undefined }
 
       to = `${org?.name ?? 'Organization Not Found'}`;
     } else {
-      const facility = facilities?.data?.data?.facility?.find((facility: TOrg) => {
+      const facility = facilities?.data?.data?.facilities?.find((facility: TOrg) => {
         return facility._id === surveyDetail?.to[0]?.split('_')[1];
       });
 
