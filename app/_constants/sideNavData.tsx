@@ -4,29 +4,37 @@ import Image from 'next/image';
 export const sideNavItems = [
   {
     title: 'Home',
-    icon: (color: string) => <Home2 size={20} color={color} />,
+    icon: (color: 'white' | 'gray') => <Home2 size={20} color={color} />,
     href: '/dashboard/home',
   },
   {
     title: 'User Management',
-    icon: (color: string) => <UserEdit size={20} color={color} />,
+    icon: (color: 'white' | 'gray') => <UserEdit size={20} color={color} />,
     href: '/dashboard/users/pseudo-admins',
     allowedRoles: ['superadmin', 'psuedoadmin', 'organizationadmin', 'organizationmanager', 'facilitymanager'],
   },
   {
     title: 'Analytics',
-    icon: (color: string) => <Graph size={20} color={color} />,
+    icon: (color: 'white' | 'gray') => <Graph size={20} color={color} />,
     href: '/dashboard/analytics/energy-consumption',
     allowedRoles: ['superadmin', 'psuedoadmin', 'organizationadmin', 'organizationmanager', 'facilitymanager'],
   },
   {
     title: 'Carbon Trading',
-    icon: (color: string) => <Image alt="" width={25} height={25} color={color} src="/icons/carbon-accounting.svg" />,
+    icon: (color: 'white' | 'gray') => (
+      <Image
+        alt=""
+        width={25}
+        height={25}
+        src="/icons/carbon-accounting.svg"
+        className={`size-[25px] min-w-fit object-contain object-center ${color === 'white' ? 'filter brightness-200' : ''}`}
+      />
+    ),
     href: '/dashboard/carbon-trading',
   },
   {
     title: 'Broadcast & Survey',
-    icon: (color: string) => <Messages1 size={20} color={color} />,
+    icon: (color: 'white' | 'gray') => <Messages1 size={20} color={color} />,
     href: '/dashboard/broadcast&survey/broadcast',
   },
 ];
@@ -116,12 +124,12 @@ export const analyticsNav = [
 export const bottomNav = [
   {
     title: 'Settings',
-    icon: (color: string) => <Setting2 size={20} color={color} />,
+    icon: (color: 'white' | 'gray') => <Setting2 size={20} color={color} />,
     href: '/dashboard/settings',
   },
   {
     title: 'Logout',
-    icon: (color: string) => <LogoutCurve size={20} color={color} />,
+    icon: (color: 'white' | 'gray') => <LogoutCurve size={20} color={color} />,
     href: '/auth/login',
   },
 ];
