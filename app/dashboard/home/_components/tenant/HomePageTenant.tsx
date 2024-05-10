@@ -54,6 +54,9 @@ const HomePageTenant = () => {
 
   const nextMonth = chart.next_month_energy_forcast;
 
+  const maxPercentage = 99;
+  const width = percentageIncrease > maxPercentage ? maxPercentage : percentageIncrease + 5;
+
   return (
     <div className="flex flex-col gap-5 justify-between min-h-full">
       <div className="flex gap-5 flex-col lg:flex-row  lg:h-[400px]">
@@ -77,7 +80,7 @@ const HomePageTenant = () => {
             <div className="w-full bg-[#EBEBEB] rounded-[7px] dark:bg-gray-700">
               <div
                 className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-1 leading-none rounded-[7px] rounded-tr-none rounded-br-none relative"
-                style={{ width: `${percentageIncrease > 100 ? percentageIncrease : percentageIncrease + 5}%` }}
+                style={{ width: `${width}%` }}
               >
                 <div className={`absolute -top-[5px] left-[100%] w-[4px] h-[30px] bg-blue-600`}></div>
                 {percentageIncrease}%
