@@ -30,7 +30,7 @@ const HomeMain = () => {
 
   const chart = homeChart?.data?.data?.data?.stat;
 
-  const percentageForecast = futurePercentage(chart.next_month_energy_forcast, chart.current_month_energy) ?? 0;
+  const percentageForecast: number = futurePercentage(chart.next_month_energy_forcast, chart.current_month_energy) ?? 0;
 
   return (
     <div className="card flex-1">
@@ -51,7 +51,7 @@ const HomeMain = () => {
                   percentageForecast < 0 ? 'text-red-500' : 'text-green-500'
                 }`}
               >
-                {percentageForecast.toFixed(2)}%
+                {percentageForecast}%
               </p>
               <p className="text-xs text-gray-400 font-[500]">Next month</p>
             </div>

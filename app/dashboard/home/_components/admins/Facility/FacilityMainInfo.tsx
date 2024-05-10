@@ -51,13 +51,7 @@ export const FacilityMainInfo = () => {
           </div>
           <div>
             <p className="text-green-500 font-bold text-lg">+ {percentageForecast}%</p>
-            <p
-              className={`text-green-500 font-bold text-lg ${
-                percentageForecast < 0 ? 'text-red-500' : 'text-green-500'
-              }`}
-            >
-              Current month
-            </p>
+            <p className={`text-xs text-gray-400 font-[500]`}>Next month</p>
           </div>
         </div>
         <div>
