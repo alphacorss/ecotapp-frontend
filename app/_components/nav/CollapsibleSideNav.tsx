@@ -24,6 +24,8 @@ export function CollapsibleSideNav({
 }) {
   const active = usePathname();
   const isActive = array.some((nav) => active.split('/')[2] === nav.href.split('/')[2]);
+  const isTenantAndBroadcast = item.title === 'Broadcast & Survey' && role === 'tenant';
+
   return (
     <Collapsible open={isOpen} defaultOpen={true} onOpenChange={setIsOpen} className="w-full">
       <CollapsibleTrigger asChild>
@@ -37,7 +39,7 @@ export function CollapsibleSideNav({
         >
           <span className="flex items-center gap-2">
             {item.icon(isActive ? 'white' : 'gray')}
-            {expandDrawer && <span className="font-[500]">{item.title}</span>}
+            {expandDrawer && <span className="font-[500]">{isTenantAndBroadcast ? 'Survey' : item.title}</span>}
           </span>
           {expandDrawer && <span>{isOpen ? <ChevronUp size={15} /> : <ChevronDown size={15} />}</span>}
         </button>
