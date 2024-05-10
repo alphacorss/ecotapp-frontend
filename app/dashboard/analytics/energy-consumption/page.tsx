@@ -21,7 +21,7 @@ const EnergyConsumption = () => {
 
   const [showFilterModal, setShowFilterModal] = React.useState(false);
 
-  const today = `${year}-0${monthIndex}-${dayIndex}`;
+  const today = `${year}-${monthIndex}-${dayIndex}`;
 
   const q = `unit=${201}&date=${today}&energy_type=${energy_type}`;
 
