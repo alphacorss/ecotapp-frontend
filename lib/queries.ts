@@ -8,6 +8,16 @@ const listByRoleRq = async (role: TRole) => {
   return data;
 };
 
+const listFacilityByOrgId = async (id: string) => {
+  const response = await axios.get(`${baseUrl}/business/listfacilitybyorg/${id}`);
+  return response;
+};
+
+const listTenantByFacilityRq = async (orgId: string) => {
+  const response = await axios.get(`${baseUrl}/profile/listtenant/${orgId}`);
+  return response;
+};
+
 const listByRoleByOrgId = async (id: string, role: TRole) => {
   const response = await axios.get(`${baseUrl}/profile/list${role}/${id}`);
   return response;
@@ -180,6 +190,11 @@ const homeCardsRq = async (q: string) => {
   return response;
 };
 
+const homeCardsLowAdmisnRq = async (q: string, orgId: string) => {
+  const response = await axios.get(`${baseUrl}/statistic/appstat/facilitytenantinfo/${orgId}?q=${q}`);
+  return response;
+};
+
 const homeCardsFacilityRq = async (q: string, faciltyId: string) => {
   const response = await axios.get(`${baseUrl}/statistic/appstat/tenantinfo/${faciltyId}?q=${q}`);
   return response;
@@ -209,6 +224,8 @@ const realTimeRq = async (q: string) => {
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   listByRoleRq,
+  listFacilityByOrgId,
+  listTenantByFacilityRq,
   listByRoleByOrgId,
   getUserRq,
   deleteUserRq,
@@ -237,6 +254,7 @@ export default {
   deleteSurveyRq,
   tenantDeleteSurveyRq,
   homeCardsRq,
+  homeCardsLowAdmisnRq,
   homeCardsFacilityRq,
   homeChartsRq,
   homeChartsTntRq,

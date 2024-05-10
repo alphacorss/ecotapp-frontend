@@ -238,7 +238,7 @@ export const setUrlParams = (items: Object) => {
 };
 
 export const futurePercentage = (next: number, current: number) => {
-  return ((next - current) / current) * 100 ?? 0;
+  return parseInt((((next - current) / current) * 100 ?? 0).toFixed(2));
 };
 
 export const baseUrl = `http://ecotapp-app-elb-dev-2089191536.ca-central-1.elb.amazonaws.com:4000/api/v1`;

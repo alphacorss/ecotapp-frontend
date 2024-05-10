@@ -41,6 +41,10 @@ export type TUser = {
   __v: number;
 };
 
+export interface TOrgUser extends TUser {
+  organization: TOrg;
+}
+
 export interface TFacilityUser extends TUser {
   facility: TFacility;
 }

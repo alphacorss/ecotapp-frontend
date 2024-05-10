@@ -81,8 +81,8 @@ const { dayIndex, monthIndex, year } = getDateIndexes();
 
 export const chartSelectOptions = [
   { value: `${year}-${monthIndex}-${dayIndex}`, name: 'Last 30 days' },
-  { value: `${year}-${monthIndex - 1}-${dayIndex}`, name: 'Last 60 days' },
-  { value: `${year}-${monthIndex - 2}-${dayIndex}`, name: 'Last 90 days' },
+  { value: `${year}-${parseInt(monthIndex) - 1}-${dayIndex}`, name: 'Last 60 days' },
+  { value: `${year}-${parseInt(monthIndex) - 2}-${dayIndex}`, name: 'Last 90 days' },
 ];
 
 export const energyTypeArray = [
