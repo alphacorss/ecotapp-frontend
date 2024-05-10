@@ -57,8 +57,8 @@ export const currentDate = () => {
 export const getDateIndexes = () => {
   const date = new Date();
   const year = date.getFullYear();
-  const monthIndex = date.getMonth() + 1;
-  const dayIndex = date.getDate();
+  const monthIndex = (date.getMonth() + 1).toString().padStart(2, '0');
+  const dayIndex = date.getDate().toString().padStart(2, '0');
 
   return { year, monthIndex, dayIndex };
 };

@@ -66,7 +66,7 @@ export default function BarComponent({ data }: { data: number[] }) {
             activeBar={<Rectangle fill="#DB17B2" stroke="#DB17B2" />}
           >
             {cleanData.map((_, index) => {
-              return <Cell key={index} fill={index + 1 === monthIndex ? '#DB17B2' : '#dedede'} />;
+              return <Cell key={index} fill={index + 1 === parseInt(monthIndex) ? '#DB17B2' : '#dedede'} />;
             })}
           </Bar>
         </BarChart>
