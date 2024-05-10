@@ -23,6 +23,8 @@ const Facilities = () => {
   const facilityId = useSearchParams().get('facilityId');
   const facilitiesCtx = React.useContext(Queries);
   const { facility } = facilitiesCtx;
+  const facilitiesHigh = facilitiesCtx.facilities.data?.data?.facilities;
+  const facilitiesMid = facilitiesCtx.facilities.data?.data?.data?.facilities;
   const facilityData = facility.data?.data.data.facility;
 
   const { modalState, handleCloseModal, handleOpenModal } = React.useContext(Main);
@@ -199,7 +201,7 @@ const Facilities = () => {
       ) : (
         <DataTable
           showMultiView={false}
-          data={facilitiesCtx.facilities.data?.data.facilities || []}
+          data={facilitiesHigh ?? (facilitiesMid || [])}
           columns={FacilityColumn(showDeleteModal, showDetailsModal) as ColumnDef<unknown, unknown>[]}
         />
       )}

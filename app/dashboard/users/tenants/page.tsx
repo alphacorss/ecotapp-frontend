@@ -25,7 +25,7 @@ export default function TenantsComponent() {
   const tenantsCtx = React.useContext(Queries);
   const { tenant, tenants, addTenant, editTenant, deleteTenant } = tenantsCtx;
   const tenantData: TFacilityUser = tenant?.data?.data?.data?.user;
-  const tenantsData = tenants?.data?.data?.users;
+  const tenantsData = tenants?.data?.data?.users ?? tenants?.data?.data?.data.users;
 
   const { modalState, handleCloseModal, handleOpenModal } = React.useContext(Main);
 

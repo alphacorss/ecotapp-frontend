@@ -4,10 +4,13 @@ import { Buliding, People } from 'iconsax-react';
 import { NetworkIcon } from 'lucide-react';
 import React from 'react';
 
+import { high } from '../helpers';
 import { HomeCardLoader } from '@/app/_components/utils/Loader';
 import { SelectComponent } from '@/app/_components/utils/SelectComponent';
 import { homeSelectOptions } from '@/app/_constants/data';
+import User from '@/app/_context/User';
 import useLocalStorage from '@/app/_hooks/useLocalStorage';
+import { TOrgUser } from '@/app/types';
 import qry from '@/lib/queries';
 
 type TCardProps = {
@@ -19,7 +22,12 @@ type TCardProps = {
 };
 
 const HomeCards = ({ data }: TCardProps) => {
+  const userCtx = React.useContext(User);
+  const role = userCtx.role;
+  const user = userCtx.user as TOrgUser;
   const [selected, setSelected] = useLocalStorage(`@homeCard_${data.queryKey}`, 'last_30');
+
+  const orgId = user?.organization?._id;
 
   const handleSelect = (value: string) => {
     setSelected(value);
@@ -29,17 +37,19 @@ const HomeCards = ({ data }: TCardProps) => {
 
   const homeCard = useQuery({
     queryKey: ['homeCards', selected, data.queryKey],
-    queryFn: () => qry.homeCardsRq(q),
+    queryFn: () => (high.includes(role as string) ? qry.homeCardsRq(q) : qry.homeCardsLowAdmisnRq(q, orgId)),
     retry: 0,
     staleTime: Infinity,
     refetchOnMount: false,
   });
 
+  const isLoading = homeCard.isLoading;
+  const isError = homeCard.isError;
   const cards = homeCard.data?.data?.data;
 
-  if (homeCard.isLoading) return <HomeCardLoader />;
-  // if (data.title === 'Organizations') return <HomeCardLoader />;
-  if (homeCard.isError) return <div className="error-page flex-1 text-xs">Something went wrong loading this card</div>;
+  if (isLoading) return <HomeCardLoader />;
+
+  if (isError) return <div className="error-page flex-1 text-xs">Something went wrong loading this card</div>;
 
   let cardData = {
     title: '',

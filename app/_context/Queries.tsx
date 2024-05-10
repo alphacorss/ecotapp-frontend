@@ -1,69 +1,13 @@
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import React, { createContext } from 'react';
 
+import User from './User';
 import { useHandleMutation } from '../_hooks/useHandleMutation';
 import usePathParams from '../_hooks/usePathParams';
-import { TMutationHandler, TRole } from '../types';
+import { high, mid } from '../dashboard/home/helpers';
+import { TFacilityUser, TMutationHandler, TOrgUser, TRole } from '../types';
 import qry from '@/lib/queries';
 import { getRole } from '@/lib/utils';
-
-export type TQueriesCtx = {
-  // pseudo admins
-  pseudoAdmins: UseQueryResult<any, Error>;
-  pseudoAdmin: UseQueryResult<any, Error>;
-  addPseudoAdmin: TMutationHandler;
-  editPseudoAdmin: TMutationHandler;
-  deletePseudoAdmin: TMutationHandler;
-  // tenants
-  tenants: UseQueryResult<any, Error>;
-  addTenant: TMutationHandler;
-  editTenant: TMutationHandler;
-  deleteTenant: TMutationHandler;
-  tenant: UseQueryResult<any, Error>;
-  //facilities
-  facilities: UseQueryResult<any, Error>;
-  facility: UseQueryResult<any, Error>;
-  deleteFacility: TMutationHandler;
-  addFacility: TMutationHandler;
-  editFacility: TMutationHandler;
-  // facilities managers
-  facilityManagers: UseQueryResult<any, Error>;
-  addFacilityManager: TMutationHandler;
-  editFacilityManager: TMutationHandler;
-  facilityManager: UseQueryResult<any, Error>;
-  deleteFacilityManager: TMutationHandler;
-  //organizations
-  orgs: UseQueryResult<any, Error>;
-  org: UseQueryResult<any, Error>;
-  addOrg: TMutationHandler;
-  editOrg: TMutationHandler;
-  deleteOrg: TMutationHandler;
-  //orgAdmin
-  addOrgAdmin: TMutationHandler;
-  orgAdmins: UseQueryResult<any, Error>;
-  orgAdmin: UseQueryResult<any, Error>;
-  editOrgAdmin: TMutationHandler;
-  deleteOrgAdmin: TMutationHandler;
-  //orgManager
-  orgManagers: UseQueryResult<any, Error>;
-  addOrgManager: TMutationHandler;
-  orgManager: UseQueryResult<any, Error>;
-  editOrgManager: TMutationHandler;
-  deleteOrgManager: TMutationHandler;
-  // profile
-  updateProfile: TMutationHandler;
-  updatePassword: TMutationHandler;
-  // broadcast
-  sendMessage: TMutationHandler;
-  myMessages: UseQueryResult<any, Error>;
-  //survey
-  createSurvey: TMutationHandler;
-  mySurveys: UseQueryResult<any, Error>;
-  createdSurveys: UseQueryResult<any, Error>;
-  respondToSurvey: TMutationHandler;
-  deleteSurvey: TMutationHandler;
-  tenantDeleteSurvey: TMutationHandler;
-};
 
 const Queries = createContext({
   // pseudo admins
@@ -123,7 +67,18 @@ const Queries = createContext({
   tenantDeleteSurvey: {} as TMutationHandler,
 });
 
+export type TQueriesCtx = typeof Queries;
+
 export function QueriesCtxProvider({ children }: React.PropsWithChildren<{}>) {
+  const userObj = React.useContext(User);
+  const role = userObj.role;
+
+  const orgUser = userObj.user as TOrgUser;
+  const facilityUser = userObj.user as TFacilityUser;
+
+  const orgUserAdminId = orgUser?.organization?._id;
+  const facilityUserAdminId = facilityUser?.facility?._id;
+
   const {
     pseudoAdminId,
     orgId,
@@ -202,8 +157,9 @@ export function QueriesCtxProvider({ children }: React.PropsWithChildren<{}>) {
   //facilities
   const facilities = useQuery({
     queryKey: ['facilities'],
-    queryFn: qry.getFacilitiesRq,
-    enabled: defaultEnable && blockTenant && blockFacilityManager,
+    queryFn: () =>
+      high.includes(role as string) ? qry.getFacilitiesRq() : qry.listFacilityByOrgId(orgUserAdminId as string),
+    enabled: defaultEnable && blockTenant,
   });
 
   //facility managers
@@ -231,9 +187,13 @@ export function QueriesCtxProvider({ children }: React.PropsWithChildren<{}>) {
   //tenants
   const tenants = useQuery({
     queryKey: ['tenants'],
-    queryFn: () => qry.listByRoleRq('tenant' as TRole),
+    queryFn: () =>
+      high.includes(role as string)
+        ? qry.listByRoleRq('tenant' as TRole)
+        : mid.includes(role as string)
+          ? qry.listTenantByFacilityRq(orgUserAdminId as string)
+          : qry.listTenantByFacilityRq(facilityUserAdminId as string),
     enabled: defaultEnable && blockTenant,
-
     staleTime: 1000 * 60 * 60,
   });
 

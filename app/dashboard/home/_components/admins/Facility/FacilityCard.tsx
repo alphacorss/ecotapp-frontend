@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { ArrowUp, Buliding, People } from 'iconsax-react';
+import { Buliding, People } from 'iconsax-react';
 import React from 'react';
 
 import { HomeCardLoader } from '@/app/_components/utils/Loader';
@@ -64,12 +64,6 @@ const FacilityCard = ({
           <p className="text-xs lg:text-sm font-[400] text-gray-400">{data.title}</p>
           <p>{value}</p>
         </div>
-        {data.queryKey !== 'unit' && (
-          <span className="text-xs text-[#0B7041] border border-[#9EE1C2] bg-[#E7F8F0] rounded-[var(--rounded)] p-1 lg:p-2 font-[500] flex gap-1 items-center">
-            {<ArrowUp size={15} />}
-            {cards.tenantStat.percentageTenantChange ?? 0}%
-          </span>
-        )}
       </div>
     </div>
   );
