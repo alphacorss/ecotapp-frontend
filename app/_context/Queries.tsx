@@ -5,7 +5,7 @@ import User from './User';
 import { useHandleMutation } from '../_hooks/useHandleMutation';
 import usePathParams from '../_hooks/usePathParams';
 import { high, mid } from '../dashboard/home/helpers';
-import { TFacilityUser, TMutationHandler, TOrgUser, TRole } from '../types';
+import { TMutationHandler, TRole } from '../types';
 import qry from '@/lib/queries';
 import { getRole } from '@/lib/utils';
 
@@ -70,11 +70,7 @@ const Queries = createContext({
 export type TQueriesCtx = typeof Queries;
 
 export function QueriesCtxProvider({ children }: React.PropsWithChildren<{}>) {
-  const userObj = React.useContext(User);
-  const role = userObj.role;
-
-  const orgUser = userObj.user as TOrgUser;
-  const facilityUser = userObj.user as TFacilityUser;
+  const { role, orgUser, facilityUser } = React.useContext(User);
 
   const orgUserAdminId = orgUser?.organization?._id;
   const facilityUserAdminId = facilityUser?.facility?._id;

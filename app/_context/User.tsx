@@ -4,12 +4,14 @@ import { usePathname, useRouter } from 'next/navigation';
 import React, { createContext } from 'react';
 
 import useSessionStorage from '../_hooks/useSessionStorage';
-import { TRole, TUser } from '../types';
+import { TFacilityUser, TOrgUser, TRole, TUser } from '../types';
 import { baseUrl, getRole, getToken } from '@/lib/utils';
 
 export type TUserCtx = {
   userQuery: UseQueryResult<any, Error>;
   user: TUser | undefined;
+  orgUser: TOrgUser | undefined;
+  facilityUser: TFacilityUser | undefined;
   role: TRole | undefined;
   cleanRole: string;
   isError: boolean;
@@ -20,6 +22,8 @@ export type TUserCtx = {
 const User = createContext<TUserCtx>({
   userQuery: {} as UseQueryResult<any, Error>,
   user: undefined,
+  orgUser: undefined,
+  facilityUser: undefined,
   role: undefined,
   cleanRole: '',
   isError: false,
@@ -47,6 +51,9 @@ export function UserCtxProvider({ children }: React.PropsWithChildren<{}>) {
     initialData: user,
   });
 
+  const [orgUser, setOrgUser] = React.useState<TOrgUser>();
+  const [facilityUser, setFacilityUser] = React.useState<TFacilityUser>();
+
   React.useEffect(() => {
     if (!userQuery.isSuccess && path.includes('/dashboard')) {
       router.replace('/auth/login');
@@ -63,25 +70,31 @@ export function UserCtxProvider({ children }: React.PropsWithChildren<{}>) {
         break;
       case 'organizationadmin':
         setCleanRole('Organization Admin');
+        setOrgUser(user as TOrgUser);
         break;
       case 'organizationmanager':
         setCleanRole('Organization Manager');
+        setOrgUser(user as TOrgUser);
         break;
       case 'facilitymanager':
         setCleanRole('Facility Manager');
+        setFacilityUser(user as TFacilityUser);
         break;
       case 'tenant':
         setCleanRole('Tenant');
+        setFacilityUser(user as TFacilityUser);
         break;
       default:
         setCleanRole('');
         break;
     }
-  }, [path, router, setUser, token, userQuery]);
+  }, [path, router, setUser, token, user, userQuery]);
 
-  const contextValue = {
+  const contextValue: TUserCtx = {
     userQuery,
     user: userQuery.data,
+    orgUser,
+    facilityUser,
     role,
     cleanRole,
     isError: userQuery.isError,
