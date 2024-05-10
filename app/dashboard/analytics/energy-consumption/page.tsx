@@ -17,13 +17,13 @@ import { capitalizeFirstLetter, getDateIndexes, setUrlParams } from '@/lib/utils
 const { year, monthIndex, dayIndex } = getDateIndexes();
 
 const EnergyConsumption = () => {
-  const { viewType, energy_type, refreshTime, unit, orgId, facilityId, tenantId } = usePathParams();
+  const { viewType, energy_type, refreshTime, orgId, facilityId, tenantId } = usePathParams();
 
   const [showFilterModal, setShowFilterModal] = React.useState(false);
 
-  const today = `${year}-0${monthIndex}-0${dayIndex}`;
+  const today = `${year}-0${monthIndex}-${dayIndex}`;
 
-  const q = `unit=${unit}&date=${today}&energy_type=${energy_type}`;
+  const q = `unit=${201}&date=${today}&energy_type=${energy_type}`;
 
   const analytics = useQuery({
     queryKey: ['analytics', energy_type, orgId, facilityId, tenantId],
