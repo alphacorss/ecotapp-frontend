@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import React from 'react';
 
 export default function RootLayout({
@@ -6,12 +7,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html>
-      <head>
+    <React.Fragment>
+      <Head>
         <link rel="icon" href="/headers/lock.svg" sizes="any" />
         <title>Ecotapp - Authentication</title>
-      </head>
-      <body>{children}</body>
-    </html>
+      </Head>
+      <div>{children}</div>
+    </React.Fragment>
   );
 }

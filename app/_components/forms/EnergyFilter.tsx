@@ -6,8 +6,10 @@ import { z } from 'zod';
 import { ComboBoxFormComponent } from '@/app/_components/utils/ComboBoxes';
 import { energyTypeArray } from '@/app/_constants/data';
 import Queries from '@/app/_context/Queries';
+import User from '@/app/_context/User';
 import useClearError from '@/app/_hooks/useClearError';
 import usePathParams from '@/app/_hooks/usePathParams';
+import { high, low, mid } from '@/app/dashboard/home/helpers';
 import { TFacility, TOrg, TFacilityUser } from '@/app/types';
 import { Button } from '@/components/ui/button';
 import { setUrlParams, zodInputValidators } from '@/lib/utils';
@@ -35,6 +37,9 @@ const EnergyFilter = ({
   setShowFilterModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const { facilityId, tenantId, orgId, viewType, energy_type, refreshTime } = usePathParams();
+  const { role, orgUser, facilityUser } = React.useContext(User);
+  const orgUserId = orgUser?.organization?._id;
+  const facilityUserId = facilityUser?.facility?._id;
 
   const {
     register,
@@ -46,8 +51,8 @@ const EnergyFilter = ({
   } = useForm<EnergyFilterProps>({
     defaultValues: {
       energy_type: energy_type || '',
-      organization: orgId || '',
-      facility: facilityId || '',
+      organization: orgId || orgUserId || '',
+      facility: facilityId || facilityUserId || '',
       tenant: tenantId || '',
       refreshTime: refreshTime || '',
     },
@@ -124,40 +129,46 @@ const EnergyFilter = ({
           register={register}
         />
 
-        <ComboBoxFormComponent
-          label="Organization"
-          data={orgsOption}
-          selectorName="organization"
-          setValue={setValue}
-          title="Organization"
-          watch={watch}
-          error={errors.organization?.message}
-          register={register}
-        />
+        {high.includes(role as string) && (
+          <ComboBoxFormComponent
+            label="Organization"
+            data={orgsOption}
+            selectorName="organization"
+            setValue={setValue}
+            title="Organization"
+            watch={watch}
+            error={errors.organization?.message}
+            register={register}
+          />
+        )}
 
-        <ComboBoxFormComponent
-          label="Facility"
-          data={facilitiesOption}
-          selectorName="facility"
-          setValue={setValue}
-          title="Facility"
-          watch={watch}
-          error={errors.facility?.message}
-          register={register}
-          disabled={!selectedOrg}
-        />
+        {(high.includes(role as string) || mid.includes(role as string)) && (
+          <ComboBoxFormComponent
+            label="Facility"
+            data={facilitiesOption}
+            selectorName="facility"
+            setValue={setValue}
+            title="Facility"
+            watch={watch}
+            error={errors.facility?.message}
+            register={register}
+            disabled={!selectedOrg}
+          />
+        )}
 
-        <ComboBoxFormComponent
-          label="Tenant"
-          data={tenantsOption}
-          selectorName="tenant"
-          setValue={setValue}
-          title="Tenant"
-          watch={watch}
-          error={errors.tenant?.message}
-          register={register}
-          disabled={!selectedFacility}
-        />
+        {(high.includes(role as string) || mid.includes(role as string) || low.includes(role as string)) && (
+          <ComboBoxFormComponent
+            label="Tenant"
+            data={tenantsOption}
+            selectorName="tenant"
+            setValue={setValue}
+            title="Tenant"
+            watch={watch}
+            error={errors.tenant?.message}
+            register={register}
+            disabled={!selectedFacility}
+          />
+        )}
 
         <div className="w-full flex items-center gap-5 mt-10">
           <Button

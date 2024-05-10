@@ -54,7 +54,7 @@ const HomePageTenant = () => {
 
   const nextMonth = chart.next_month_energy_forcast;
 
-  const maxPercentage = 99;
+  const maxPercentage = 99.9;
   const width = percentageIncrease > maxPercentage ? maxPercentage : percentageIncrease + 5;
 
   return (

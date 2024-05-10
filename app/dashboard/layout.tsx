@@ -1,5 +1,6 @@
 'use client';
 import { Poppins } from 'next/font/google';
+import Head from 'next/head';
 import React from 'react';
 
 import ProtectedRoutes from './ProtectedRoutes';
@@ -22,11 +23,11 @@ export default function RootLayout({
   const { isLoading, isFetching } = React.useContext(User);
 
   return (
-    <html>
-      <head>
+    <React.Fragment>
+      <Head>
         <title>Ecotapp - Dashboard</title>
-      </head>
-      <body className={poppins.className}>
+      </Head>
+      <div className={poppins.className}>
         {isLoading || isFetching ? (
           <PageLoader />
         ) : (
@@ -40,7 +41,7 @@ export default function RootLayout({
             </div>
           </ProtectedRoutes>
         )}
-      </body>
-    </html>
+      </div>
+    </React.Fragment>
   );
 }
