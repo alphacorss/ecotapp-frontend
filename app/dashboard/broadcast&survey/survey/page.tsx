@@ -145,7 +145,7 @@ const Survey = () => {
           )}
         </>
       ) : (
-        <EmptyState imgpath="//pages/survey-empty.svg" btnText="Create a survey" />
+        <EmptyState imgpath="/pages/survey-empty.svg" btnText="Create a survey" />
       )}
     </div>
   );
