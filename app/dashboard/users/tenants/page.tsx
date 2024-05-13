@@ -1,10 +1,10 @@
 'use client';
 import { ColumnDef } from '@tanstack/react-table';
-import { useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 
 import { AddEditTenant } from './components/TenantForm';
 import { TenantTableCoumns } from './components/TenantTableCoumns';
+import useTenant from './page.hook';
 import DataTable from '@/app/_components/table/Table';
 import GetItemModal from '@/app/_components/utils/GetItemModal';
 import Loader from '@/app/_components/utils/Loader';
@@ -12,60 +12,27 @@ import { ModalComponent } from '@/app/_components/utils/Modals';
 import { SuccessModalContent, DeleteModalContent } from '@/app/_components/utils/Modals';
 import SectionHeader from '@/app/_components/utils/SectionHeader';
 import ViewUser from '@/app/_components/view/ViewUser';
-import Main from '@/app/_context/Main';
-import Queries from '@/app/_context/Queries';
 import { Modals } from '@/app/_slices/ModalSlice';
-import { TFacilityUser } from '@/app/types';
 import { Button } from '@/components/ui/button';
-import { setUrlParams } from '@/lib/utils';
 
 export default function TenantsComponent() {
-  const router = useRouter();
-  const tenantId = useSearchParams().get('tenantId');
-  const tenantsCtx = React.useContext(Queries);
-  const { tenant, tenants, addTenant, editTenant, deleteTenant } = tenantsCtx;
-  const tenantData: TFacilityUser = tenant?.data?.data?.data?.user;
-  const tenantsData = tenants?.data?.data?.users ?? tenants?.data?.data?.data.users;
-
-  const { modalState, handleCloseModal, handleOpenModal } = React.useContext(Main);
-
-  const showDetailsModal = (id: string) => {
-    tenantsData.forEach((user: TFacilityUser) => {
-      if (user._id === id) {
-        setUrlParams({ tab: 'overview', tenantId: user._id });
-      }
-    });
-    tenant.refetch();
-    handleOpenModal(Modals.viewTenantModal);
-  };
-
-  const showDeleteModal = (id: string) => {
-    tenantsData.forEach((user: TFacilityUser) => {
-      if (user._id === id) {
-        setUrlParams({ tab: 'overview', tenantId: user._id });
-      }
-    });
-    handleCloseModal(Modals.viewTenantModal);
-    handleOpenModal(Modals.deleteTenantModal);
-  };
-
-  const closeModalFn = (modal: Modals) => {
-    router.push(`/dashboard/users/tenants`);
-    handleCloseModal(modal);
-    addTenant.reset();
-    editTenant.reset();
-  };
-
-  React.useEffect(() => {
-    if (tenantId) {
-      if (modalState.modals.deleteTenantModal) {
-        handleCloseModal(Modals.viewTenantModal);
-        return;
-      }
-      handleOpenModal(Modals.viewTenantModal);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tenantId]);
+  const {
+    facilityId,
+    addTenant,
+    tenant,
+    editTenant,
+    tenantId,
+    tenantData,
+    tenantsData,
+    modalState,
+    deleteTenant,
+    tenantsCtx,
+    handleOpenModal,
+    handleCloseModal,
+    closeModalFn,
+    showDetailsModal,
+    showDeleteModal,
+  } = useTenant();
 
   return (
     <div className="card min-h-full flex flex-col h-full">
@@ -86,11 +53,12 @@ export default function TenantsComponent() {
             user={tenantData}
             action="add"
             role="tenant"
+            facilityId={facilityId}
             handleOpenModal={handleOpenModal}
             handleCloseModal={handleCloseModal}
             modalToClose={Modals.addTenantModal}
             modalToOpen={Modals.addedTenantModal}
-            mutation={tenantsCtx.addTenant}
+            mutation={addTenant}
           />
         }
       />
@@ -125,11 +93,12 @@ export default function TenantsComponent() {
             user={tenantData}
             action="edit"
             role="tenant"
+            facilityId={facilityId}
             handleOpenModal={handleOpenModal}
             handleCloseModal={handleCloseModal}
             modalToClose={Modals.editTenantModal}
             modalToOpen={Modals.editedTenantModal}
-            mutation={tenantsCtx.editTenant}
+            mutation={editTenant}
           />
         }
       />
