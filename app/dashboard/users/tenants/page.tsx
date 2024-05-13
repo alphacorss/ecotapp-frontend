@@ -27,6 +27,7 @@ export default function TenantsComponent() {
     modalState,
     deleteTenant,
     tenantsCtx,
+    currentUser,
     handleOpenModal,
     handleCloseModal,
     closeModalFn,
@@ -51,6 +52,7 @@ export default function TenantsComponent() {
         content={
           <AddEditTenant
             user={tenantData}
+            currentUser={currentUser}
             action="add"
             role="tenant"
             facilityId={facilityId}
@@ -91,6 +93,7 @@ export default function TenantsComponent() {
         content={
           <AddEditTenant
             user={tenantData}
+            currentUser={currentUser}
             action="edit"
             role="tenant"
             facilityId={facilityId}
@@ -126,7 +129,7 @@ export default function TenantsComponent() {
           <SuccessModalContent
             actionBtnText="Go to User Management"
             title="Tenant Added Successfully"
-            message="You’ve successfully added a new Tenant to the System"
+            message="You’ve successfully added a new tenant to the system"
             onConfirm={() => closeModalFn(Modals.addedTenantModal)}
           />
         }
@@ -140,7 +143,7 @@ export default function TenantsComponent() {
           <SuccessModalContent
             actionBtnText="Go to User Management"
             title="Tenant Updated Successfully"
-            message="You’ve successfully update a Tenant to the System"
+            message="You’ve successfully updated a tenant in the system"
             onConfirm={() => {
               closeModalFn(Modals.editedTenantModal);
               handleCloseModal(Modals.viewTenantModal);

@@ -168,7 +168,7 @@ export default function OrganizationsComponent() {
           <SuccessModalContent
             actionBtnText="Go to Organizations"
             title="Organization Added Successfully"
-            message="You’ve successfully added a new Organization to the System"
+            message="You’ve successfully added a new organization to the system"
             onConfirm={() => closeModalFn(Modals.addedOrgModal)}
           />
         }
@@ -185,7 +185,7 @@ export default function OrganizationsComponent() {
           <SuccessModalContent
             actionBtnText="Ok"
             title="Organization Updated Successfully"
-            message="You’ve successfully update a Organization to the System"
+            message="You’ve successfully updated an organization in the system"
             onConfirm={() => {
               handleCloseModal(Modals.editedOrgModal);
               orgCtx.editOrg.reset();

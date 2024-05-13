@@ -51,12 +51,12 @@ export const userNav = [
   },
   {
     title: 'Facilities',
-    href: '/dashboard/users/facilities?vt=list&sb=facility',
+    href: '/dashboard/users/facilities?vt=list',
     allowedRoles: ['superadmin', 'psuedoadmin', 'organizationadmin', 'organizationmanager'],
   },
   {
     title: 'Tenants',
-    href: '/dashboard/users/tenants?sb=tenant',
+    href: '/dashboard/users/tenants',
     allowedRoles: ['superadmin', 'psuedoadmin', 'organizationadmin', 'organizationmanager', 'facilitymanager'],
   },
 ];

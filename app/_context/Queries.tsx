@@ -240,7 +240,7 @@ export function QueriesCtxProvider({ children }: React.PropsWithChildren<{}>) {
   };
 
   const tntQry = {
-    queryKey: ['tenants'],
+    queryKey: ['tenants', orgUserAdminId, facilityUserAdminId],
     queryFn: getTenantsQuery,
     enabled: defaultEnable && blockTenant,
     staleTime: 1000 * 60 * 60,
@@ -268,7 +268,7 @@ export function QueriesCtxProvider({ children }: React.PropsWithChildren<{}>) {
   };
 
   const facilityQry = {
-    queryKey: ['facilities'],
+    queryKey: ['facilities', orgUserAdminId, facilityUserAdminId],
     queryFn: getFacilitiesQuery,
     enabled: defaultEnable && blockTenant,
   };

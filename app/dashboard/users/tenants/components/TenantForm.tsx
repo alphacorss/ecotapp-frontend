@@ -19,6 +19,7 @@ import { capitalizeFirstLetter, zodInputValidators } from '@/lib/utils';
 
 type Props = {
   facilityId: string;
+  currentUser: TFacilityUser;
   user: TFacilityUser;
   action: 'add' | 'edit';
   role: TRole;
@@ -50,6 +51,7 @@ type FormFieldsUser = z.infer<typeof schema>;
 export const AddEditTenant = ({
   role,
   user,
+  currentUser,
   action,
   modalToOpen,
   modalToClose,
@@ -117,8 +119,8 @@ export const AddEditTenant = ({
   const availableFacilities: TComboBoxSelector[] = facilityId
     ? [
         {
-          label: user?.facility?.name,
-          value: user?.facility?._id,
+          label: currentUser?.facility?.name,
+          value: currentUser?.facility?._id,
         },
       ]
     : facilitiesList

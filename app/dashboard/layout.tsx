@@ -1,6 +1,6 @@
 'use client';
+import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
-import Head from 'next/head';
 import React from 'react';
 
 import ProtectedRoutes from './ProtectedRoutes';
@@ -15,6 +15,10 @@ const poppins = Poppins({
   weight: ['400', '500', '600', '700'],
 });
 
+export const meta: Metadata = {
+  title: 'Ecotapp - Dashboard',
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -24,9 +28,6 @@ export default function RootLayout({
 
   return (
     <React.Fragment>
-      <Head>
-        <title>Ecotapp - Dashboard</title>
-      </Head>
       <div className={poppins.className}>
         {isLoading || isFetching ? (
           <PageLoader />
