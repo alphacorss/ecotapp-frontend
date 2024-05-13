@@ -163,7 +163,7 @@ const AdminsTab = ({ org }: { org: TOrg }) => {
         content={
           <SuccessModalContent
             title="Organization Admin Added Successfully"
-            message="You’ve successfully added a new Organization Admin to the System"
+            message="You’ve successfully added a new organization admin to the system"
             onConfirm={() => handleCloseModal(Modals.addedOrgAdminModal)}
           />
         }
@@ -176,7 +176,7 @@ const AdminsTab = ({ org }: { org: TOrg }) => {
         content={
           <SuccessModalContent
             title="Organization Admin Updated Successfully"
-            message="You’ve successfully update a Organization Admin to the System"
+            message="You’ve successfully updated an organization admin in the system"
             onConfirm={() => {
               closeModalFn(Modals.editedOrgAdminModal);
               handleCloseModal(Modals.viewOrgAdminModal);

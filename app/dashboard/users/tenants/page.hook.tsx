@@ -12,7 +12,9 @@ const useTenant = () => {
   const tenantId = useSearchParams().get('tenantId');
   const tenantsCtx = React.useContext(Queries);
   const { tenant, tenants, addTenant, editTenant, deleteTenant } = tenantsCtx;
-  const tenantData = getUser() as TFacilityUser;
+  const tenantData: TFacilityUser = tenant?.data?.data?.data?.user;
+  const currentUser = getUser() as TFacilityUser;
+
   const tenantsData = tenants?.data?.data?.users ?? tenants?.data?.data?.data.users;
   const user = getUser() as TFacilityUser;
   const facilityId = user?.facility?._id;
@@ -59,6 +61,7 @@ const useTenant = () => {
   return {
     facilityId,
     tenantData,
+    currentUser,
     tenantsData,
     modalState,
     tenant,
