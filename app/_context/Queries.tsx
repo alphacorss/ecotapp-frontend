@@ -8,7 +8,65 @@ import { TFacilityUser, TMutationHandler, TOrgUser, TRole } from '../types';
 import qry from '@/lib/queries';
 import { getRole, getUser } from '@/lib/utils';
 
-const Queries = createContext({
+export type TQueriesCtx = {
+  // pseudo admins
+  pseudoAdmins: UseQueryResult<any, Error>;
+  pseudoAdmin: UseQueryResult<any, Error>;
+  addPseudoAdmin: TMutationHandler;
+  editPseudoAdmin: TMutationHandler;
+  deletePseudoAdmin: TMutationHandler;
+  // tenants
+  tenants: UseQueryResult<any, Error>;
+  addTenant: TMutationHandler;
+  editTenant: TMutationHandler;
+  deleteTenant: TMutationHandler;
+  tenant: UseQueryResult<any, Error>;
+  //facilities
+  facilities: UseQueryResult<any, Error>;
+  facility: UseQueryResult<any, Error>;
+  deleteFacility: TMutationHandler;
+  addFacility: TMutationHandler;
+  editFacility: TMutationHandler;
+  // facilities managers
+  facilityManagers: UseQueryResult<any, Error>;
+  addFacilityManager: TMutationHandler;
+  editFacilityManager: TMutationHandler;
+  facilityManager: UseQueryResult<any, Error>;
+  deleteFacilityManager: TMutationHandler;
+  //organizations
+  orgs: UseQueryResult<any, Error>;
+  org: UseQueryResult<any, Error>;
+  addOrg: TMutationHandler;
+  editOrg: TMutationHandler;
+  deleteOrg: TMutationHandler;
+  //orgAdmin
+  addOrgAdmin: TMutationHandler;
+  orgAdmins: UseQueryResult<any, Error>;
+  orgAdmin: UseQueryResult<any, Error>;
+  editOrgAdmin: TMutationHandler;
+  deleteOrgAdmin: TMutationHandler;
+  //orgManager
+  orgManagers: UseQueryResult<any, Error>;
+  addOrgManager: TMutationHandler;
+  orgManager: UseQueryResult<any, Error>;
+  editOrgManager: TMutationHandler;
+  deleteOrgManager: TMutationHandler;
+  // profile
+  updateProfile: TMutationHandler;
+  updatePassword: TMutationHandler;
+  // broadcast
+  sendMessage: TMutationHandler;
+  myMessages: UseQueryResult<any, Error>;
+  //survey
+  createSurvey: TMutationHandler;
+  mySurveys: UseQueryResult<any, Error>;
+  createdSurveys: UseQueryResult<any, Error>;
+  respondToSurvey: TMutationHandler;
+  deleteSurvey: TMutationHandler;
+  tenantDeleteSurvey: TMutationHandler;
+};
+
+const Queries = createContext<TQueriesCtx>({
   // pseudo admins
   pseudoAdmins: {} as UseQueryResult<any, Error>,
   pseudoAdmin: {} as UseQueryResult<any, Error>,
@@ -65,8 +123,6 @@ const Queries = createContext({
   deleteSurvey: {} as TMutationHandler,
   tenantDeleteSurvey: {} as TMutationHandler,
 });
-
-export type TQueriesCtx = typeof Queries;
 
 export function QueriesCtxProvider({ children }: React.PropsWithChildren<{}>) {
   const user = getUser();

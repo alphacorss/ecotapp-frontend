@@ -111,21 +111,12 @@ const Facilities = () => {
         setOpen={() => closeModalFn(Modals.viewFacilityModal)}
         contentClass="min-w-[min(90vw,900px)] max-h-[90svh] overflow-y-auto"
         content={
-          <>
-            {queryCtx.facility.isFetching || queryCtx.facility.isLoading ? (
-              <div className="grid w-full place-content-center">
-                <Loader />
-              </div>
-            ) : queryCtx.facility.isError ? (
-              <p className="text-error-300 text-center">Something went wrong, please try again later</p>
-            ) : (
-              <ViewBusinessDetails
-                facilityData={facilityData}
-                showDeleteModal={showDeleteModal}
-                showEditModal={showEditFacilityModal}
-              />
-            )}
-          </>
+          <ViewBusinessDetails
+            queryCtx={queryCtx}
+            facilityData={facilityData}
+            showDeleteModal={showDeleteModal}
+            showEditModal={showEditFacilityModal}
+          />
         }
       />
 
