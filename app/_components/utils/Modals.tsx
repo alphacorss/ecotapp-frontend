@@ -1,8 +1,8 @@
 'use client';
-import { Check } from 'iconsax-react';
-import { X } from 'lucide-react';
+import { Check, X } from 'lucide-react';
 import React from 'react';
 
+import Loader from './Loader';
 import { TMutationHandler } from '@/app/types';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
@@ -102,12 +102,13 @@ export const DeleteModalContent = ({
       <p className="text-xs font-[500] text-gray-500 -mt-2 mb-3 text-center">{message}</p>
       <div className="flex justify-center items-cente gap-4 w-full">
         <Button variant="destructive" className={`btn btn-secondary w-full`} onClick={handleDelete}>
-          {isPending ? 'Deleting...' : isSuccess ? 'Deleted' : 'Delete'}
+          {isPending ? <Loader /> : isSuccess ? 'Deleted' : 'Delete'}
         </Button>
         <Button variant="destructiveOutline" className="btn btn-primary w-full" onClick={onCancel}>
           Cancel
         </Button>
       </div>
+
       {isError && (
         <p className="text-xs font-[500] text-red-500  text-center">{(error as any).response?.data?.message}</p>
       )}

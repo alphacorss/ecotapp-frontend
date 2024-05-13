@@ -2,7 +2,7 @@ import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { z } from 'zod';
 
-import { TRole, TSurveyData } from '@/app/types';
+import { TFacilityUser, TOrgUser, TRole, TSurveyData } from '@/app/types';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -24,6 +24,16 @@ export const getRole = (): TRole | undefined => {
         .find((c) => c.trim().startsWith('role='))
         ?.split('=')[1] as TRole)
     : undefined;
+};
+
+export const getUser = () => {
+  const role = getRole();
+  const userObj = sessionStorage.getItem('@user');
+  const user = userObj ? JSON.parse(userObj) : {};
+
+  if (role === 'organizationadmin' || role === 'organizationmanager') {
+    return user as TOrgUser;
+  } else return user as TFacilityUser;
 };
 
 export const clearCookies = () => {
@@ -135,7 +145,7 @@ export const zodInputValidators = {
   dropDown: z.string().min(1, { message: 'Please select an option' }),
   longText: z.string().min(3, { message: 'Minimum 3 characters' }),
   dateRange: z.string().min(1, { message: 'Please select a date range' }),
-  optionalDropDown: z.string().optional(),
+  optionalDropDown: z.union([z.string().min(1, { message: 'Please select an option' }).nullish(), z.literal('')]),
   message: z.string().min(3, { message: 'Minimum 3 characters' }),
   refreshTime: z.string().min(1, { message: 'Please select an option' }),
 };

@@ -13,8 +13,13 @@ const listFacilityByOrgId = async (id: string) => {
   return response;
 };
 
-const listTenantByFacilityRq = async (orgId: string) => {
-  const response = await axios.get(`${baseUrl}/profile/listtenant/${orgId}`);
+const listTenantByFacilityRq = async (facilityId: string) => {
+  const response = await axios.get(`${baseUrl}/profile/listtenant/${facilityId}`);
+  return response;
+};
+
+const listTenantByOrgRq = async (orgId: string) => {
+  const response = await axios.get(`${baseUrl}/profile/listtenantbyorg/${orgId}`);
   return response;
 };
 
@@ -225,6 +230,7 @@ const realTimeRq = async (q: string) => {
 export default {
   listByRoleRq,
   listFacilityByOrgId,
+  listTenantByOrgRq,
   listTenantByFacilityRq,
   listByRoleByOrgId,
   getUserRq,

@@ -7,12 +7,7 @@ import TableContext from '@/app/_components/table/TableContext';
 import { TableHeader } from '@/app/_components/table/TableHeader';
 import { TFacility } from '@/app/types';
 
-export const FacilityColumn = (
-  // eslint-disable-next-line no-unused-vars
-  showDeleteModal: (id: string) => void,
-  // eslint-disable-next-line no-unused-vars
-  showDetailsModal: (id: string) => void,
-) => {
+export const FacilityColumn = (showDeleteModal: (id: string) => void, showDetailsModal: (id: string) => void) => {
   const columns: ColumnDef<TFacility>[] = [
     {
       accessorKey: '_id',

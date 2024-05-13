@@ -1,13 +1,12 @@
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import React, { createContext } from 'react';
 
-import User from './User';
 import { useHandleMutation } from '../_hooks/useHandleMutation';
 import usePathParams from '../_hooks/usePathParams';
 import { high, mid } from '../dashboard/home/helpers';
-import { TMutationHandler, TRole } from '../types';
+import { TFacilityUser, TMutationHandler, TOrgUser, TRole } from '../types';
 import qry from '@/lib/queries';
-import { getRole } from '@/lib/utils';
+import { getRole, getUser } from '@/lib/utils';
 
 const Queries = createContext({
   // pseudo admins
@@ -70,10 +69,11 @@ const Queries = createContext({
 export type TQueriesCtx = typeof Queries;
 
 export function QueriesCtxProvider({ children }: React.PropsWithChildren<{}>) {
-  const { role, orgUser, facilityUser } = React.useContext(User);
+  const user = getUser();
+  const role = user.user?.role[0] as TRole;
 
-  const orgUserAdminId = orgUser?.organization?._id;
-  const facilityUserAdminId = facilityUser?.facility?._id;
+  const orgUserAdminId = (user as TOrgUser)?.organization?._id;
+  const facilityUserAdminId = (user as TFacilityUser)?.facility?._id;
 
   const {
     pseudoAdminId,
@@ -150,14 +150,6 @@ export function QueriesCtxProvider({ children }: React.PropsWithChildren<{}>) {
     [orgManagers],
   );
 
-  //facilities
-  const facilities = useQuery({
-    queryKey: ['facilities'],
-    queryFn: () =>
-      high.includes(role as string) ? qry.getFacilitiesRq() : qry.listFacilityByOrgId(orgUserAdminId as string),
-    enabled: defaultEnable && blockTenant,
-  });
-
   //facility managers
   const facilityManagers = useQuery({
     queryKey: ['facilitymanagers'],
@@ -181,17 +173,24 @@ export function QueriesCtxProvider({ children }: React.PropsWithChildren<{}>) {
   const editFacilityManager = useHandleMutation(qry.editUserRq, [facilityManagers]);
 
   //tenants
-  const tenants = useQuery({
+  const getTenantsQuery = () => {
+    if (high.includes(role as string)) {
+      return qry.listByRoleRq('tenant');
+    } else {
+      return mid.includes(role as string)
+        ? qry.listTenantByOrgRq(orgUserAdminId as string)
+        : qry.listTenantByFacilityRq(facilityUserAdminId as string);
+    }
+  };
+
+  const tntQry = {
     queryKey: ['tenants'],
-    queryFn: () =>
-      high.includes(role as string)
-        ? qry.listByRoleRq('tenant' as TRole)
-        : mid.includes(role as string)
-          ? qry.listTenantByFacilityRq(orgUserAdminId as string)
-          : qry.listTenantByFacilityRq(facilityUserAdminId as string),
+    queryFn: getTenantsQuery,
     enabled: defaultEnable && blockTenant,
     staleTime: 1000 * 60 * 60,
-  });
+  };
+
+  const tenants = useQuery(tntQry);
 
   const tenant = useQuery({
     queryKey: ['tenant', tenantId],
@@ -202,6 +201,23 @@ export function QueriesCtxProvider({ children }: React.PropsWithChildren<{}>) {
   const addTenant = useHandleMutation(qry.addUserRq, [tenants]);
   const editTenant = useHandleMutation(qry.editUserRq, [tenants]);
   const deleteTenant = useHandleMutation(() => qry.deleteUserRq(tenantId as string, 'tenant'), [tenants]);
+
+  //facilities
+  const getFacilitiesQuery = () => {
+    if (high.includes(role as string)) {
+      return qry.getFacilitiesRq();
+    } else {
+      return qry.listFacilityByOrgId(orgUserAdminId as string);
+    }
+  };
+
+  const facilityQry = {
+    queryKey: ['facilities'],
+    queryFn: getFacilitiesQuery,
+    enabled: defaultEnable && blockTenant,
+  };
+
+  const facilities = useQuery(facilityQry);
 
   const facility = useQuery({
     queryKey: ['facility', facilityId],
