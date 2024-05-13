@@ -208,7 +208,7 @@ export function ComboBoxFormComponent({
   const [open, setOpen] = React.useState(false);
   const value = watch(selectorName);
 
-  const name = data?.find((item) => item?.value === value)?.label;
+  const name = data?.find((item) => item?.value === value || (defaultValue && item?.value === defaultValue))?.label;
 
   return (
     <Popover modal open={open} onOpenChange={setOpen}>

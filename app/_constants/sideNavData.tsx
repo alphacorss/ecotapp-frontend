@@ -1,5 +1,4 @@
 import { Graph, Home2, LogoutCurve, Messages1, Setting2, UserEdit } from 'iconsax-react';
-import Image from 'next/image';
 
 export const sideNavItems = [
   {
@@ -19,19 +18,19 @@ export const sideNavItems = [
     href: '/dashboard/analytics/energy-consumption',
     allowedRoles: ['superadmin', 'psuedoadmin', 'organizationadmin', 'organizationmanager', 'facilitymanager'],
   },
-  {
-    title: 'Carbon Trading',
-    icon: (color: 'white' | 'gray') => (
-      <Image
-        alt=""
-        width={25}
-        height={25}
-        src="/icons/carbon-accounting.svg"
-        className={`size-[25px] min-w-fit object-contain object-center ${color === 'white' ? 'filter brightness-200' : ''}`}
-      />
-    ),
-    href: '/dashboard/carbon-trading',
-  },
+  // {
+  //   title: 'Carbon Trading',
+  //   icon: (color: 'white' | 'gray') => (
+  //     <Image
+  //       alt=""
+  //       width={25}
+  //       height={25}
+  //       src="/icons/carbon-accounting.svg"
+  //       className={`size-[25px] min-w-fit object-contain object-center ${color === 'white' ? 'filter brightness-200' : ''}`}
+  //     />
+  //   ),
+  //   href: '/dashboard/carbon-trading',
+  // },
   {
     title: 'Broadcast & Survey',
     icon: (color: 'white' | 'gray') => <Messages1 size={20} color={color} />,

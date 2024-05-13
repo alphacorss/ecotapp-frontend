@@ -18,6 +18,7 @@ import { Button } from '@/components/ui/button';
 import { capitalizeFirstLetter, zodInputValidators } from '@/lib/utils';
 
 type Props = {
+  facilityId: string;
   user: TFacilityUser;
   action: 'add' | 'edit';
   role: TRole;
@@ -53,6 +54,7 @@ export const AddEditTenant = ({
   modalToOpen,
   modalToClose,
   mutation,
+  facilityId,
   handleCloseModal,
   handleOpenModal,
 }: Props) => {
@@ -72,7 +74,7 @@ export const AddEditTenant = ({
       email: user?.user?.email,
       country: user?.user?.phone?.split('-')[0],
       phone: user?.user?.phone?.split('-')[1],
-      facilityId: user?.facility?._id,
+      facilityId: facilityId ? facilityId : user?.facility?._id,
     },
     reValidateMode: 'onChange',
     resolver: zodResolver(schema),
@@ -110,14 +112,21 @@ export const AddEditTenant = ({
   const cleanRole = capitalizeFirstLetter(role.replace(/([A-Z])/g, ' $1').trim());
 
   const facilities = React.useContext(Queries).facilities;
+  const facilitiesList = facilities.data?.data.facilities ?? facilities.data?.data?.data?.facilities;
 
-  const availableFacilities: TComboBoxSelector[] =
-    facilities.data?.data.facilities
-      ?.filter((facility: TFacility) => facility.organization?._id)
-      .map((facility: TFacility) => ({
-        label: facility.name,
-        value: facility._id,
-      })) || [];
+  const availableFacilities: TComboBoxSelector[] = facilityId
+    ? [
+        {
+          label: user?.facility?.name,
+          value: user?.facility?._id,
+        },
+      ]
+    : facilitiesList
+        ?.filter((facility: TFacility) => facility.organization?._id)
+        .map((facility: TFacility) => ({
+          label: facility.name,
+          value: facility._id,
+        }));
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
@@ -143,6 +152,7 @@ export const AddEditTenant = ({
           setValue={setValue}
           watch={watch}
           selectorName={'facilityId'}
+          disabled={!!facilityId}
         />
       </div>
       <div className="grid sm:grid-cols-2 gap-5">

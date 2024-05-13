@@ -14,9 +14,10 @@ import BackendError from '@/app/_components/utils/FormError';
 import Queries from '@/app/_context/Queries';
 import useClearError from '@/app/_hooks/useClearError';
 import { Modals } from '@/app/_slices/ModalSlice';
-import { TFacility, TFacilityTabs, TMutationHandler } from '@/app/types';
+import { high } from '@/app/dashboard/home/helpers';
+import { TFacility, TFacilityTabs, TMutationHandler, TOrgUser } from '@/app/types';
 import { Button } from '@/components/ui/button';
-import { zodInputValidators } from '@/lib/utils';
+import { getUser, zodInputValidators } from '@/lib/utils';
 
 const siteId = zodInputValidators.twoNumbers;
 const name = zodInputValidators.longText;
@@ -60,13 +61,16 @@ const AddEditFacility = ({
   mutation: TMutationHandler;
   modalToClose: Modals;
   modalToOpen: Modals;
-  // eslint-disable-next-line no-unused-vars
   handleCloseModal: (modal: Modals) => void;
-  // eslint-disable-next-line no-unused-vars
   handleOpenModal: (modal: Modals) => void;
 }) => {
-  const facilityQueries = React.useContext(Queries);
-  const { facility } = facilityQueries;
+  const user = getUser() as TOrgUser;
+  const role = user?.user?.role[0];
+
+  const orgId = user?.organization?._id;
+  const orgUser = user?.organization;
+
+  const { facility } = React.useContext(Queries);
   const { mutate, isPending, isSuccess, isError, error } = mutation;
   const [activeTab, setActiveTab] = React.useState<TFacilityTabs>('form');
   const [validTabs, setValidTabs] = React.useState<Record<string, boolean>>({
@@ -99,8 +103,9 @@ const AddEditFacility = ({
     resolver: zodResolver(schema),
     defaultValues: {
       ...facilityData,
-      organizationId: facilityData?.organization._id,
+      organizationId: high.includes(role as string) ? facilityData?.organization._id : orgId,
     },
+    reValidateMode: 'onChange',
   });
 
   useClearError(errors, clearErrors);
@@ -125,12 +130,24 @@ const AddEditFacility = ({
     if (isSuccess) {
       handleCloseModal(modalToClose);
       handleOpenModal(modalToOpen);
+      mutation.reset();
       reset();
     } else if (error) {
       const errorMessage = (error as any).response?.data?.message;
       setError('root', { message: errorMessage });
     }
-  }, [action, error, handleCloseModal, handleOpenModal, isSuccess, modalToClose, modalToOpen, reset, setError]);
+  }, [
+    action,
+    error,
+    handleCloseModal,
+    handleOpenModal,
+    isSuccess,
+    modalToClose,
+    modalToOpen,
+    mutation,
+    reset,
+    setError,
+  ]);
 
   const handleCancel = () => {
     handleCloseModal(modalToClose);
@@ -146,6 +163,7 @@ const AddEditFacility = ({
       <TabIndicator validTabs={validTabs} activeTab={activeTab} />
       {activeTab === 'form' && (
         <FormOne
+          orgUser={orgUser}
           watch={watch}
           errors={errors}
           trigger={trigger}

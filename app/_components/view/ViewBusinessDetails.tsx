@@ -5,18 +5,22 @@ import React from 'react';
 import AdminsTab from '../../dashboard/users/organizations/components/tabs/admins/AdminsTab';
 import { Btns } from '../../dashboard/users/organizations/components/tabs/Buttons';
 import ManagersTab from '../../dashboard/users/organizations/components/tabs/managers/ManagersTab';
+import Loader from '../utils/Loader';
 import { viewDetailsTabs } from '@/app/_constants/data';
+import { TQueriesCtx } from '@/app/_context/Queries';
 import FacilityManagersTab from '@/app/dashboard/users/facilities/components/FacilityManagersTab';
 import FacilityOverviewsTab from '@/app/dashboard/users/facilities/components/overview/OverviewsTab';
 import ManagersOverviewTab from '@/app/dashboard/users/organizations/components/tabs/overview/OverviewsTab';
 import { TFacility, TSingleOrg } from '@/app/types';
 
 const ViewBusinessDetails = ({
+  queryCtx,
   orgData,
   facilityData,
   showDeleteModal,
   showEditModal,
 }: {
+  queryCtx: TQueriesCtx;
   orgData?: TSingleOrg;
   facilityData?: TFacility;
   showDeleteModal: (id: string) => void;
@@ -24,6 +28,23 @@ const ViewBusinessDetails = ({
 }) => {
   const tab = useSearchParams().get('tab');
   const name = orgData?.organization.name || facilityData?.name;
+
+  const isLoading =
+    queryCtx.orgs.isFetching || queryCtx.orgs.isLoading || queryCtx.facility.isFetching || queryCtx.facility.isLoading;
+
+  const isError = queryCtx.orgs.isError || queryCtx.facility.isError;
+
+  if (isLoading) {
+    return (
+      <div className="grid w-full place-content-center">
+        <Loader />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return <p className="text-error-300 text-center">Something went wrong, please try again later</p>;
+  }
 
   return (
     <div className="w-full">
