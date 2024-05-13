@@ -10,9 +10,9 @@ import User from '@/app/_context/User';
 import useClearError from '@/app/_hooks/useClearError';
 import usePathParams from '@/app/_hooks/usePathParams';
 import { high, low, mid } from '@/app/dashboard/home/helpers';
-import { TFacility, TOrg, TFacilityUser } from '@/app/types';
+import { TFacility, TOrg, TFacilityUser, TOrgUser } from '@/app/types';
 import { Button } from '@/components/ui/button';
-import { setUrlParams, zodInputValidators } from '@/lib/utils';
+import { getUser, setUrlParams, zodInputValidators } from '@/lib/utils';
 
 const energy_type = zodInputValidators.dropDown;
 const organization = zodInputValidators.optionalDropDown;
@@ -37,7 +37,11 @@ const EnergyFilter = ({
   setShowFilterModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const { facilityId, tenantId, orgId, viewType, energy_type, refreshTime } = usePathParams();
-  const { role, orgUser, facilityUser } = React.useContext(User);
+  const { role } = React.useContext(User);
+
+  const orgUser = getUser() as TOrgUser;
+  const facilityUser = getUser() as TFacilityUser;
+
   const orgUserId = orgUser?.organization?._id;
   const facilityUserId = facilityUser?.facility?._id;
 

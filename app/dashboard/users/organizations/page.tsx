@@ -131,6 +131,7 @@ export default function OrganizationsComponent() {
           <GetItemModal
             component={
               <ViewBusinessDetails
+                queryCtx={orgCtx}
                 orgData={orgData}
                 showEditModal={showEditOrgModal}
                 showDeleteModal={showDeleteModal}

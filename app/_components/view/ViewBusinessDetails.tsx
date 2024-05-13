@@ -29,7 +29,12 @@ const ViewBusinessDetails = ({
   const tab = useSearchParams().get('tab');
   const name = orgData?.organization.name || facilityData?.name;
 
-  if (queryCtx.facility.isFetching || queryCtx.facility.isLoading) {
+  const isLoading =
+    queryCtx.orgs.isFetching || queryCtx.orgs.isLoading || queryCtx.facility.isFetching || queryCtx.facility.isLoading;
+
+  const isError = queryCtx.orgs.isError || queryCtx.facility.isError;
+
+  if (isLoading) {
     return (
       <div className="grid w-full place-content-center">
         <Loader />
@@ -37,7 +42,7 @@ const ViewBusinessDetails = ({
     );
   }
 
-  if (queryCtx.facility.isError) {
+  if (isError) {
     return <p className="text-error-300 text-center">Something went wrong, please try again later</p>;
   }
 
