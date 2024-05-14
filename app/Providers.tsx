@@ -11,12 +11,6 @@ import { UserCtxProvider } from './_context/User';
 import { store } from './store';
 import { ProvidersProps } from './types';
 
-const posthogKey = process.env.NEXT_PUBLIC_POSTHOG_KEY || '';
-
-posthog.init(posthogKey, {
-  api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
-});
-
 const Providers = ({ children }: ProvidersProps) => {
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -26,6 +20,14 @@ const Providers = ({ children }: ProvidersProps) => {
       },
     },
   });
+
+  if (typeof window !== 'undefined') {
+    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
+      api_host: '/ingest',
+      ui_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+      capture_pageview: false,
+    });
+  }
 
   return (
     <PostHogProvider client={posthog}>
