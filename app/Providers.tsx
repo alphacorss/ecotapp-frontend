@@ -11,10 +11,10 @@ import { UserCtxProvider } from './_context/User';
 import { store } from './store';
 import { ProvidersProps } from './types';
 
-const posthogKey = process.env.REACT_APP_PUBLIC_POSTHOG_KEY || '';
+const posthogKey = process.env.NEXT_PUBLIC_POSTHOG_KEY || '';
 
 posthog.init(posthogKey, {
-  api_host: process.env.REACT_APP_PUBLIC_POSTHOG_HOST,
+  api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
 });
 
 const Providers = ({ children }: ProvidersProps) => {
