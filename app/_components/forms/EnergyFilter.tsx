@@ -71,14 +71,19 @@ const EnergyFilter = ({
     label: org.name,
     value: org._id,
   }));
-  const facilitiesOption = facilities.data?.data.facilities
+
+  const facilitiesArry = facilities.data?.data.facilities ?? facilities.data?.data?.data?.facilities;
+
+  const facilitiesOption = facilitiesArry
     .filter((facility: TFacility) => facility.organization._id === selectedOrg)
     .map((facility: TFacility) => ({
       label: facility.name,
       value: facility._id,
     }));
 
-  const tenantsOption = tenants.data?.data?.users
+  const tenantsArry = tenants.data?.data?.users ?? tenants.data?.data?.data?.users;
+
+  const tenantsOption = tenantsArry
     .filter((user: TFacilityUser) => user.facility._id === selectedFacility)
     .map((user: TFacilityUser) => ({
       label: user.user.firstName + ' ' + user.user.lastName,
