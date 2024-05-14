@@ -1,6 +1,8 @@
 'use client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
+import posthog from 'posthog-js';
+import { PostHogProvider } from 'posthog-js/react';
 import React from 'react';
 import { Provider } from 'react-redux';
 
@@ -19,14 +21,24 @@ const Providers = ({ children }: ProvidersProps) => {
     },
   });
 
+  if (typeof window !== 'undefined') {
+    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
+      api_host: '/ingest',
+      ui_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+      capture_pageview: false,
+    });
+  }
+
   return (
-    <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <UserCtxProvider>
-          <MainCtxProvider>{children}</MainCtxProvider>
-        </UserCtxProvider>
-      </QueryClientProvider>
-    </Provider>
+    <PostHogProvider client={posthog}>
+      <Provider store={store}>
+        <QueryClientProvider client={queryClient}>
+          <UserCtxProvider>
+            <MainCtxProvider>{children}</MainCtxProvider>
+          </UserCtxProvider>
+        </QueryClientProvider>
+      </Provider>
+    </PostHogProvider>
   );
 };
 

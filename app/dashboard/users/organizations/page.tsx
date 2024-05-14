@@ -84,6 +84,7 @@ export default function OrganizationsComponent() {
             component={
               <ViewBusinessDetails
                 orgData={orgData}
+                closeModalFn={closeModalFn}
                 showEditModal={showEditOrgModal}
                 showDeleteModal={showDeleteModal}
               />

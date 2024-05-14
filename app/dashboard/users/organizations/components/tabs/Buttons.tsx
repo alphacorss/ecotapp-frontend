@@ -2,6 +2,7 @@ import { Diagram, Edit2, Trash } from 'iconsax-react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
+import { Modals } from '@/app/_slices/ModalSlice';
 import { Button } from '@/components/ui/button';
 
 export const Btns = ({
@@ -10,12 +11,16 @@ export const Btns = ({
   type,
   showDeleteModal,
   showEditModal,
+  closeModalFn,
+  modalToClose,
 }: {
   orgId?: string;
   facilityId?: string;
   type: string;
   showDeleteModal: (id: string) => void;
   showEditModal: (id: string) => void;
+  closeModalFn: (modal: Modals) => void;
+  modalToClose: Modals;
 }) => {
   const router = useRouter();
   const id = type === 'org' ? orgId : facilityId;
@@ -27,13 +32,14 @@ export const Btns = ({
       <Button
         className="flex gap-3 w-full"
         variant="outline"
-        onClick={() =>
+        onClick={() => {
+          closeModalFn(modalToClose);
           router.push(
-            `/dashboard/analytics/energy-consumption?vt=analytics&filter=true&from=03-12-24&to=03-28-24&energyType=electricity&${
+            `/dashboard/analytics/energy-consumption?vt=analytics&filter=true&from=03-12-24&to=03-28-24&energy_type=electricity&${
               type === 'org' && `orgId=${id}`
             }&${type === 'facility' && `facilityId=${facilityId}&orgId=${orgId}`}`,
-          )
-        }
+          );
+        }}
       >
         <Diagram className="w-4 h-4" />
         View Analytics

@@ -6,6 +6,7 @@ import AdminsTab from '../../dashboard/users/organizations/components/tabs/admin
 import { Btns } from '../../dashboard/users/organizations/components/tabs/Buttons';
 import ManagersTab from '../../dashboard/users/organizations/components/tabs/managers/ManagersTab';
 import { viewDetailsTabs } from '@/app/_constants/data';
+import { Modals } from '@/app/_slices/ModalSlice';
 import FacilityManagersTab from '@/app/dashboard/users/facilities/components/FacilityManagersTab';
 import FacilityOverviewsTab from '@/app/dashboard/users/facilities/components/overview/OverviewsTab';
 import OrgOverviewTab from '@/app/dashboard/users/organizations/components/tabs/overview/OrgOverviewTab';
@@ -16,11 +17,13 @@ const ViewBusinessDetails = ({
   facilityData,
   showDeleteModal,
   showEditModal,
+  closeModalFn,
 }: {
   orgData?: TSingleOrg;
   facilityData?: TFacility;
   showDeleteModal: (id: string) => void;
   showEditModal: (id: string) => void;
+  closeModalFn: (modal: Modals) => void;
 }) => {
   const tab = useSearchParams().get('tab');
   const name = orgData?.organization.name || facilityData?.name;
@@ -73,6 +76,8 @@ const ViewBusinessDetails = ({
             )}
             {tab === 'overview' && (
               <Btns
+                modalToClose={Modals.viewOrgModal}
+                closeModalFn={closeModalFn}
                 orgId={orgData.organization._id}
                 showDeleteModal={showDeleteModal}
                 showEditModal={showEditModal}
@@ -91,6 +96,8 @@ const ViewBusinessDetails = ({
             {tab === 'overview' && (
               <>
                 <Btns
+                  modalToClose={Modals.viewFacilityModal}
+                  closeModalFn={closeModalFn}
                   orgId={facilityData.organization._id}
                   facilityId={facilityData._id}
                   showDeleteModal={showDeleteModal}

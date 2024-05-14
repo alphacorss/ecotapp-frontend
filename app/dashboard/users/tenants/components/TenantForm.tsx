@@ -186,7 +186,7 @@ export const AddEditTenant = ({
           selectorError={errors.country?.message}
         />
       </div>
-      <div className="w-full flex flex-col sm:flex-row justify-center items-center gap-5 mt-12">
+      <div className="w-full flex flex-col sm:flex-row justify-center items-center gap-5 mt-12 mb-3">
         <Button
           type="button"
           onClick={() => {

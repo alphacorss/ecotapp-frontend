@@ -1,6 +1,7 @@
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
+import posthog from 'posthog-js';
 import React, { createContext } from 'react';
 
 import useSessionStorage from '../_hooks/useSessionStorage';
@@ -32,7 +33,7 @@ export function UserCtxProvider({ children }: React.PropsWithChildren<{}>) {
   const path = usePathname();
   const role = getRole();
   const token = getToken();
-  const [user, setUser] = useSessionStorage('@user', {});
+  const [user, setUser] = useSessionStorage('@user', {} as TUser);
   const [cleanRole, setCleanRole] = React.useState('');
 
   const userQuery = useQuery({
@@ -54,6 +55,7 @@ export function UserCtxProvider({ children }: React.PropsWithChildren<{}>) {
     }
 
     setUser(userQuery.data);
+
     switch (userQuery.data?.user?.role[0]) {
       case 'superadmin':
         setCleanRole('Super Admin');
@@ -78,6 +80,18 @@ export function UserCtxProvider({ children }: React.PropsWithChildren<{}>) {
         break;
     }
   }, [path, router, setUser, token, user, userQuery]);
+
+  React.useEffect(() => {
+    if (user.user) {
+      posthog.identify(user.user._id, {
+        email: user.user.email,
+        name: `${user.user.firstName} ${user.user.lastName}`,
+        role: user.user.role[0],
+      });
+    } else if (!user.user) {
+      posthog.reset();
+    }
+  }, [user.user]);
 
   const contextValue: TUserCtx = {
     userQuery,

@@ -110,11 +110,12 @@ const Facilities = () => {
       <ModalComponent
         open={modalState.modals.viewFacilityModal}
         setOpen={() => closeModalFn(Modals.viewFacilityModal)}
-        contentClass="min-w-[min(90vw,900px)] max-h-[90svh] overflow-y-auto"
+        contentClass="min-w-[min(90vw,1000px)] max-h-[90svh] overflow-y-auto"
         content={
           <GetItemModal
             component={
               <ViewBusinessDetails
+                closeModalFn={closeModalFn}
                 facilityData={facilityData}
                 showDeleteModal={showDeleteModal}
                 showEditModal={showEditFacilityModal}
