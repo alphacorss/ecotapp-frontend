@@ -1,6 +1,8 @@
 import { Loader2 } from 'lucide-react';
 import React from 'react';
+
 import './Loader.css';
+import { cn } from '@/lib/utils';
 
 const Loader = (props: any) => {
   return <Loader2 size={24} className="animate-spin" {...props} />;
@@ -45,8 +47,8 @@ export const HomeMainLoader = () => {
   );
 };
 
-export const BoxLoader = () => {
-  return <div className="h-[45px] border w-[100px] animate-pulse bg-gray-200 rounded-md"></div>;
+export const BoxLoader = ({ className }: { className?: string }) => {
+  return <div className={cn('h-[45px] border w-[100px] animate-pulse bg-gray-200 rounded-md', className)}></div>;
 };
 
 export const ChartLoader = ({ showTop, showBottom }: { showTop?: boolean; showBottom?: boolean }) => {

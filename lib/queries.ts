@@ -1,6 +1,6 @@
 import axios from './middleware';
 import { TFormUser, TRole } from '@/app/types';
-import { baseUrl } from '@/lib/utils';
+import { baseUrl, getDateIndexes } from '@/lib/utils';
 
 //lists
 const listByRoleRq = async (role: TRole) => {
@@ -205,7 +205,15 @@ const homeCardsFacilityRq = async (q: string, faciltyId: string) => {
   return response;
 };
 
-const homeChartsRq = async (date: string, unit: string) => {
+const { dayIndex, monthIndex, year } = getDateIndexes();
+const homeChartsRq = async (unit: string) => {
+  const response = await axios.get(
+    `${baseUrl}/statistic/energyStat/history?date=${`${year}-${monthIndex}-${dayIndex}`}&unit=${unit}`,
+  );
+  return response;
+};
+
+const homePieChartsRq = async (date: string, unit: string) => {
   const response = await axios.get(`${baseUrl}/statistic/energyStat/history?date=${date}&unit=${unit}`);
   return response;
 };
@@ -263,6 +271,7 @@ export default {
   homeCardsLowAdmisnRq,
   homeCardsFacilityRq,
   homeChartsRq,
+  homePieChartsRq,
   homeChartsTntRq,
   analyticsRq,
   realTimeRq,

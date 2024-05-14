@@ -1,26 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 
+import PieHomeComponent from './PieHomeComponent';
 import BarComponent from '@/app/_components/charts/BarChart';
-import { PieComponent } from '@/app/_components/charts/PieChart';
-import { ChartLoader, HomeMainLoader } from '@/app/_components/utils/Loader';
-import { SelectComponent } from '@/app/_components/utils/SelectComponent';
-import { chartSelectOptions } from '@/app/_constants/data';
-import useLocalStorage from '@/app/_hooks/useLocalStorage';
+import { HomeMainLoader } from '@/app/_components/utils/Loader';
 import qry from '@/lib/queries';
-import { futurePercentage, getDateIndexes } from '@/lib/utils';
+import { futurePercentage } from '@/lib/utils';
 
-const { year, monthIndex, dayIndex } = getDateIndexes();
-const HomeMain = () => {
-  const [selected, setSelected] = useLocalStorage(`@homeChart`, `${year}-${monthIndex}-${dayIndex}`);
-
-  const handleSelect = (value: string) => {
-    setSelected(value);
-  };
-
+const HomeMain = ({ orgId, title }: { orgId?: string; title?: string }) => {
   const homeChart = useQuery({
-    queryKey: ['homeChart', selected],
-    queryFn: () => qry.homeChartsRq(selected, '201'),
+    queryKey: ['homeChart'],
+    queryFn: () => qry.homeChartsRq('201'),
     retry: 0,
     refetchOnMount: false,
   });
@@ -35,7 +25,7 @@ const HomeMain = () => {
   return (
     <div className="card flex-1">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-lg font-[600] text-gray-600">Total Energy Consumption</h1>
+        <h1 className="text-lg font-[600] text-gray-600">{title ? title : 'Total Energy Consumption'}</h1>
       </div>
 
       <div className="flex w-full h-full gap-5">
@@ -61,19 +51,7 @@ const HomeMain = () => {
           </div>
         </div>
 
-        <div className="flex-[2] h-auto flex flex-col justify-between border p-[20px] rounded-[var(--rounded)]">
-          <div className="grid place-content-end">
-            <SelectComponent
-              className="h-[100px]"
-              title="Filter"
-              defaultValue={selected}
-              array={chartSelectOptions}
-              handleSelect={handleSelect}
-            />
-          </div>
-
-          <>{homeChart.isLoading ? <ChartLoader /> : <PieComponent data={chart.current_month_energy_breakdown} />}</>
-        </div>
+        <PieHomeComponent />
       </div>
     </div>
   );
