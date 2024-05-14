@@ -4,10 +4,11 @@ import { useDispatch } from 'react-redux';
 
 import ViewModalInfo from '@/app/_components/view/ViewModalInfo';
 import { Modals, closeModal } from '@/app/_slices/ModalSlice';
+import HomeMain from '@/app/dashboard/home/_components/HomeMain';
 import { TSingleOrg } from '@/app/types';
 import { Button } from '@/components/ui/button';
 
-const OverviewsTab = ({ singleOrg }: { singleOrg: TSingleOrg }) => {
+const OrgOverviewTab = ({ singleOrg }: { singleOrg: TSingleOrg }) => {
   const dispatch = useDispatch();
   const { organization } = singleOrg;
   return (
@@ -36,8 +37,11 @@ const OverviewsTab = ({ singleOrg }: { singleOrg: TSingleOrg }) => {
           />
         </div>
       </div>
+      <div>
+        <HomeMain title="Energy Consumption" />
+      </div>
     </div>
   );
 };
 
-export default OverviewsTab;
+export default OrgOverviewTab;

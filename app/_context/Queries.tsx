@@ -240,10 +240,9 @@ export function QueriesCtxProvider({ children }: React.PropsWithChildren<{}>) {
   };
 
   const tntQry = {
-    queryKey: ['tenants', orgUserAdminId, facilityUserAdminId],
+    queryKey: ['tenants', role, orgUserAdminId, facilityUserAdminId],
     queryFn: getTenantsQuery,
     enabled: defaultEnable && blockTenant,
-    staleTime: 1000 * 60 * 60,
   };
 
   const tenants = useQuery(tntQry);
@@ -268,9 +267,9 @@ export function QueriesCtxProvider({ children }: React.PropsWithChildren<{}>) {
   };
 
   const facilityQry = {
-    queryKey: ['facilities', orgUserAdminId, facilityUserAdminId],
+    queryKey: ['facilities', role, orgUserAdminId, facilityUserAdminId],
     queryFn: getFacilitiesQuery,
-    enabled: defaultEnable && blockTenant,
+    enabled: defaultEnable && blockTenant && blockFacilityManager,
   };
 
   const facilities = useQuery(facilityQry);

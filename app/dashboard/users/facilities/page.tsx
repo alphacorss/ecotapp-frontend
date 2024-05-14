@@ -6,6 +6,7 @@ import AddEditFacility from './components/AddEditFacility';
 import { FacilityColumn } from './components/FacilityColumn';
 import useFacility from './page.hook';
 import DataTable from '@/app/_components/table/Table';
+import GetItemModal from '@/app/_components/utils/GetItemModal';
 import Loader from '@/app/_components/utils/Loader';
 import { DeleteModalContent, SuccessModalContent } from '@/app/_components/utils/Modals';
 import { ModalComponent } from '@/app/_components/utils/Modals';
@@ -111,11 +112,15 @@ const Facilities = () => {
         setOpen={() => closeModalFn(Modals.viewFacilityModal)}
         contentClass="min-w-[min(90vw,900px)] max-h-[90svh] overflow-y-auto"
         content={
-          <ViewBusinessDetails
-            queryCtx={queryCtx}
-            facilityData={facilityData}
-            showDeleteModal={showDeleteModal}
-            showEditModal={showEditFacilityModal}
+          <GetItemModal
+            component={
+              <ViewBusinessDetails
+                facilityData={facilityData}
+                showDeleteModal={showDeleteModal}
+                showEditModal={showEditFacilityModal}
+              />
+            }
+            ctx={queryCtx.facility}
           />
         }
       />

@@ -16,7 +16,7 @@ const GetItemModal = ({
   return (
     <>
       {ctx.isFetching || ctx.isLoading ? (
-        <div className="grid w-full place-content-center">
+        <div className="grid w-full place-content-center min-h-[300px] transition-all duration-300 ease-in-out">
           <Loader />
         </div>
       ) : ctx.isError ? (

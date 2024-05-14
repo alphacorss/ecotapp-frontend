@@ -1,10 +1,10 @@
 'use client';
 import { ColumnDef } from '@tanstack/react-table';
-import { useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 
 import AddEditOrg from './components/AddEditOrg';
 import { OrgColumnData } from './components/OrgColumn';
+import useOrg from './page.hook';
 import ViewBusinessDetails from '../../../_components/view/ViewBusinessDetails';
 import DataTable from '@/app/_components/table/Table';
 import GetItemModal from '@/app/_components/utils/GetItemModal';
@@ -12,70 +12,22 @@ import Loader from '@/app/_components/utils/Loader';
 import { DeleteModalContent, SuccessModalContent } from '@/app/_components/utils/Modals';
 import { ModalComponent } from '@/app/_components/utils/Modals';
 import SectionHeader from '@/app/_components/utils/SectionHeader';
-import Main from '@/app/_context/Main';
-import Queries from '@/app/_context/Queries';
 import { Modals } from '@/app/_slices/ModalSlice';
-import { TOrg, TSingleOrg } from '@/app/types';
 import { Button } from '@/components/ui/button';
-import { setUrlParams } from '@/lib/utils';
 
 export default function OrganizationsComponent() {
-  const router = useRouter();
-  const orgIdQuery = useSearchParams().get('orgId');
-  const orgCtx = React.useContext(Queries);
-  const { org } = orgCtx;
-  const orgData: TSingleOrg = org.data?.data;
-
-  const { modalState, handleCloseModal, handleOpenModal } = React.useContext(Main);
-
-  const showDeleteModal = (id: string) => {
-    orgCtx.orgs.data?.data.organization.forEach((org: TOrg) => {
-      if (org._id === id) {
-        const params = new URLSearchParams();
-        params.set('orgId', org._id);
-        window.history.replaceState({}, '', `?${params}`);
-      }
-    });
-    handleCloseModal(Modals.viewOrgModal);
-    handleOpenModal(Modals.deleteOrgModal);
-  };
-
-  const showDetailsModal = (orgId: string) => {
-    orgCtx.orgs.data?.data.organization.forEach((org: TOrg) => {
-      if (org._id === orgId) {
-        setUrlParams({ tab: 'overview', orgId: org._id });
-      }
-    });
-    org.refetch();
-    handleOpenModal(Modals.viewOrgModal);
-  };
-
-  const showEditOrgModal = (id: string) => {
-    orgCtx.orgs.data?.data.organization.forEach((org: TOrg) => {
-      if (org._id === id) {
-        setUrlParams({ tab: 'overview', orgId: org._id });
-      }
-    });
-    handleOpenModal(Modals.editOrgModal);
-  };
-
-  const closeModalFn = (modal: Modals) => {
-    router.push('/dashboard/users/organizations');
-    handleCloseModal(modal);
-    orgCtx.addOrg.reset();
-    orgCtx.editOrg.reset();
-  };
-
-  React.useEffect(() => {
-    if (orgIdQuery) {
-      if (modalState.modals.deleteOrgModal) {
-        handleCloseModal(Modals.viewOrgModal);
-        return;
-      }
-      handleOpenModal(Modals.viewOrgModal);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [orgIdQuery]);
+  const {
+    orgIdQuery,
+    orgCtx,
+    orgData,
+    modalState,
+    handleOpenModal,
+    handleCloseModal,
+    closeModalFn,
+    showDeleteModal,
+    showDetailsModal,
+    showEditOrgModal,
+  } = useOrg();
 
   return (
     <div className="card min-h-full flex flex-col h-full">
@@ -126,18 +78,17 @@ export default function OrganizationsComponent() {
       <ModalComponent
         open={modalState.modals.viewOrgModal}
         setOpen={() => closeModalFn(Modals.viewOrgModal)}
-        contentClass="min-w-[min(90vw,900px)] max-h-[90svh] overflow-y-auto"
+        contentClass="min-w-[min(90vw,1000px)] max-h-[90svh] overflow-y-auto transition-all duration-300 ease-in-out"
         content={
           <GetItemModal
             component={
               <ViewBusinessDetails
-                queryCtx={orgCtx}
                 orgData={orgData}
                 showEditModal={showEditOrgModal}
                 showDeleteModal={showDeleteModal}
               />
             }
-            ctx={org}
+            ctx={orgCtx.org}
           />
         }
       />
