@@ -1,14 +1,14 @@
 import { Diagram, Edit2, Trash } from 'iconsax-react';
-import { Building, NetworkIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import ViewModalInfo from './ViewModalInfo';
+import { FacilityHeader, OrganizationHeader, TenantHeader } from '../utils/SectionHeader';
 import { useHandleMutation } from '@/app/_hooks/useHandleMutation';
 import { TFacility, TOrg, TRole, TUser, TFacilityUser } from '@/app/types';
 import { Button } from '@/components/ui/button';
 import qry from '@/lib/queries';
-import { cleanRole, cleanRoleSingular } from '@/lib/utils';
+import { capitalizeFirstLetter, cleanRole, cleanRoleSingular } from '@/lib/utils';
 
 interface CustomError extends Error {
   response?: { data?: { message?: string } };
@@ -64,28 +64,18 @@ const ViewUser = ({
       {user && (
         <div>
           <div className="border-b pb-2 border-gray-300 mb-5">
-            <h2 className="text-xl font-[600] text-gray-700 mb-3">
-              {user.user.firstName} {user.user.lastName}
-            </h2>
-            {role !== 'pseudoadmin' && (
+            {role === 'pseudoadmin' ? (
+              <h3 className="text-xl font-[600] text-gray-600 mb-1">
+                {capitalizeFirstLetter(`${user.user.firstName} ${user.user.lastName}`)}
+              </h3>
+            ) : (
               <div className="flex items-center gap-3">
                 {org ? (
-                  <span className="text-gray-500 flex items-center gap-2 text-sm">
-                    <NetworkIcon size={18} />
-                    {org?.name}
-                  </span>
+                  <OrganizationHeader organization={org} user={user} showUser />
+                ) : facility ? (
+                  <FacilityHeader facilityData={facility} user={extendedUser} showUser />
                 ) : (
-                  <>
-                    <span className="text-gray-500 flex items-center gap-2 text-sm">
-                      <NetworkIcon size={18} />
-                      {extendedUser?.facility?.organization?.name}
-                    </span>
-                    <span className="text-gray-500">•</span>
-                    <span className="text-gray-500 flex items-center gap-2 text-sm">
-                      <Building size={18} />
-                      {extendedUser?.facility?.name}
-                    </span>
-                  </>
+                  <TenantHeader extendedUser={extendedUser} />
                 )}
               </div>
             )}
