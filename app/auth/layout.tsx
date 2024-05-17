@@ -1,17 +1,10 @@
-import type { Metadata } from 'next';
+// import type { Metadata } from 'next';
 import React from 'react';
 
-export const meta: Metadata = {
-  title: 'Ecotapp - Authentication',
-  icons: [
-    {
-      rel: 'icon',
-      href: '/headers/lock.svg',
-      sizes: 'any',
-      url: '/headers/lock.svg',
-    },
-  ],
-};
+// export const meta: Metadata = {
+//   title: 'Ecotapp - Authentication',
+//   description: 'Ecotapp Authentication',
+// };
 
 export default function RootLayout({
   children,
