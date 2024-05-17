@@ -75,7 +75,7 @@ const EnergyFilter = ({
   const facilitiesArry = facilities.data?.data.facilities ?? facilities.data?.data?.data?.facilities;
 
   const facilitiesOption = facilitiesArry
-    .filter((facility: TFacility) => facility.organization._id === selectedOrg)
+    ?.filter((facility: TFacility) => facility.organization._id === selectedOrg)
     .map((facility: TFacility) => ({
       label: facility.name,
       value: facility._id,
@@ -84,7 +84,7 @@ const EnergyFilter = ({
   const tenantsArry = tenants.data?.data?.users ?? tenants.data?.data?.data?.users;
 
   const tenantsOption = tenantsArry
-    .filter((user: TFacilityUser) => user.facility._id === selectedFacility)
+    ?.filter((user: TFacilityUser) => user.facility._id === selectedFacility)
     .map((user: TFacilityUser) => ({
       label: user.user.firstName + ' ' + user.user.lastName,
       value: user._id,
@@ -102,6 +102,17 @@ const EnergyFilter = ({
       ...(data.facility && { facilityId: data.facility }),
       ...(data.tenant && { tenantId: data.tenant }),
     });
+  };
+
+  const reset = () => {
+    if (high.includes(role as string)) {
+      setValue('organization', '');
+      setValue('facility', '');
+      setValue('tenant', '');
+    } else if (mid.includes(role as string)) {
+      setValue('facility', '');
+      setValue('tenant', '');
+    }
   };
 
   return (
@@ -180,17 +191,7 @@ const EnergyFilter = ({
         )}
 
         <div className="w-full flex items-center gap-5 mt-10">
-          <Button
-            type="button"
-            className="w-full"
-            variant="outline"
-            onClick={() => {
-              setValue('energy_type', '');
-              setValue('organization', '');
-              setValue('facility', '');
-              setValue('tenant', '');
-            }}
-          >
+          <Button type="button" className="w-full" variant="outline" onClick={reset}>
             Reset
           </Button>
           <Button className="w-full">Apply Filter</Button>

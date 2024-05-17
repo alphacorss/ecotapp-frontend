@@ -1,4 +1,5 @@
-import { Chart1, Firstline, Location, PresentionChart } from 'iconsax-react';
+import { Chart1, DocumentDownload, Firstline, Location, PresentionChart, Trash } from 'iconsax-react';
+import { Plus } from 'lucide-react';
 
 import { getDateIndexes } from '@/lib/utils';
 
@@ -84,6 +85,27 @@ export const chartSelectOptions = [
   { value: `${year}-${parseInt(monthIndex) - 1}-${dayIndex}`, name: 'Last 60 days' },
   { value: `${year}-${parseInt(monthIndex) - 2}-${dayIndex}`, name: 'Last 90 days' },
 ];
+
+export const analyticsOptionsArry = (
+  addToReportAction: () => void,
+  downloadAction: () => void,
+  clearAction: () => void,
+) => {
+  return [
+    <button key={'addToReportAction'} className="more font-[500] font-poppins" onClick={addToReportAction}>
+      <Plus className="h-4 w-4" />
+      Add to report
+    </button>,
+    <button key={'downloadAction'} className="more font-[500] font-poppins" onClick={downloadAction}>
+      <DocumentDownload className="h-4 w-4" />
+      Download report
+    </button>,
+    <button key={'clearAction'} className="more font-[500] font-poppins text-error-300" onClick={clearAction}>
+      <Trash className="h-4 w-4" />
+      Clear report
+    </button>,
+  ];
+};
 
 export const energyTypeArray = [
   { label: 'Electricity', value: 'electricity' },

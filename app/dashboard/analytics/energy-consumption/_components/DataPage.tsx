@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Analytics from './_components/Analytics';
-import RealTime from './_components/RealTime';
-import { cleanChartDataMonthly } from '../helpers';
+import Analytics from './Analytics';
+import RealTime from './RealTime';
+import { cleanChartDataMonthly } from '../../helpers';
 import { TAnalyticsConsumption } from '@/app/types';
 
 const DataPage = ({ viewType, consumption }: { viewType: string | null; consumption: TAnalyticsConsumption }) => {
