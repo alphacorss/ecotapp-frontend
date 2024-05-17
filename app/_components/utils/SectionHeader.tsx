@@ -75,18 +75,18 @@ export const TenantHeader = ({ extendedUser }: { extendedUser: TFacilityUser | u
   return (
     <div className="flex flex-col gap-3">
       <h3 className="text-xl font-[600] text-gray-600">
-        {capitalizeFirstLetter(extendedUser?.user.firstName as string)}{' '}
-        {capitalizeFirstLetter(extendedUser?.user.lastName as string)}
+        {capitalizeFirstLetter(extendedUser?.user.firstName || '')}{' '}
+        {capitalizeFirstLetter(extendedUser?.user.lastName || '')}
       </h3>
       <div className="flex gap-3 justify-center items-center">
         <span className="text-gray-500 flex items-center gap-2 text-sm">
           <NetworkIcon size={18} />
-          {capitalizeFirstLetter(extendedUser?.facility?.organization?.name as string)}
+          {capitalizeFirstLetter(extendedUser?.facility?.organization?.name || '')}
         </span>
         <span className="text-gray-500">•</span>
         <span className="text-gray-500 flex items-center gap-2 text-sm">
           <Building size={18} />
-          {capitalizeFirstLetter(extendedUser?.facility?.name as string)}
+          {capitalizeFirstLetter(extendedUser?.facility?.name || '')}
         </span>
       </div>
     </div>

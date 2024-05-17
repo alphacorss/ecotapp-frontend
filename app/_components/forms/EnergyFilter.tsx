@@ -104,6 +104,17 @@ const EnergyFilter = ({
     });
   };
 
+  const reset = () => {
+    if (high.includes(role as string)) {
+      setValue('organization', '');
+      setValue('facility', '');
+      setValue('tenant', '');
+    } else if (mid.includes(role as string)) {
+      setValue('facility', '');
+      setValue('tenant', '');
+    }
+  };
+
   return (
     <div>
       <h1 className="text-xl font-[600] mb-5">Filter</h1>
@@ -180,17 +191,7 @@ const EnergyFilter = ({
         )}
 
         <div className="w-full flex items-center gap-5 mt-10">
-          <Button
-            type="button"
-            className="w-full"
-            variant="outline"
-            onClick={() => {
-              setValue('energy_type', '');
-              setValue('organization', '');
-              setValue('facility', '');
-              setValue('tenant', '');
-            }}
-          >
+          <Button type="button" className="w-full" variant="outline" onClick={reset}>
             Reset
           </Button>
           <Button className="w-full">Apply Filter</Button>

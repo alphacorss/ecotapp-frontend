@@ -1,10 +1,9 @@
 'use client';
-import { useQuery } from '@tanstack/react-query';
-import { DocumentDownload, Trash } from 'iconsax-react';
-import { MoreVertical, Plus } from 'lucide-react';
+import { MoreVertical } from 'lucide-react';
 import React, { memo } from 'react';
 
-import DataPage from './DataPage';
+import DataPage from './_components/DataPage';
+import useAnalytics from './page.hook';
 import EnergyFilter from '../../../_components/forms/EnergyFilter';
 import { DropdownMenuComponent } from '@/app/_components/utils/DropDowns';
 import FilterBtn from '@/app/_components/utils/FilterBtn';
@@ -12,54 +11,23 @@ import { BoxLoader, ChartLoader } from '@/app/_components/utils/Loader';
 import { ModalComponent } from '@/app/_components/utils/Modals';
 import SectionHeader, { FacilityHeader, OrganizationHeader, TenantHeader } from '@/app/_components/utils/SectionHeader';
 import ToggleSwitch from '@/app/_components/utils/ToggleSwitch';
-import { energyToggle } from '@/app/_constants/data';
-import Queries from '@/app/_context/Queries';
-import usePathParams from '@/app/_hooks/usePathParams';
-import { TFacility, TFacilityUser, TOrg } from '@/app/types';
-import qry from '@/lib/queries';
-import { capitalizeFirstLetter, getDateIndexes, setUrlParams } from '@/lib/utils';
-
-const { year, monthIndex, dayIndex } = getDateIndexes();
+import { analyticsOptionsArry, energyToggle } from '@/app/_constants/data';
+import { capitalizeFirstLetter, setUrlParams } from '@/lib/utils';
 
 const EnergyConsumption = () => {
-  const { viewType, energy_type, refreshTime, orgId, facilityId, tenantId } = usePathParams();
-
-  const { orgs, facilities, tenants } = React.useContext(Queries);
-  const [showFilterModal, setShowFilterModal] = React.useState(false);
-
-  const today = `${year}-${monthIndex}-${dayIndex}`;
-
-  const q = `unit=${201}&date=${today}&energy_type=${energy_type}`;
-
-  const analytics = useQuery({
-    queryKey: ['analytics', energy_type, orgId, facilityId, tenantId],
-    queryFn: () => qry.analyticsRq(q),
-  });
-
-  const isLoading = analytics.isLoading;
-  const consumption = analytics.data?.data.data.stat;
-  const total = consumption?.total_energy_consumed;
-
-  const organization: TOrg | undefined = orgs.data?.data?.organization?.find((org: TOrg) => org._id === orgId);
-
-  const facility = facilities.data?.data?.facilities?.find((f: TFacility) => f._id === facilityId);
-
-  const tenant = tenants.data?.data?.users?.find((t: TFacilityUser) => t._id === tenantId);
-
-  const analyticsOptionsArry = [
-    <button key={'manage'} className="more font-[500] font-poppins" onClick={() => {}}>
-      <Plus className="h-4 w-4" />
-      Add to report
-    </button>,
-    <button key={'delete'} className="more font-[500] font-poppins" onClick={() => {}}>
-      <DocumentDownload className="h-4 w-4" />
-      Download report
-    </button>,
-    <button key={'delete'} className="more font-[500] font-poppins text-error-300" onClick={() => {}}>
-      <Trash className="h-4 w-4" />
-      Clear report
-    </button>,
-  ];
+  const {
+    viewType,
+    energy_type,
+    refreshTime,
+    consumption,
+    facility,
+    isLoading,
+    organization,
+    setShowFilterModal,
+    showFilterModal,
+    tenant,
+    total,
+  } = useAnalytics();
 
   return (
     <div className="card min-h-full flex flex-col h-full overflow-y-auto whitespace-nowrap">
@@ -88,7 +56,11 @@ const EnergyConsumption = () => {
           <DropdownMenuComponent
             trigger={<MoreVertical size={20} className="text-gray-500" />}
             triggerClassName="border-none size-[30px]"
-            array={analyticsOptionsArry}
+            array={analyticsOptionsArry(
+              () => {},
+              () => {},
+              () => {},
+            )}
           />
         </div>
       </div>
@@ -103,7 +75,7 @@ const EnergyConsumption = () => {
               setUrlParams({
                 energy_type,
                 vt: newViewType,
-                ...(viewType !== 'real-time' ? { refreshtime: '5m' } : {}),
+                ...(viewType !== 'real-time' ? { refreshtime: '1h' } : {}),
               });
             }}
           />
