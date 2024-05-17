@@ -5,6 +5,7 @@ import { cardsData } from '../../helpers';
 import AreaComponent from '@/app/_components/charts/AreaChart';
 import { Percentage } from '@/app/_components/utils/Percentage';
 import { TAnalyticsConsumption } from '@/app/types';
+import { cleanNumber } from '@/lib/utils';
 
 const Analytics = ({
   consumption,
@@ -34,7 +35,7 @@ const Analytics = ({
               </div>
               <div className="flex justify-between w-full">
                 <h2 className="text-3xl text-gray-800 font-[600]">
-                  {Math.round(data.value)}{' '}
+                  {cleanNumber(Math.round(data.value))}{' '}
                   <span className="text-sm text-gray-400">{data.title === 'Energy Efficiency' ? '%' : 'kWh'}</span>
                 </h2>
                 <Percentage number={data.percentage} />

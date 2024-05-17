@@ -14,13 +14,25 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { cn } from '@/lib/utils';
 
-export const DropdownMenuComponent = ({ array, trigger }: { array?: React.ReactNode[]; trigger: React.ReactNode }) => {
+export const DropdownMenuComponent = ({
+  array,
+  trigger,
+  triggerClassName,
+}: {
+  array?: React.ReactNode[];
+  trigger: React.ReactNode;
+  triggerClassName?: string;
+}) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
         asChild
-        className="border border-gray-300 ring-0 outline-0 p-[5px] rounded-[var(--rounded)] cursor-pointer bg-transparent"
+        className={cn(
+          'border border-gray-300 ring-0 outline-0 p-[5px] rounded-[var(--rounded)] cursor-pointer bg-transparent',
+          triggerClassName,
+        )}
       >
         {trigger}
       </DropdownMenuTrigger>
