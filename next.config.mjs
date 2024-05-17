@@ -18,17 +18,16 @@ const nextConfig = {
 };
 
 export default withSentryConfig(
-  withSentryConfig(nextConfig, {
-    org: 'pii',
-    project: 'javascript-nextjs',
-
-    // Only print logs for uploading source maps in CI
+  nextConfig,
+  {
+    org: "pii",
+    project: "javascript-nextjs",
     silent: !process.env.CI,
     widenClientFileUpload: true,
     transpileClientSDK: true,
-    tunnelRoute: '/monitoring',
+    tunnelRoute: "/monitoring",
     hideSourceMaps: true,
     disableLogger: true,
     automaticVercelMonitors: true,
-  }),
+  }
 );

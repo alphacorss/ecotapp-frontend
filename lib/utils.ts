@@ -251,4 +251,13 @@ export const futurePercentage = (next: number, current: number) => {
   return parseInt((((next - current) / current) * 100 ?? 0).toFixed(2));
 };
 
+export const cleanNumber = (number: number) => {
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'decimal',
+    maximumFractionDigits: 2,
+  });
+
+  return formatter.format(number);
+};
+
 export const baseUrl = `http://ecotapp-app-elb-dev-2089191536.ca-central-1.elb.amazonaws.com:4000/api/v1`;
