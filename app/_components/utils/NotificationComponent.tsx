@@ -65,7 +65,7 @@ const NotificationComponent = ({
       <div className={cn(`h-[200px] overflow-auto`, containerClass)}>
         {notifications?.length === 0 && (
           <div className="flex flex-col justify-center items-center">
-            <Image src="//pages/notification.svg" width={80} height={80} alt="notification" />
+            <Image src="/pages/notification.svg" width={80} height={80} alt="notification" />
             <div className="flex flex-col justify-center items-center">
               <h3 className="text-gray-600 font-[600] text-lg py-4 text-center -mb-3">No Notification yet</h3>
               <p className="text-xs text-gray-500 font-[500] text-center">You haven’t received any notifications yet</p>
@@ -75,48 +75,17 @@ const NotificationComponent = ({
 
         {notifications?.length > 0 &&
           notifications.map((notification, index) => (
-            <div
-              key={index}
-              className="flex flex-col gap-2 py-3 p-2 transition rounded-tl-[var(--rounded)] rounded-bl-[var(--rounded)] border-l-4 border-[#FCD19A] mb-3"
-            >
-              <div className="flex justify-between items-center">
-                <h3 className="text-gray-500 font-[500] text-sm flex gap-3 items-center">
-                  Broadcast
-                  <span className="text-[10px]">&#9679;</span>
-                  <span className="text-xs">{getTimeAgo(notification.createdAt)}</span>
-                </h3>
-                {!notification.isViewed && <div className="bg-primary-300 size-[10px] rounded-full"></div>}
-              </div>
+            <React.Fragment key={index}>
               <ModalComponent
                 contentClass="min-w-[min(90vw,700px)] max-h-[90svh] overflow-y-auto"
                 trigger={
-                  <h3
-                    onClick={() => view(notification)}
-                    className="text-gray-700 font-[600] hover:scale-[1.02] transition cursor-pointer"
-                  >
-                    {notification.subject}
-                  </h3>
-                }
-                content={
-                  <div key={index} className="flex flex-col gap-2 py-3 p-2">
-                    <div className="flex justify-between items-center">
-                      <h3 className="text-gray-500 font-[600] text-sm flex gap-3 items-center">
-                        Broadcast
-                        <span className="text-[10px]">&#9679;</span>
-                        <span className="text-xs">{getTimeAgo(notification.createdAt)}</span>
-                      </h3>
-                    </div>
-
-                    <h3 className="text-gray-800 font-[600]  text-lg">{notification.subject}</h3>
-
-                    <p className="text-gray-500 font-[400] text-[13px] tracking-wide">{notification.content}</p>
+                  <div>
+                    <NotificationTrigger view={view} notification={notification} />
                   </div>
                 }
+                content={<NotificationContent notification={notification} />}
               />
-              <p className="text-gray-500 font-[400] text-[12px] tracking-wide leading-[20px] line-clamp-3">
-                {notification.content}
-              </p>
-            </div>
+            </React.Fragment>
           ))}
       </div>
     </React.Fragment>
@@ -124,3 +93,49 @@ const NotificationComponent = ({
 };
 
 export default NotificationComponent;
+
+const NotificationTrigger = ({
+  view,
+  notification,
+}: {
+  view: (notification: TMessages) => void;
+  notification: TMessages;
+}) => {
+  return (
+    <div
+      onClick={() => view(notification)}
+      className="flex flex-col gap-2 py-3 p-2 rounded-tl-[var(--rounded)] rounded-bl-[var(--rounded)] border-l-4 border-[#FCD19A] mb-3 hover:scale-[0.95] transition cursor-pointer"
+    >
+      <div className="flex justify-between items-center">
+        <h3 className="text-gray-500 font-[500] text-sm flex gap-3 items-center">
+          Broadcast
+          <span className="text-[10px]">&#9679;</span>
+          <span className="text-xs">{getTimeAgo(notification.createdAt)}</span>
+        </h3>
+        {!notification.isViewed && <div className="bg-primary-300 size-[10px] rounded-full"></div>}
+      </div>
+      <h3 className="text-gray-700 font-[600]">{notification.subject}</h3>
+      <p className="text-gray-500 font-[400] text-[12px] tracking-wide leading-[20px] line-clamp-3">
+        {notification.content}
+      </p>
+    </div>
+  );
+};
+
+const NotificationContent = ({ notification }: { notification: TMessages }) => {
+  return (
+    <div className="flex flex-col gap-2 py-3 p-2">
+      <div className="flex justify-between items-center">
+        <h3 className="text-gray-500 font-[600] text-sm flex gap-3 items-center">
+          Broadcast
+          <span className="text-[10px]">&#9679;</span>
+          <span className="text-xs">{getTimeAgo(notification.createdAt)}</span>
+        </h3>
+      </div>
+
+      <h3 className="text-gray-800 font-[600]  text-lg">{notification.subject}</h3>
+
+      <p className="text-gray-500 font-[400] text-[13px] tracking-wide">{notification.content}</p>
+    </div>
+  );
+};
