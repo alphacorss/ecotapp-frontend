@@ -66,7 +66,7 @@ const ViewUser = ({
           <div className="border-b pb-2 border-gray-300 mb-5">
             {role === 'pseudoadmin' ? (
               <h3 className="text-xl font-[600] text-gray-600 mb-1">
-                {capitalizeFirstLetter(`${user.user.firstName} ${user.user.lastName}`)}
+                {capitalizeFirstLetter(`${user?.user?.firstName} ${user?.user?.lastName}`)}
               </h3>
             ) : (
               <div className="flex items-center gap-3">
