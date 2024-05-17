@@ -1,16 +1,21 @@
 'use client';
 import { useQuery } from '@tanstack/react-query';
+import { DocumentDownload, Trash } from 'iconsax-react';
+import { MoreVertical, Plus } from 'lucide-react';
 import React, { memo } from 'react';
 
 import DataPage from './DataPage';
 import EnergyFilter from '../../../_components/forms/EnergyFilter';
+import { DropdownMenuComponent } from '@/app/_components/utils/DropDowns';
 import FilterBtn from '@/app/_components/utils/FilterBtn';
 import { BoxLoader, ChartLoader } from '@/app/_components/utils/Loader';
 import { ModalComponent } from '@/app/_components/utils/Modals';
-import SectionHeader from '@/app/_components/utils/SectionHeader';
+import SectionHeader, { FacilityHeader, OrganizationHeader, TenantHeader } from '@/app/_components/utils/SectionHeader';
 import ToggleSwitch from '@/app/_components/utils/ToggleSwitch';
 import { energyToggle } from '@/app/_constants/data';
+import Queries from '@/app/_context/Queries';
 import usePathParams from '@/app/_hooks/usePathParams';
+import { TFacility, TFacilityUser, TOrg } from '@/app/types';
 import qry from '@/lib/queries';
 import { capitalizeFirstLetter, getDateIndexes, setUrlParams } from '@/lib/utils';
 
@@ -19,6 +24,7 @@ const { year, monthIndex, dayIndex } = getDateIndexes();
 const EnergyConsumption = () => {
   const { viewType, energy_type, refreshTime, orgId, facilityId, tenantId } = usePathParams();
 
+  const { orgs, facilities, tenants } = React.useContext(Queries);
   const [showFilterModal, setShowFilterModal] = React.useState(false);
 
   const today = `${year}-${monthIndex}-${dayIndex}`;
@@ -34,6 +40,27 @@ const EnergyConsumption = () => {
   const consumption = analytics.data?.data.data.stat;
   const total = consumption?.total_energy_consumed;
 
+  const organization: TOrg | undefined = orgs.data?.data?.organization?.find((org: TOrg) => org._id === orgId);
+
+  const facility = facilities.data?.data?.facilities?.find((f: TFacility) => f._id === facilityId);
+
+  const tenant = tenants.data?.data?.users?.find((t: TFacilityUser) => t._id === tenantId);
+
+  const analyticsOptionsArry = [
+    <button key={'manage'} className="more font-[500] font-poppins" onClick={() => {}}>
+      <Plus className="h-4 w-4" />
+      Add to report
+    </button>,
+    <button key={'delete'} className="more font-[500] font-poppins" onClick={() => {}}>
+      <DocumentDownload className="h-4 w-4" />
+      Download report
+    </button>,
+    <button key={'delete'} className="more font-[500] font-poppins text-error-300" onClick={() => {}}>
+      <Trash className="h-4 w-4" />
+      Clear report
+    </button>,
+  ];
+
   return (
     <div className="card min-h-full flex flex-col h-full overflow-y-auto whitespace-nowrap">
       <ModalComponent
@@ -43,8 +70,27 @@ const EnergyConsumption = () => {
         content={<EnergyFilter setShowFilterModal={setShowFilterModal} showRefreshTime={viewType === 'real-time'} />}
       />
 
-      <div className="flex justify-between items-start mb-5 lg:mb-8 lg:flex-row flex-col gap-3 lg:gap-0 border-b-[1px] border-gray-200 pb-5">
-        <SectionHeader title="Energy Consumption" description="View Analytics and Real time energy consumption" />
+      <div className="flex justify-between items-start mb-5 lg:mb-8 flex-row gap-3 lg:gap-0 border-b-[1px] border-gray-200 pb-5 relative">
+        {tenant ? (
+          <div>
+            <TenantHeader extendedUser={tenant} />
+          </div>
+        ) : facility ? (
+          <div>
+            <FacilityHeader facilityData={facility} />
+          </div>
+        ) : organization ? (
+          <OrganizationHeader organization={organization} />
+        ) : (
+          <SectionHeader title="Energy Consumption" description="View Analytics and Real time energy consumption" />
+        )}
+        <div>
+          <DropdownMenuComponent
+            trigger={<MoreVertical size={20} className="text-gray-500" />}
+            triggerClassName="border-none size-[30px]"
+            array={analyticsOptionsArry}
+          />
+        </div>
       </div>
 
       <div className="flex flex-col justify-between items-end">

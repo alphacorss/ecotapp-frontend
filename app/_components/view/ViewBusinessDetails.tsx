@@ -1,10 +1,10 @@
-import { NetworkIcon } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import React from 'react';
 
 import AdminsTab from '../../dashboard/users/organizations/components/tabs/admins/AdminsTab';
 import { Btns } from '../../dashboard/users/organizations/components/tabs/Buttons';
 import ManagersTab from '../../dashboard/users/organizations/components/tabs/managers/ManagersTab';
+import { FacilityHeader, OrganizationHeader } from '../utils/SectionHeader';
 import { viewDetailsTabs } from '@/app/_constants/data';
 import { Modals } from '@/app/_slices/ModalSlice';
 import FacilityManagersTab from '@/app/dashboard/users/facilities/components/FacilityManagersTab';
@@ -26,17 +26,11 @@ const ViewBusinessDetails = ({
   closeModalFn: (modal: Modals) => void;
 }) => {
   const tab = useSearchParams().get('tab');
-  const name = orgData?.organization.name || facilityData?.name;
 
   return (
     <div className="w-full">
-      <h2 className="text-xl text-gray-800 font-[600] mb-1">{name}</h2>
-      {facilityData && (
-        <span className="text-gray-500 flex items-center gap-2 text-sm">
-          <NetworkIcon size={18} />
-          {facilityData.organization.name}
-        </span>
-      )}
+      {orgData && <OrganizationHeader organization={orgData.organization} />}
+      {facilityData && <FacilityHeader facilityData={facilityData} />}
       <hr className="my-3 mb-8" />
 
       <ul
