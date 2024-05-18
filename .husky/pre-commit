@@ -2,7 +2,7 @@
 
 # Define the names of the branches you want to protect
 protected_branch_main="main"
-protected_branch_dev="staging"
+protected_branch_dev="development"
 
 # Get the current branch name
 current_branch=$(git rev-parse --abbrev-ref HEAD)
