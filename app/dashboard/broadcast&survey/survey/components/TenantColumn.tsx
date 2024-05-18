@@ -47,7 +47,7 @@ export const TenantColumn = () => {
         return <TableHeader title="Sent by" column={column} isSorted={column.getIsSorted()} />;
       },
       cell: ({ row }) => {
-        const from = `${cleanRoleSingular(row.original.from.user.role[0] as TRole)}`;
+        const from = `${cleanRoleSingular(row.original.from.role[0] as TRole)}`;
         return <TableCell>{from}</TableCell>;
       },
     },
