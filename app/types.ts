@@ -215,24 +215,7 @@ export type TSurveyData = {
   title: string;
   description: string;
   responseCounts: string;
-  from: {
-    _id: string;
-    firstName: string;
-    lastName: string;
-    phone: string;
-    email: string;
-    role: TRole;
-    active: boolean;
-    lastLogin: string;
-    lastActive: string;
-    passwordChangedAt: string | null;
-    profilePicture: string | null;
-    createdAt: string;
-    updatedAt: string;
-    __v: number;
-    verificationCode: string;
-    verificationCodeExpiresAt: string;
-  };
+  from: TUser;
   questions: {
     _id: string;
     responses: TResponse[];
@@ -267,4 +250,20 @@ export type TEnergyEfficiency = {
 export type TEnergyUseIntensity = {
   percentage_increase: number;
   value: number;
+};
+
+//realtime
+export type TRealTimeData = {
+  array_of_energy: number[];
+  total_energy_consumed: number;
+};
+
+//report
+export type TReport = {
+  title: string;
+  data: TAnalyticsConsumption | TRealTimeData;
+  energyType: string;
+  orgName?: string;
+  facilityName?: string;
+  tenantName?: string;
 };

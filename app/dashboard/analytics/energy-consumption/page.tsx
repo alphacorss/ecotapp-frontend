@@ -16,6 +16,9 @@ import { capitalizeFirstLetter, setUrlParams } from '@/lib/utils';
 
 const EnergyConsumption = () => {
   const {
+    addToReport,
+    clearReport,
+    downloadReport,
     viewType,
     energy_type,
     refreshTime,
@@ -27,7 +30,11 @@ const EnergyConsumption = () => {
     showFilterModal,
     tenant,
     total,
+    realTimeData,
+    realTimeIsLoading,
   } = useAnalytics();
+
+  const reportData = viewType === 'analytics' ? consumption : realTimeData;
 
   return (
     <div className="card min-h-full flex flex-col h-full overflow-y-auto whitespace-nowrap">
@@ -57,9 +64,17 @@ const EnergyConsumption = () => {
             trigger={<MoreVertical size={20} className="text-gray-500" />}
             triggerClassName="border-none size-[30px]"
             array={analyticsOptionsArry(
-              () => {},
-              () => {},
-              () => {},
+              () =>
+                addToReport({
+                  title: viewType as string,
+                  energyType: energy_type as string,
+                  data: reportData,
+                  ...(organization && { orgName: organization.name }),
+                  ...(facility && { facilityName: facility.name }),
+                  ...(tenant && { tenantName: `${tenant.user.firstName} ${tenant.user.lastName}` }),
+                }),
+              downloadReport,
+              clearReport,
             )}
           />
         </div>
@@ -81,7 +96,7 @@ const EnergyConsumption = () => {
           />
 
           <div className="flex items-center gap-4">
-            {isLoading ? (
+            {isLoading || realTimeIsLoading ? (
               <BoxLoader />
             ) : (
               <>
@@ -103,15 +118,15 @@ const EnergyConsumption = () => {
             </span>
           </div>
         </div>
-        {isLoading ? (
-          <ChartLoader showTop showBottom />
+        {isLoading || realTimeIsLoading ? (
+          <ChartLoader showTop={viewType === 'analytics'} showBottom={viewType === 'analytics'} />
         ) : (
           <div className="flex flex-col h-full w-full">
             <div className="flex flex-col justify-center mb-10">
               <h2 className="text-3xl text-primary-300/90 font-[700]">{total} kWh</h2>
               <p className="text-sm text-gray-500 font-[500]">Energy consumed</p>
             </div>
-            <DataPage viewType={viewType} consumption={consumption} />
+            <DataPage viewType={viewType} consumption={consumption} realTimeData={realTimeData} />
           </div>
         )}
       </div>

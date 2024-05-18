@@ -6,6 +6,7 @@ export async function register() {
       dsn: 'https://a48272a33cd1feee336d1542f1b85912@o4507255804461056.ingest.us.sentry.io/4507255805509632',
       tracesSampleRate: 1,
       debug: false,
+      enabled: process.env.NODE_ENV === 'production',
     });
   }
 
@@ -14,6 +15,7 @@ export async function register() {
       dsn: 'https://a48272a33cd1feee336d1542f1b85912@o4507255804461056.ingest.us.sentry.io/4507255805509632',
       tracesSampleRate: 1,
       debug: false,
+      enabled: process.env.NODE_ENV === 'production',
     });
   }
 }
