@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useCycle } from 'framer-motion';
 import React, { createContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
