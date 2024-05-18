@@ -32,7 +32,7 @@ const OverviewTab = ({ surveyDetail }: { surveyDetail: TSurveyData | undefined }
   const info = [
     {
       title: 'Created By',
-      value: `${surveyDetail?.from?.user.firstName} ${surveyDetail?.from?.user.lastName}`,
+      value: `${surveyDetail?.from?.firstName} ${surveyDetail?.from?.lastName}`,
     },
     {
       title: isOrg ? 'Sent to Organization' : isFacility ? 'Sent to Facility' : 'Sent to Tenant',
