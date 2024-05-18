@@ -100,7 +100,7 @@ const useAnalytics = () => {
 
         if (!data) return;
 
-        const sheet = workbook.addWorksheet(`${title}-${time}`);
+        const sheet = workbook.addWorksheet(`${title}-${time}-${index}`);
 
         sheet.mergeCells('A1:F1');
         sheet.getCell('A1').value = 'ECOTAPP ENERGY CONSUMPTION REPORT';
@@ -199,12 +199,13 @@ const useAnalytics = () => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'report.xlsx';
+      a.download = `ecotapp-energy-consumption-report-${time}.xlsx`;
       a.click();
       window.URL.revokeObjectURL(url);
 
       toast.success('Report downloaded successfully');
     } catch (error) {
+      console.error(error);
       toast.error('Error downloading report');
     }
   };
