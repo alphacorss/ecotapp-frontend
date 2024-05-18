@@ -100,11 +100,7 @@ const useAnalytics = () => {
 
         if (!data) return;
 
-        const sheet = workbook.addWorksheet(
-          tenantName ?? facilityName ?? orgName
-            ? `${title}-${time}-${tenantName ?? facilityName ?? orgName}`
-            : `${title}-${time}`,
-        );
+        const sheet = workbook.addWorksheet(`${title}-${time}`);
 
         sheet.mergeCells('A1:F1');
         sheet.getCell('A1').value = 'ECOTAPP ENERGY CONSUMPTION REPORT';
