@@ -7,17 +7,23 @@ import { toast } from 'sonner';
 import { cleanChartDataMonthly, getStartEndDateByHourDiff } from '../helpers';
 import Queries from '@/app/_context/Queries';
 import usePathParams from '@/app/_hooks/usePathParams';
-import { TAnalyticsConsumption, TFacility, TFacilityUser, TOrg, TRealTimeData, TReport } from '@/app/types';
+import { TAnalyticsConsumption, TFacility, TFacilityUser, TOrg, TRealTimeData, TReport, TRole } from '@/app/types';
 import qry from '@/lib/queries';
-import { capitalizeFirstLetter, getDateIndexes } from '@/lib/utils';
+import { capitalizeFirstLetter, getDateIndexes, getRole } from '@/lib/utils';
 
 const { year, monthIndex, dayIndex } = getDateIndexes();
 
 const useAnalytics = () => {
+  const { orgs, facilities, tenants, getThreshold } = React.useContext(Queries);
   const { viewType, energy_type, refreshTime, orgId, facilityId, tenantId } = usePathParams();
+  const role = getRole() as TRole;
+
+  //threshold
+  const [thresholdModal, setThresholdModal] = React.useState(false);
+  const [thresholdSet, setThresholdSet] = React.useState(false);
+  const threshold: number | undefined = getThreshold.data?.data?.data?.energyThreshold ?? 0;
 
   //analytics query
-  const { orgs, facilities, tenants } = React.useContext(Queries);
   const [showFilterModal, setShowFilterModal] = React.useState(false);
 
   const today = `${year}-${monthIndex}-${dayIndex}`;
@@ -211,6 +217,7 @@ const useAnalytics = () => {
   };
 
   return {
+    role,
     isLoading,
     realTimeIsLoading,
     consumption,
@@ -228,6 +235,11 @@ const useAnalytics = () => {
     addToReport,
     clearReport,
     downloadReport,
+    thresholdModal,
+    setThresholdModal,
+    thresholdSet,
+    setThresholdSet,
+    threshold,
   };
 };
 
