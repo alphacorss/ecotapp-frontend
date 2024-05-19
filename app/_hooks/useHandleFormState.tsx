@@ -14,9 +14,12 @@ export const useHandleFormState = (
       onClose();
       reset();
       mutation.reset();
+      return;
     } else if (mutation.error) {
       const errorMessage = (mutation.error as any).response?.data?.message;
       setError('root', { message: errorMessage });
+      mutation.reset();
+      return;
     }
-  }, [mutation, onClose, reset, setError]);
+  }, [mutation.isSuccess, mutation.error, onClose, reset, setError, mutation]);
 };

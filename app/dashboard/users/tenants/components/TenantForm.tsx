@@ -12,6 +12,7 @@ import { countries } from '@/app/_constants/countryCodes';
 import { userForm } from '@/app/_constants/forms';
 import Queries from '@/app/_context/Queries';
 import useClearError from '@/app/_hooks/useClearError';
+import { useHandleFormState } from '@/app/_hooks/useHandleFormState';
 import { Modals } from '@/app/_slices/ModalSlice';
 import { TComboBoxSelector, TFacility, TMutationHandler, TRole, TFacilityUser } from '@/app/types';
 import { Button } from '@/components/ui/button';
@@ -99,17 +100,10 @@ export const AddEditTenant = ({
   };
 
   useClearError(errors, clearErrors);
-
-  React.useEffect(() => {
-    if (mutation.isSuccess) {
-      handleCloseModal(modalToClose);
-      handleOpenModal(modalToOpen);
-      reset();
-    } else if (mutation.error) {
-      const errorMessage = (mutation.error as any).response?.data?.message;
-      setError('root', { message: errorMessage });
-    }
-  }, [mutation, handleCloseModal, handleOpenModal, modalToClose, modalToOpen, reset, setError]);
+  useHandleFormState(mutation, reset, setError, () => {
+    handleCloseModal(modalToClose);
+    handleOpenModal(modalToOpen);
+  });
 
   const cleanRole = capitalizeFirstLetter(role.replace(/([A-Z])/g, ' $1').trim());
 

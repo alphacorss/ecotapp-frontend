@@ -13,6 +13,7 @@ import { addressSchema } from '@/app/_components/forms/AddEditAddress';
 import BackendError from '@/app/_components/utils/FormError';
 import Queries from '@/app/_context/Queries';
 import useClearError from '@/app/_hooks/useClearError';
+import { useHandleFormState } from '@/app/_hooks/useHandleFormState';
 import { Modals } from '@/app/_slices/ModalSlice';
 import { high } from '@/app/dashboard/home/helpers';
 import { TFacility, TFacilityTabs, TMutationHandler, TOrgUser } from '@/app/types';
@@ -71,7 +72,7 @@ const AddEditFacility = ({
   const orgUser = user?.organization;
 
   const { facility } = React.useContext(Queries);
-  const { mutate, isPending, isSuccess, isError, error } = mutation;
+  const { mutate, isPending, isError } = mutation;
   const [activeTab, setActiveTab] = React.useState<TFacilityTabs>('form');
   const [validTabs, setValidTabs] = React.useState<Record<string, boolean>>({
     form: false,
@@ -108,8 +109,6 @@ const AddEditFacility = ({
     reValidateMode: 'onChange',
   });
 
-  useClearError(errors, clearErrors);
-
   const handleAddFacility: SubmitHandler<any> = (data) => {
     const addData = {
       ...data,
@@ -126,28 +125,11 @@ const AddEditFacility = ({
     mutate(action === 'add' ? addData : updateData);
   };
 
-  React.useEffect(() => {
-    if (isSuccess) {
-      handleCloseModal(modalToClose);
-      handleOpenModal(modalToOpen);
-      mutation.reset();
-      reset();
-    } else if (error) {
-      const errorMessage = (error as any).response?.data?.message;
-      setError('root', { message: errorMessage });
-    }
-  }, [
-    action,
-    error,
-    handleCloseModal,
-    handleOpenModal,
-    isSuccess,
-    modalToClose,
-    modalToOpen,
-    mutation,
-    reset,
-    setError,
-  ]);
+  useClearError(errors, clearErrors);
+  useHandleFormState(mutation, reset, setError, () => {
+    handleCloseModal(modalToClose);
+    handleOpenModal(modalToOpen);
+  });
 
   const handleCancel = () => {
     handleCloseModal(modalToClose);
