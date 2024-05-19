@@ -64,6 +64,9 @@ export type TQueriesCtx = {
   respondToSurvey: TMutationHandler;
   deleteSurvey: TMutationHandler;
   tenantDeleteSurvey: TMutationHandler;
+  //analytics
+  getThreshold: UseQueryResult<any, Error>;
+  setThreshold: TMutationHandler;
 };
 
 const Queries = createContext<TQueriesCtx>({
@@ -122,6 +125,9 @@ const Queries = createContext<TQueriesCtx>({
   respondToSurvey: {} as TMutationHandler,
   deleteSurvey: {} as TMutationHandler,
   tenantDeleteSurvey: {} as TMutationHandler,
+  //analytics
+  getThreshold: {} as UseQueryResult<any, Error>,
+  setThreshold: {} as TMutationHandler,
 });
 
 export function QueriesCtxProvider({ children }: React.PropsWithChildren<{}>) {
@@ -329,6 +335,15 @@ export function QueriesCtxProvider({ children }: React.PropsWithChildren<{}>) {
   const deleteSurvey = useHandleMutation(qry.deleteSurveyRq, [createdSurveys]);
   const tenantDeleteSurvey = useHandleMutation(qry.tenantDeleteSurveyRq, [mySurveys]);
 
+  //analytics
+  const getThreshold = useQuery({
+    queryKey: ['threshold', user?._id],
+    queryFn: () => qry.getThresholdRq(user?._id as string),
+    enabled: defaultEnable && !!user.user?._id,
+  });
+
+  const setThreshold = useHandleMutation(qry.setThresholdRq, [getThreshold]);
+
   const contextValue = {
     // pseudo admins
     pseudoAdmins,
@@ -385,6 +400,9 @@ export function QueriesCtxProvider({ children }: React.PropsWithChildren<{}>) {
     respondToSurvey,
     deleteSurvey,
     tenantDeleteSurvey,
+    //analytics
+    getThreshold,
+    setThreshold,
   };
 
   return <Queries.Provider value={contextValue}>{children}</Queries.Provider>;

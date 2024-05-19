@@ -1,6 +1,7 @@
 import { Chart1, DocumentDownload, Firstline, Location, PresentionChart, Trash } from 'iconsax-react';
-import { Plus } from 'lucide-react';
+import { LineChart, Plus } from 'lucide-react';
 
+import { TRole } from '../types';
 import { getDateIndexes } from '@/lib/utils';
 
 export const viewDetailsTabs = [
@@ -87,11 +88,19 @@ export const chartSelectOptions = [
 ];
 
 export const analyticsOptionsArry = (
+  role: TRole,
+  showThresholdModal: () => void,
   addToReportAction: () => void,
   downloadAction: () => void,
   clearAction: () => void,
 ) => {
   return [
+    role === 'tenant' && (
+      <button key={'addToReportAction'} className="more font-[500] font-poppins" onClick={showThresholdModal}>
+        <LineChart className="h-4 w-4" />
+        Set threshold
+      </button>
+    ),
     <button key={'addToReportAction'} className="more font-[500] font-poppins" onClick={addToReportAction}>
       <Plus className="h-4 w-4" />
       Add to report

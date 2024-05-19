@@ -10,6 +10,7 @@ import FormInfo from '@/app/_components/utils/FormInfo';
 import Loader from '@/app/_components/utils/Loader';
 import { initialOrg } from '@/app/_constants/initialData';
 import useClearError from '@/app/_hooks/useClearError';
+import { useHandleFormState } from '@/app/_hooks/useHandleFormState';
 import { Modals } from '@/app/_slices/ModalSlice';
 import { TMutationHandler, TOrg } from '@/app/types';
 import { Button } from '@/components/ui/button';
@@ -65,18 +66,12 @@ const AddEditOrg = ({
     mutate(orgData);
   };
 
-  React.useEffect(() => {
-    if (mutation.isSuccess) {
-      handleCloseModal(modalToClose);
-      handleOpenModal(modalToOpen);
-      reset();
-    } else if (mutation.error) {
-      const errorMessage = (mutation.error as any).response?.data?.message;
-      setError('root', { message: errorMessage });
-    }
-  }, [action, mutation, handleCloseModal, handleOpenModal, modalToClose, modalToOpen, reset, setError]);
-
   useClearError(errors, clearErrors);
+  useHandleFormState(mutation, reset, setError, () => {
+    handleCloseModal(modalToClose);
+    handleOpenModal(modalToOpen);
+  });
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
       <h2 className="text-2xl font-semibold mb-5 text-center">

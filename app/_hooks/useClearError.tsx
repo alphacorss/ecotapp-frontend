@@ -5,15 +5,11 @@ const useClearError = (errors: Record<string, any>, clearErrors: UseFormClearErr
   React.useEffect(() => {
     let timeout: NodeJS.Timeout | null = null;
 
-    const clearError = () => {
-      if (errors) {
-        timeout = setTimeout(() => {
-          clearErrors();
-        }, 3000);
-      }
-    };
-
-    clearError();
+    if (errors) {
+      timeout = setTimeout(() => {
+        clearErrors();
+      }, 3000);
+    }
 
     return () => {
       if (timeout) {

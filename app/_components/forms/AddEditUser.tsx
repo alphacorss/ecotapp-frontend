@@ -3,12 +3,14 @@ import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import BackendError from '../utils/FormError';
 import Loader from '../utils/Loader';
 import { InputComponent } from '@/app/_components/inputs/InputComponent';
 import { InputComponentWithSelector } from '@/app/_components/inputs/InputComponentWithSelector';
 import { countries } from '@/app/_constants/countryCodes';
 import { userForm } from '@/app/_constants/forms';
 import useClearError from '@/app/_hooks/useClearError';
+import { useHandleFormState } from '@/app/_hooks/useHandleFormState';
 import { Modals } from '@/app/_slices/ModalSlice';
 import { TMutationHandler, TRole, TUser } from '@/app/types';
 import { Button } from '@/components/ui/button';
@@ -22,9 +24,7 @@ type Props = {
   modalToOpen: Modals;
   modalToClose: Modals;
   mutation: TMutationHandler;
-  // eslint-disable-next-line no-unused-vars
   handleCloseModal: (modal: Modals) => void;
-  // eslint-disable-next-line no-unused-vars
   handleOpenModal: (modal: Modals) => void;
 };
 
@@ -90,17 +90,10 @@ export const AddEditUser = ({
   };
 
   useClearError(errors, clearErrors);
-
-  React.useEffect(() => {
-    if (mutation.isSuccess) {
-      handleCloseModal(modalToClose);
-      handleOpenModal(modalToOpen);
-      reset();
-    } else if (mutation.error) {
-      const errorMessage = (mutation.error as any).response?.data?.message;
-      setError('email', { message: errorMessage });
-    }
-  }, [mutation, handleCloseModal, handleOpenModal, modalToClose, modalToOpen, reset, setError]);
+  useHandleFormState(mutation, reset, setError, () => {
+    handleCloseModal(modalToClose);
+    handleOpenModal(modalToOpen);
+  });
 
   const userRole = cleanRoleSingular(role);
 
@@ -147,7 +140,7 @@ export const AddEditUser = ({
           selectorError={errors.country?.message}
         />
       </div>
-      <div className="w-full flex flex-col sm:flex-row justify-center items-center gap-5 mt-12">
+      <div className="w-full flex flex-col sm:flex-row justify-center items-center gap-5 mt-12 mb-2">
         <Button
           type="button"
           onClick={() => {
@@ -171,6 +164,7 @@ export const AddEditUser = ({
           )}
         </Button>
       </div>
+      <BackendError errors={errors} />
     </form>
   );
 };

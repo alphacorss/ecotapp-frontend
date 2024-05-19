@@ -3,12 +3,13 @@ import { MoreVertical } from 'lucide-react';
 import React, { memo } from 'react';
 
 import DataPage from './_components/DataPage';
+import ThresholdForm from './_components/ThresholdForm';
 import useAnalytics from './page.hook';
 import EnergyFilter from '../../../_components/forms/EnergyFilter';
 import { DropdownMenuComponent } from '@/app/_components/utils/DropDowns';
 import FilterBtn from '@/app/_components/utils/FilterBtn';
 import { BoxLoader, ChartLoader } from '@/app/_components/utils/Loader';
-import { ModalComponent } from '@/app/_components/utils/Modals';
+import { ModalComponent, SuccessModalContent } from '@/app/_components/utils/Modals';
 import SectionHeader, { FacilityHeader, OrganizationHeader, TenantHeader } from '@/app/_components/utils/SectionHeader';
 import ToggleSwitch from '@/app/_components/utils/ToggleSwitch';
 import { analyticsOptionsArry, energyToggle } from '@/app/_constants/data';
@@ -16,6 +17,7 @@ import { capitalizeFirstLetter, setUrlParams } from '@/lib/utils';
 
 const EnergyConsumption = () => {
   const {
+    role,
     addToReport,
     clearReport,
     downloadReport,
@@ -32,6 +34,11 @@ const EnergyConsumption = () => {
     total,
     realTimeData,
     realTimeIsLoading,
+    setThresholdModal,
+    thresholdModal,
+    setThresholdSet,
+    thresholdSet,
+    threshold,
   } = useAnalytics();
 
   const reportData = viewType === 'analytics' ? consumption : realTimeData;
@@ -43,6 +50,29 @@ const EnergyConsumption = () => {
         setOpen={() => setShowFilterModal(false)}
         contentClass="min-w-[min(90vw,500px)] max-h-[90svh] overflow-y-auto"
         content={<EnergyFilter setShowFilterModal={setShowFilterModal} showRefreshTime={viewType === 'real-time'} />}
+      />
+
+      <ModalComponent
+        open={thresholdModal}
+        setOpen={() => setThresholdModal(false)}
+        contentClass="min-w-[min(90vw,500px)] max-h-[90svh] overflow-y-auto"
+        content={<ThresholdForm setThresholdModal={setThresholdModal} setThresholdSet={setThresholdSet} />}
+      />
+
+      <ModalComponent
+        open={thresholdSet}
+        setOpen={() => setThresholdSet(false)}
+        content={
+          <SuccessModalContent
+            actionBtnText="Go to Energy Consumption"
+            title="Threshold Set Successfully"
+            message="You will receive instant notifications when your energy consumption surpasses the set threshold."
+            onConfirm={() => {
+              setThresholdSet(false);
+              setThresholdModal(false);
+            }}
+          />
+        }
       />
 
       <div className="flex justify-between items-start mb-5 lg:mb-8 flex-row gap-3 lg:gap-0 border-b-[1px] border-gray-200 pb-5 relative">
@@ -64,6 +94,8 @@ const EnergyConsumption = () => {
             trigger={<MoreVertical size={20} className="text-gray-500" />}
             triggerClassName="border-none size-[30px]"
             array={analyticsOptionsArry(
+              role,
+              () => setThresholdModal(true),
               () =>
                 addToReport({
                   title: viewType as string,
@@ -122,9 +154,18 @@ const EnergyConsumption = () => {
           <ChartLoader showTop={viewType === 'analytics'} showBottom={viewType === 'analytics'} />
         ) : (
           <div className="flex flex-col h-full w-full">
-            <div className="flex flex-col justify-center mb-10">
-              <h2 className="text-3xl text-primary-300/90 font-[700]">{total} kWh</h2>
-              <p className="text-sm text-gray-500 font-[500]">Energy consumed</p>
+            <div className="flex justify-between items-center mb-10">
+              <div>
+                <h2 className="text-3xl text-primary-300/90 font-[700]">{total} kWh</h2>
+                <p className="text-sm text-gray-500 font-[500]">Energy consumed</p>
+              </div>
+
+              {role === 'tenant' && viewType === 'analytics' && threshold && (
+                <div className="flex flex-col gap-3 border p-2 rounded-[var(--rounded)]">
+                  <p className="text-sm text-gray-500 font-[500] border-b-[1px] pb-[2px]">Threshold (kWh)</p>
+                  <h3 className="text-xl text-gray-700/90 font-[700]">{threshold}</h3>
+                </div>
+              )}
             </div>
             <DataPage viewType={viewType} consumption={consumption} realTimeData={realTimeData} />
           </div>

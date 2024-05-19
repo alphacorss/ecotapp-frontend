@@ -234,6 +234,16 @@ const realTimeRq = async (q: string) => {
   return response;
 };
 
+const getThresholdRq = async (tenantId: string) => {
+  const response = await axios.get(`${baseUrl}/statistic/energystat/threshold/${tenantId}`);
+  return response;
+};
+
+const setThresholdRq = async (energyThreshold: number) => {
+  const response = await axios.put(`${baseUrl}/statistic/energystat/threshold`, { energyThreshold });
+  return response;
+};
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   listByRoleRq,
@@ -275,4 +285,6 @@ export default {
   homeChartsTntRq,
   analyticsRq,
   realTimeRq,
+  getThresholdRq,
+  setThresholdRq,
 };
