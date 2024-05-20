@@ -12,8 +12,9 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: 'ecotapp',
-  description: 'ecotapp dashboard',
+  title: 'Ecotapp - Dashboard',
+  description:
+    'Ecotapp - A platform for environmentalists and nature lovers.To manage you energy consumption and carbon footprint.',
 };
 
 export default function RootLayout({

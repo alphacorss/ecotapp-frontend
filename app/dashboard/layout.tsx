@@ -1,6 +1,4 @@
 'use client';
-import type { Metadata } from 'next';
-import { Poppins } from 'next/font/google';
 import posthog from 'posthog-js';
 import { PostHogProvider } from 'posthog-js/react';
 import React from 'react';
@@ -10,16 +8,6 @@ import Header from '../_components/nav/Header';
 import SideNav from '../_components/nav/SideNav';
 import { PageLoader } from '../_components/utils/Loader';
 import User from '../_context/User';
-
-const poppins = Poppins({
-  subsets: ['latin'],
-  display: 'swap',
-  weight: ['400', '500', '600', '700'],
-});
-
-export const meta: Metadata = {
-  title: 'Ecotapp - Dashboard',
-};
 
 export default function RootLayout({
   children,
@@ -39,7 +27,7 @@ export default function RootLayout({
   return (
     <React.Fragment>
       <PostHogProvider client={posthog}>
-        <div className={poppins.className}>
+        <div>
           {isLoading || isFetching ? (
             <PageLoader />
           ) : (
