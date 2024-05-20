@@ -1,6 +1,7 @@
 'use client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
+import { ThemeProvider } from 'next-themes';
 import React from 'react';
 import { Provider } from 'react-redux';
 
@@ -23,7 +24,11 @@ const Providers = ({ children }: ProvidersProps) => {
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <UserCtxProvider>
-          <MainCtxProvider>{children}</MainCtxProvider>
+          <MainCtxProvider>
+            <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+              {children}
+            </ThemeProvider>
+          </MainCtxProvider>
         </UserCtxProvider>
       </QueryClientProvider>
     </Provider>

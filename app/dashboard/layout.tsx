@@ -36,7 +36,9 @@ export default function RootLayout({
                 <SideNav />
                 <div className="w-full h-full">
                   <Header />
-                  <main className="p-5 h-[calc(100svh-80px)] overflow-y-auto bg-[#fafafa]">{children}</main>
+                  <main className="p-5 h-[calc(100svh-80px)] overflow-y-auto bg-[#fafafa] dark:dark-bg dark:dark-text">
+                    {children}
+                  </main>
                 </div>
               </div>
             </ProtectedRoutes>

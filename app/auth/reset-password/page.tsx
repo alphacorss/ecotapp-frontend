@@ -53,42 +53,40 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="bg-gradient-to-b from-primary-75/60 to-accent-50 h-[100svh] w-full py-16 flex justify-center items-center">
-      <div className="w-[min(90vw,550px)] mx-auto overflow-y-auto bg-white shadow-[0_1px_5px_rgb(0,0,0,0.2)] rounded-[var(--rounded)] flex flex-col items-center py-10 px-5 md:px-16 scroll-mr-10">
-        <h1 className="text-2xl md:text-3xl font-[600] tracking-tight mb-3">Password Reset</h1>
-        <p className="text-sm text-gray-500 font-[500] text-center mb-7">
-          A security code has been sent to your email address in order to reset your password.
-        </p>
+    <React.Fragment>
+      <h1 className="text-2xl md:text-3xl font-[600] tracking-tight mb-3">Password Reset</h1>
+      <p className="text-sm text-gray-500 font-[500] text-center mb-7">
+        A security code has been sent to your email address in order to reset your password.
+      </p>
 
-        <form className="w-full flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
-          <InputComponent
-            id="email"
-            name="email"
-            type="email"
-            error={errors.email?.message}
-            register={register}
-            label="Email"
-            placeholder="Enter you email address"
-            before={<Sms color="gray" size={18} className="ml-3" />}
-          />
-          <InputComponent
-            id="text"
-            name="verificationCode"
-            type="text"
-            error={errors.verificationCode?.message}
-            register={register}
-            label="Security Code"
-            placeholder="Enter the security code sent to your email address"
-            before={<Lock1 color="gray" size={18} className="ml-3" />}
-          />
+      <form className="w-full flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
+        <InputComponent
+          id="email"
+          name="email"
+          type="email"
+          error={errors.email?.message}
+          register={register}
+          label="Email"
+          placeholder="Enter you email address"
+          before={<Sms color="gray" size={18} className="ml-3" />}
+        />
+        <InputComponent
+          id="text"
+          name="verificationCode"
+          type="text"
+          error={errors.verificationCode?.message}
+          register={register}
+          label="Security Code"
+          placeholder="Enter the security code sent to your email address"
+          before={<Lock1 color="gray" size={18} className="ml-3" />}
+        />
 
-          <Button disabled={isSubmitting} className="mt-3">
-            {isSubmitting ? <Loader /> : 'Reset Password'}
-          </Button>
-          <BackendError errors={errors} />
-        </form>
-      </div>
-    </div>
+        <Button disabled={isSubmitting} className="mt-3">
+          {isSubmitting ? <Loader /> : 'Reset Password'}
+        </Button>
+        <BackendError errors={errors} />
+      </form>
+    </React.Fragment>
   );
 };
 

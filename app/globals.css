@@ -23,6 +23,18 @@
       -5px -5px 5px #ffffff;
   }
 
+  .dark-text {
+    @apply text-gray-300;
+  }
+
+  .dark-bg {
+    @apply bg-gray-700;
+  }
+
+  .dark-text-light {
+    @apply text-primary-100;
+  }
+
   .more {
     @apply w-full text-gray-800 flex gap-2 items-center cursor-pointer rounded-[var(--rounded)] hover:bg-gray-100 p-1;
   }
@@ -68,6 +80,7 @@
   --side-nav-width: 275px;
   --rounded: 5px;
   --rounded-lg: 10px;
+  color-scheme: light dark;
 }
 
 ::-webkit-scrollbar {
@@ -77,14 +90,14 @@
 
 ::-webkit-scrollbar-thumb {
   border-radius: 5px;
-  background: #cacaca;
+  background: light-dark(#cacaca, #ffffff);
 }
 ::-webkit-scrollbar-track {
-  background: #ffffff;
+  background: light-dark(#ffffff, #f3f3f3);
   border-radius: 5px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #cacaca;
+  background: light-dark(#b3b3b3, #e6e6e6);
 }
 
 input:-webkit-autofill,
@@ -96,7 +109,7 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+  -webkit-box-shadow: 0 0 0px 1000px light-dark(#cacaca, rgb(55 65 81)) inset;
   transition: background-color 5000s ease-in-out 0s;
 }
 
