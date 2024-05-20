@@ -1,4 +1,6 @@
 import { motion } from 'framer-motion';
+import { Moon, Sun } from 'iconsax-react';
+import { useTheme } from 'next-themes';
 import React from 'react';
 
 import { NotificationDropDown } from '../utils/DropDowns';
@@ -14,6 +16,7 @@ const Header = () => {
   const { user, cleanRole, role } = React.useContext(User);
   const { myMessages } = React.useContext(Queries);
   const { currentWindowWidth } = useWindowDimensions();
+  const { theme, setTheme } = useTheme();
 
   const notifications: TMessages[] = myMessages?.data?.data?.messages;
 
@@ -29,42 +32,52 @@ const Header = () => {
         )}
         <p className="text-gray-500 font-[500] text-xs">{currentDate()}</p>
       </div>
-      {currentWindowWidth > definedGlobalWidth && (
+
+      <div className="flex gap-3 justify-center items-center">
+        <button
+          onClick={() => {
+            theme === 'dark' ? setTheme('light') : setTheme('dark');
+          }}
+        >
+          {theme === 'dark' ? <Moon size={20} color="gray" /> : <Sun size={20} color="gray" />}
+        </button>
+
         <div className="flex justify-center items-center gap-5">
           {role !== 'tenant' && role !== 'superadmin' && <NotificationDropDown notifications={notifications} />}
         </div>
-      )}
-      {currentWindowWidth < definedGlobalWidth && (
-        <div className="relative z-10 content lg:hidden">
-          <motion.button
-            animate={mobileNav ? 'open' : 'closed'}
-            className="flex flex-col justify-center items-center rounded-lg bg-white dark:bg-gray-500 p-2 py-3 gap-[5px] border"
-            onClick={() => toggleMobileNav()}
-          >
-            <motion.span
-              variants={{
-                closed: { rotate: 0, y: 0 },
-                open: { rotate: 45, y: 7 },
-              }}
-              className="w-5 h-[1px] bg-gray-400 dark:bg-gray-100  block"
-            ></motion.span>
-            <motion.span
-              variants={{
-                closed: { opacity: 1 },
-                open: { opacity: 0 },
-              }}
-              className="w-5 h-[1px] bg-gray-400 dark:bg-gray-100 block"
-            ></motion.span>
-            <motion.span
-              variants={{
-                closed: { rotate: 0, y: 0 },
-                open: { rotate: -45, y: -5 },
-              }}
-              className="w-5 h-[1px] bg-gray-400 dark:bg-gray-100 block"
-            ></motion.span>
-          </motion.button>
-        </div>
-      )}
+
+        {currentWindowWidth < definedGlobalWidth && (
+          <div className="relative z-10 content lg:hidden">
+            <motion.button
+              animate={mobileNav ? 'open' : 'closed'}
+              className="flex flex-col justify-center items-center rounded-lg bg-white dark:bg-gray-500 p-2 py-3 gap-[5px] border"
+              onClick={() => toggleMobileNav()}
+            >
+              <motion.span
+                variants={{
+                  closed: { rotate: 0, y: 0 },
+                  open: { rotate: 45, y: 7 },
+                }}
+                className="w-5 h-[1px] bg-gray-400 dark:bg-gray-100  block"
+              ></motion.span>
+              <motion.span
+                variants={{
+                  closed: { opacity: 1 },
+                  open: { opacity: 0 },
+                }}
+                className="w-5 h-[1px] bg-gray-400 dark:bg-gray-100 block"
+              ></motion.span>
+              <motion.span
+                variants={{
+                  closed: { rotate: 0, y: 0 },
+                  open: { rotate: -45, y: -5 },
+                }}
+                className="w-5 h-[1px] bg-gray-400 dark:bg-gray-100 block"
+              ></motion.span>
+            </motion.button>
+          </div>
+        )}
+      </div>
     </header>
   );
 };
