@@ -6,7 +6,6 @@ import { z } from 'zod';
 
 import Auth from '@/app/_context/User';
 import useClearError from '@/app/_hooks/useClearError';
-import useLocalStorage from '@/app/_hooks/useLocalStorage';
 import { baseUrl, zodInputValidators } from '@/lib/utils';
 
 const email = zodInputValidators.email;
@@ -18,7 +17,6 @@ type LoginSchema = z.infer<typeof loginSchema>;
 
 const useLoginHook = () => {
   const { isError } = React.useContext(Auth);
-  const [stayLoggedIn, setStayLoggedIn] = useLocalStorage('@stayLoggedIn', false);
   const [authError, setAuthError] = React.useState(false);
 
   React.useEffect(() => {
@@ -66,9 +64,7 @@ const useLoginHook = () => {
   return {
     errors,
     isSubmitting,
-    stayLoggedIn,
     isSubmitSuccessful,
-    setStayLoggedIn,
     register,
     onSubmit,
     handleSubmit,

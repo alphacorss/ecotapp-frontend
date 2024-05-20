@@ -8,24 +8,13 @@ import { InputComponent } from '@/app/_components/inputs/InputComponent';
 import BackendError from '@/app/_components/utils/FormError';
 import Loader from '@/app/_components/utils/Loader';
 import { Button } from '@/components/ui/button';
-// import { Checkbox } from '@/components/ui/checkbox';
 
 const LoginPage = () => {
-  const {
-    errors,
-    handleSubmit,
-    isSubmitting,
-    isSubmitSuccessful,
-    onSubmit,
-    register,
-    // setStayLoggedIn,
-    // stayLoggedIn,
-    authError,
-  } = useLoginHook();
+  const { errors, handleSubmit, isSubmitting, isSubmitSuccessful, onSubmit, register, authError } = useLoginHook();
 
   return (
     <div className="bg-gradient-to-b from-primary-75/60 to-accent-50 h-[100svh] w-full py-16 flex justify-center items-center">
-      <div className="w-[min(90vw,550px)] mx-auto overflow-y-auto bg-white shadow-[0_1px_5px_rgb(0,0,0,0.2)] rounded-[var(--rounded)] flex flex-col items-center py-10 px-5 md:px-16 scroll-mr-10 mb-6">
+      <div className="w-[min(90vw,550px)] mx-auto overflow-y-auto bg-white shadow-[0_1px_5px_rgb(0,0,0,0.2)] rounded-[var(--rounded)] flex flex-col items-center py-10 px-10 md:px-16 scroll-mr-10 mb-6">
         <h1 className="text-3xl font-[600] tracking-tight mb-3">Sign in</h1>
         <p className="text-sm text-gray-500 font-[500] text-center mb-10">
           Login with your credentials to manage your energy
@@ -50,13 +39,6 @@ const LoginPage = () => {
             before={<Lock1 color="gray" size={18} className="ml-3" />}
           />
           <div className="justify-end items-center flex">
-            {/* <span className="flex justify-center items-center gap-2">
-              <Checkbox id="stayLoggedIn" checked={stayLoggedIn} onCheckedChange={(e) => setStayLoggedIn(Boolean(e))} />
-              <label htmlFor="stayLoggedIn" className="text-xs font-[500] text-gray-500 select-none cursor-pointer">
-                Stay logged in
-              </label>
-            </span> */}
-
             <Link href="/auth/forgot-password" className="text-xs font-[500] text-primary-300">
               Forgot password?
             </Link>
