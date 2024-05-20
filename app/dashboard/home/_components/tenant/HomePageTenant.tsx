@@ -59,7 +59,7 @@ const HomePageTenant = () => {
 
   return (
     <div className="flex flex-col gap-5 justify-between min-h-full">
-      <div className="flex gap-5 flex-col lg:flex-row  lg:h-[400px]">
+      <div className="flex gap-5 flex-col lg:flex-row lg:h-[400px]">
         <div className="card flex flex-col flex-[7] h-full">
           <div className="flex justify-between items-center mb-5">
             <h3 className="text-lg font-[700] text-gray-600 pb-1">Total Energy Consumption</h3>
@@ -75,7 +75,7 @@ const HomePageTenant = () => {
             </div>
           </div>
           <div className="flex flex-col gap-3 mb-8 ">
-            <h2 className="text-primary-200 font-[500] text-2xl">{currentMonth}kWh</h2>
+            <h2 className="text-primary-200 font-[700] text-2xl">{currentMonth} kWh</h2>
 
             <div className="w-full bg-[#EBEBEB] rounded-[7px] dark:bg-gray-700">
               <div
@@ -86,7 +86,7 @@ const HomePageTenant = () => {
                 {percentageIncrease}%
               </div>
             </div>
-            <div className="flex justify-between items-center">
+            <div className="flex lg:justify-between lg:items-center lg:flex-row lg:gap-0 gap-2  flex-col">
               <p className="text-gray-500 font-[500] text-xs">
                 Next Month Prediction: <span className="text-primary-500 font-[600]">{nextMonth}kWh</span>
               </p>
@@ -97,7 +97,7 @@ const HomePageTenant = () => {
           </div>
           <div className="flex flex-col justify-between items-start border border-gray-300 p-3 rounded-[var(--rounded)] flex-1">
             <h3 className="text-lg font-[700] text-gray-600 pb-1 mb-3">Consumption by Energy Type</h3>
-            <div className="flex justify-between flex-wrap items-center w-full">
+            <div className="flex justify-between flex-wrap gap-4 lg:gap-0 items-center w-full">
               {types.map((type, index) => (
                 <div className="flex flex-col items-start gap-1" key={index}>
                   <p className="text-gray-400 font-[500] text-[13px]">{type.name}</p>
@@ -115,7 +115,7 @@ const HomePageTenant = () => {
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-lg font-[600] text-gray-600">Consumption History</h1>
         </div>
-        <div className="flex justify-end items-center mb-6 flex-col md:flex-row gap-3">
+        <div className="flex gap-3 mb-10 lg:mb-6 justify-start items-start lg:justify-end lg:items-center flex-col lg:flex-row">
           <DropdownMenuComponent
             trigger={
               <Button className="px-2" variant="outlineGrayHover">

@@ -113,7 +113,7 @@ const EnergyConsumption = () => {
       </div>
 
       <div className="flex flex-col justify-between items-end">
-        <div className="flex w-full justify-between mb-8">
+        <div className="flex w-full justify-between mb-8 flex-col lg:flex-row">
           <ToggleSwitch
             arrayOptions={energyToggle}
             option={viewType}
@@ -127,7 +127,7 @@ const EnergyConsumption = () => {
             }}
           />
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center justify-end gap-4 mt-3 lg:mt-0 flex-wrap">
             {isLoading || realTimeIsLoading ? (
               <BoxLoader />
             ) : (
@@ -154,14 +154,14 @@ const EnergyConsumption = () => {
           <ChartLoader showTop={viewType === 'analytics'} showBottom={viewType === 'analytics'} />
         ) : (
           <div className="flex flex-col h-full w-full">
-            <div className="flex justify-between items-center mb-10">
-              <div>
+            <div className="flex mb-10 flex-col lg:justify-between lg:items-center lg:flex-row">
+              <div className="mb-4 lg:mb-0">
                 <h2 className="text-3xl text-primary-300/90 font-[700]">{total} kWh</h2>
                 <p className="text-sm text-gray-500 font-[500]">Energy consumed</p>
               </div>
 
               {role === 'tenant' && viewType === 'analytics' && threshold && (
-                <div className="flex flex-col gap-3 border p-2 rounded-[var(--rounded)]">
+                <div className="flex flex-col gap-3 border p-2 rounded-[var(--rounded)] max-w-fit">
                   <p className="text-sm text-gray-500 font-[500] border-b-[1px] pb-[2px]">Threshold (kWh)</p>
                   <h3 className="text-xl text-gray-700/90 font-[700]">{threshold}</h3>
                 </div>

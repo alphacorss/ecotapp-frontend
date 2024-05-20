@@ -104,7 +104,7 @@ const NotificationTrigger = ({
   return (
     <div
       onClick={() => view(notification)}
-      className="flex flex-col gap-2 py-3 p-2 rounded-tl-[var(--rounded)] rounded-bl-[var(--rounded)] border-l-4 border-[#FCD19A] mb-3 hover:scale-[0.95] transition cursor-pointer"
+      className="flex flex-col gap-2 py-3 p-2 rounded-tl-[var(--rounded)] rounded-bl-[var(--rounded)] border-l-4 border-[#FCD19A] mb-3 hover:scale-[0.95] transition cursor-pointer break-all"
     >
       <div className="flex justify-between items-center">
         <h3 className="text-gray-500 font-[500] text-sm flex gap-3 items-center">
@@ -124,7 +124,7 @@ const NotificationTrigger = ({
 
 const NotificationContent = ({ notification }: { notification: TMessages }) => {
   return (
-    <div className="flex flex-col gap-2 py-3 p-2">
+    <div className="flex flex-col gap-2 py-3 p-2 break-all">
       <div className="flex justify-between items-center">
         <h3 className="text-gray-500 font-[600] text-sm flex gap-3 items-center">
           Broadcast

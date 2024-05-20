@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 
-const selectVariant = cva('w-full h-11', {
+const selectVariant = cva('w-full h-11 min-w-fit whitespace-nowrap', {
   variants: {
     variant: {
       default: 'rounded-[var(--rounded)] border-gray-300',

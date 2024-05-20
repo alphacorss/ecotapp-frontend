@@ -32,7 +32,7 @@ const ToggleSwitch = ({
           className={cn(
             ` ${
               option === toggle.name ? 'text-gray-900 bg-white rounded-[5px] font-[600]' : 'text-gray-500'
-            } p-2 px-3 cursor-pointer transition font-[500] flex gap-1 items-center text-sm tracking-tight whitespace-nowrap`,
+            } p-2 px-3 cursor-pointer transition font-[500] flex gap-1 items-center justify-center text-sm tracking-tight whitespace-nowrap`,
             itemClass,
           )}
         >
