@@ -28,7 +28,7 @@ const HomeMain = ({ orgId, title }: { orgId?: string; title?: string }) => {
         <h1 className="text-lg font-[600] text-gray-600">{title ? title : 'Total Energy Consumption'}</h1>
       </div>
 
-      <div className="flex w-full h-full gap-5">
+      <div className="flex w-full h-full gap-5 flex-col lg:flex-row">
         <div className="flex flex-[4] justify-between items-start mb-6 flex-col md:flex-row">
           <div className="flex flex-col gap-5 w-full h-full">
             <div>

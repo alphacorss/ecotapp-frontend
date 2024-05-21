@@ -50,7 +50,7 @@ const Settings = () => {
         }
       />
 
-      <form onSubmit={handleSubmit(onSubmit)} className="min-h-full card w-full p-[56px]">
+      <form onSubmit={handleSubmit(onSubmit)} className="min-h-full card w-full lg:p-[56px]">
         <div className="flex flex-col gap-5 w-[min(100%,1440px)] mx-auto">
           <div className="w-full mb-14">
             <div className="mb-4">
