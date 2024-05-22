@@ -4,8 +4,8 @@ import { Messages, Trash } from 'iconsax-react';
 import { MoreVertical } from 'lucide-react';
 import * as React from 'react';
 
-import TableCell from '@/app/_components/table/TableCell';
-import { TableHeader } from '@/app/_components/table/TableHeader';
+import TableCell from '@/app/_components/tables/TableCell';
+import { TableHeader } from '@/app/_components/tables/TableHeader';
 import { DropdownMenuComponent } from '@/app/_components/utils/DropDowns';
 import SurveyCtx from '@/app/_context/Survey';
 import { TRole, TSurveyData } from '@/app/types';
@@ -34,10 +34,10 @@ export const TenantColumn = () => {
         const filledBy = row.original.filledBy;
         const userFilled = hasUserResponded(filledBy);
         return (
-          <TableCell className="flex items-center gap-3">
-            {row.original.title}
+          <div className="flex items-start gap-3 flex-col-reverse mt-3 md:flex-row md:mt-0 md:items-center">
+            <TableCell>{row.original.title}</TableCell>
             {!userFilled && <span className="p-1 px-2 bg-[#E7F8F0] text-[#0B7041] rounded-[var(--rounded)]">New</span>}
-          </TableCell>
+          </div>
         );
       },
     },

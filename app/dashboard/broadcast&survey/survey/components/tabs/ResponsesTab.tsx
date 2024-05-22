@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ResponseTabColumns } from './responseColumn';
-import DataTable from '@/app/_components/table/Table';
+import DataTable from '@/app/_components/tables/Table';
 import { TQuestion, TResponseTable, TSurveyData } from '@/app/types';
 
 const ResponsesTab = ({ surveyDetail }: { surveyDetail: TSurveyData | undefined }) => {

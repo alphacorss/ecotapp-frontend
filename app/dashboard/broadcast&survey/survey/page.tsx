@@ -8,7 +8,7 @@ import EmptyState from './components/EmptyState';
 import Respond from './components/Respond';
 import { TenantColumn } from './components/TenantColumn';
 import ViewSurveyDetails from './components/ViewSurveyDetails';
-import DataTable from '@/app/_components/table/Table';
+import DataTable from '@/app/_components/tables/Table';
 import { DeleteModalContent, SuccessModalContent } from '@/app/_components/utils/Modals';
 import { ModalComponent } from '@/app/_components/utils/Modals';
 import SectionHeader from '@/app/_components/utils/SectionHeader';

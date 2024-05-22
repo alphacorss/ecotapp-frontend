@@ -5,15 +5,13 @@ import { NotificationDropDown } from '../utils/DropDowns';
 import Main from '@/app/_context/Main';
 import Queries from '@/app/_context/Queries';
 import User from '@/app/_context/User';
-import useWindowDimensions from '@/app/_hooks/useMediaQuery';
 import { TMessages } from '@/app/types';
 import { capitalizeFirstLetter, currentDate } from '@/lib/utils';
 
 const Header = () => {
-  const { mobileNav, toggleMobileNav, definedGlobalWidth } = React.useContext(Main);
+  const { mobileNav, toggleMobileNav, isMobile } = React.useContext(Main);
   const { user, cleanRole, role } = React.useContext(User);
   const { myMessages } = React.useContext(Queries);
-  const { currentWindowWidth } = useWindowDimensions();
 
   const notifications: TMessages[] = myMessages?.data?.data?.messages;
 
@@ -29,12 +27,12 @@ const Header = () => {
         )}
         <p className="text-gray-500 font-[500] text-xs">{currentDate()}</p>
       </div>
-      {currentWindowWidth > definedGlobalWidth && (
+      {isMobile && (
         <div className="flex justify-center items-center gap-5">
           {role !== 'tenant' && role !== 'superadmin' && <NotificationDropDown notifications={notifications} />}
         </div>
       )}
-      {currentWindowWidth < definedGlobalWidth && (
+      {isMobile && (
         <div className="relative z-10 content lg:hidden">
           <motion.button
             animate={mobileNav ? 'open' : 'closed'}

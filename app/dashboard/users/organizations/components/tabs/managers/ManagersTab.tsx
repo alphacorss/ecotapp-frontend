@@ -3,8 +3,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 
 import { AddEditUser } from '@/app/_components/forms/AddEditUser';
-import DataTable from '@/app/_components/table/Table';
-import { UserColumnData } from '@/app/_components/table/UserColumn';
+import DataTable from '@/app/_components/tables/Table';
+import { UserColumnData } from '@/app/_components/tables/UserColumn';
 import GetItemModal from '@/app/_components/utils/GetItemModal';
 import { DeleteModalContent, SuccessModalContent } from '@/app/_components/utils/Modals';
 import { ModalComponent } from '@/app/_components/utils/Modals';

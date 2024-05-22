@@ -6,7 +6,7 @@ import AddEditOrg from './components/AddEditOrg';
 import { OrgColumnData } from './components/OrgColumn';
 import useOrg from './page.hook';
 import ViewBusinessDetails from '../../../_components/view/ViewBusinessDetails';
-import DataTable from '@/app/_components/table/Table';
+import DataTable from '@/app/_components/tables/Table';
 import GetItemModal from '@/app/_components/utils/GetItemModal';
 import Loader from '@/app/_components/utils/Loader';
 import { DeleteModalContent, SuccessModalContent } from '@/app/_components/utils/Modals';
@@ -30,7 +30,7 @@ export default function OrganizationsComponent() {
   } = useOrg();
 
   return (
-    <div className="card min-h-full flex flex-col h-full">
+    <>
       <div className="flex justify-between items-start mb-5 lg:mb-8 lg:flex-row flex-col gap-3 lg:gap-0">
         <SectionHeader title="Organizations" description=" Manage and review your Organization details here." />
         <Button variant="outline" onClick={() => handleOpenModal(Modals.addOrgModal)}>
@@ -158,6 +158,6 @@ export default function OrganizationsComponent() {
           columns={OrgColumnData(showDeleteModal, showDetailsModal) as ColumnDef<unknown, unknown>[]}
         />
       )}
-    </div>
+    </>
   );
 }

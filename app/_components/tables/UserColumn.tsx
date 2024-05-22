@@ -2,17 +2,12 @@
 import { ColumnDef } from '@tanstack/react-table';
 import * as React from 'react';
 
+import { TableHeader } from './TableHeader';
 import { TUser } from '../../types';
-import { TableHeader } from '../table/TableHeader';
-import TableCell from '@/app/_components/table/TableCell';
-import TableContext from '@/app/_components/table/TableContext';
+import TableCell from '@/app/_components/tables/TableCell';
+import TableContext from '@/app/_components/tables/TableContext';
 
-export const UserColumnData = (
-  // eslint-disable-next-line no-unused-vars
-  showDeleteModal: (id: string) => void,
-  // eslint-disable-next-line no-unused-vars
-  showDetailsModal: (id: string) => void,
-) => {
+export const UserColumnData = (showDeleteModal: (id: string) => void, showDetailsModal: (id: string) => void) => {
   const columns: ColumnDef<TUser>[] = [
     {
       accessorKey: '_id',
@@ -57,7 +52,9 @@ export const UserColumnData = (
       },
       cell: ({ row }) => {
         if (row.original.user) {
-          return <p className="text-gray-500 font-[500] whitespace-nowrap lowercase">{row.original.user.email}</p>;
+          return (
+            <p className="text-gray-500 font-[500] whitespace-nowrap lowercase order-1">{row.original.user.email}</p>
+          );
         } else {
           return <TableCell>User not available</TableCell>;
         }

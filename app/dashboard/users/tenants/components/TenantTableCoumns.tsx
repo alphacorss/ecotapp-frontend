@@ -2,9 +2,9 @@
 import { ColumnDef } from '@tanstack/react-table';
 import * as React from 'react';
 
-import TableCell from '@/app/_components/table/TableCell';
-import TableContext from '@/app/_components/table/TableContext';
-import { TableHeader } from '@/app/_components/table/TableHeader';
+import TableCell from '@/app/_components/tables/TableCell';
+import TableContext from '@/app/_components/tables/TableContext';
+import { TableHeader } from '@/app/_components/tables/TableHeader';
 import { TFacilityUser } from '@/app/types';
 
 export const TenantTableCoumns = (showDeleteModal: (id: string) => void, showDetailsModal: (id: string) => void) => {

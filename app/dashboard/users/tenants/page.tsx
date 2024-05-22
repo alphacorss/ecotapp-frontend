@@ -5,7 +5,7 @@ import React from 'react';
 import { AddEditTenant } from './components/TenantForm';
 import { TenantTableCoumns } from './components/TenantTableCoumns';
 import useTenant from './page.hook';
-import DataTable from '@/app/_components/table/Table';
+import DataTable from '@/app/_components/tables/Table';
 import GetItemModal from '@/app/_components/utils/GetItemModal';
 import Loader from '@/app/_components/utils/Loader';
 import { ModalComponent } from '@/app/_components/utils/Modals';
@@ -36,7 +36,7 @@ export default function TenantsComponent() {
   } = useTenant();
 
   return (
-    <div className="card min-h-full flex flex-col h-full">
+    <>
       <div className="flex justify-between items-start mb-5 lg:mb-8 lg:flex-row flex-col gap-3 lg:gap-0">
         <SectionHeader title="Tenants" description=" Manage and review your Tenant details here." />
         <Button variant="outline" onClick={() => handleOpenModal(Modals.addTenantModal)}>
@@ -164,6 +164,6 @@ export default function TenantsComponent() {
           columns={TenantTableCoumns(showDeleteModal, showDetailsModal) as ColumnDef<unknown, unknown>[]}
         />
       )}
-    </div>
+    </>
   );
 }

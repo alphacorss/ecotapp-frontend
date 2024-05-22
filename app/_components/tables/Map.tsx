@@ -4,21 +4,9 @@ import React from 'react';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 
 import Main from '@/app/_context/Main';
-import useWindowDimensions from '@/app/_hooks/useMediaQuery';
 
 const Map = ({ data }: { data: any }) => {
-  const { definedGlobalWidth } = React.useContext(Main);
-  const { currentWindowWidth } = useWindowDimensions();
-
-  const [isMobile, setIsMobile] = React.useState(false);
-
-  React.useEffect(() => {
-    if (currentWindowWidth < definedGlobalWidth) {
-      setIsMobile(true);
-    } else {
-      setIsMobile(false);
-    }
-  }, [currentWindowWidth, definedGlobalWidth]);
+  const { isMobile } = React.useContext(Main);
 
   const customIcon = new Icon({
     iconUrl: '/pin-solid.svg',

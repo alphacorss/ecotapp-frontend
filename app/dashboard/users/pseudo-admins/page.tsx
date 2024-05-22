@@ -4,8 +4,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 
 import { AddEditUser } from '@/app/_components/forms/AddEditUser';
-import DataTable from '@/app/_components/table/Table';
-import { UserColumnData } from '@/app/_components/table/UserColumn';
+import DataTable from '@/app/_components/tables/Table';
+import { UserColumnData } from '@/app/_components/tables/UserColumn';
 import GetItemModal from '@/app/_components/utils/GetItemModal';
 import Loader from '@/app/_components/utils/Loader';
 import { ModalComponent } from '@/app/_components/utils/Modals';
@@ -68,7 +68,7 @@ export default function PseudoAdminsComponent() {
   }, [pseudoAdminId]);
 
   return (
-    <div className="card min-h-full flex flex-col h-full">
+    <>
       <div className="flex justify-between items-start mb-5 lg:mb-8 lg:flex-row flex-col gap-3 lg:gap-0">
         <SectionHeader title="Pseudo Admins" description=" Manage and review your Pseudo Admin details here." />
         <Button variant="outline" onClick={() => handleOpenModal(Modals.addPseudoAdminModal)}>
@@ -195,6 +195,6 @@ export default function PseudoAdminsComponent() {
           columns={UserColumnData(showDeleteModal, showDetailsModal) as ColumnDef<unknown, unknown>[]}
         />
       )}
-    </div>
+    </>
   );
 }

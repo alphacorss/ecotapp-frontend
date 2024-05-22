@@ -9,17 +9,14 @@ import { analyticsNav, bottomNav, broadcastNav, sideNavItems, userNav } from '@/
 import Main from '@/app/_context/Main';
 import User from '@/app/_context/User';
 import useLocalStorage from '@/app/_hooks/useLocalStorage';
-import useWindowDimensions from '@/app/_hooks/useMediaQuery';
 import { capitalizeFirstLetter, clearCookies, clearSessionStorage } from '@/lib/utils';
 
 const SideNav = () => {
   const currentPath = usePathname();
 
-  const { mobileNav, toggleMobileNav, definedGlobalWidth } = React.useContext(Main);
+  const { isMobile, mobileNav, toggleMobileNav } = React.useContext(Main);
   const { role, user, cleanRole } = React.useContext(User);
 
-  const { currentWindowWidth } = useWindowDimensions();
-  const isMobile = currentWindowWidth < definedGlobalWidth;
   const [expandDrawer, setExpandDrawer] = useLocalStorage('@expandDrawer', true);
 
   const [isUserOpen, setIsUserOpen] = useLocalStorage('@isSideMenuUserOpen', true);
@@ -39,14 +36,7 @@ const SideNav = () => {
   }, [isMobile, setExpandDrawer]);
 
   const sideNavStyle = {
-    minWidth:
-      currentWindowWidth < definedGlobalWidth
-        ? mobileNav
-          ? 'var(--side-nav-width)'
-          : '0'
-        : expandDrawer
-          ? 'var(--side-nav-width)'
-          : 80,
+    minWidth: isMobile ? (mobileNav ? 'var(--side-nav-width)' : '0') : expandDrawer ? 'var(--side-nav-width)' : 80,
     top: 0,
     left: 0,
   };
@@ -64,14 +54,7 @@ const SideNav = () => {
       style={{
         ...sideNavStyle,
         position: isMobile ? 'fixed' : 'relative',
-        overflowX:
-          currentWindowWidth < definedGlobalWidth
-            ? mobileNav
-              ? 'visible'
-              : 'hidden'
-            : expandDrawer
-              ? 'visible'
-              : 'visible',
+        overflowX: isMobile ? (mobileNav ? 'visible' : 'hidden') : expandDrawer ? 'visible' : 'visible',
       }}
       className={`flex flex-col h-full bg-white transition-all duration-300 ease-in-out group border-r-2 z-[49] hover:border-primary-300/50`}
     >

@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { QueriesCtxProvider } from './Queries';
 import { SurveyCtxProvider } from './Survey';
+import useWindowDimensions from '../_hooks/useMediaQuery';
 import { Modals, ModalsState, closeModal, openModal } from '../_slices/ModalSlice';
 import { RootState } from '../store';
 
 export type TMainCtx = {
-  definedGlobalWidth: number;
+  isMobile: boolean;
   mobileNav: boolean;
   modalState: ModalsState;
   toggleMobileNav: () => void;
@@ -17,8 +18,8 @@ export type TMainCtx = {
 };
 
 const Main = createContext<TMainCtx>({
+  isMobile: false,
   mobileNav: false,
-  definedGlobalWidth: 767,
   modalState: {} as ModalsState,
   toggleMobileNav: () => {},
   handleOpenModal: () => {},
@@ -27,10 +28,11 @@ const Main = createContext<TMainCtx>({
 
 export function MainCtxProvider({ children }: React.PropsWithChildren<{}>) {
   const dispatch = useDispatch();
-  const definedGlobalWidth = 767;
+  const currentWindowWidth = useWindowDimensions();
 
   const modalState = useSelector((state: RootState) => state.modals);
   const [mobileNav, toggleMobileNav] = useCycle(false, true);
+  const isMobile = currentWindowWidth.currentWindowWidth < 960;
 
   const handleCloseModal = (modal: Modals) => {
     dispatch(closeModal(modal));
@@ -41,7 +43,7 @@ export function MainCtxProvider({ children }: React.PropsWithChildren<{}>) {
   };
 
   const contextValue = {
-    definedGlobalWidth,
+    isMobile,
     mobileNav,
     modalState,
     toggleMobileNav,
