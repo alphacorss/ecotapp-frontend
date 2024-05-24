@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { QueriesCtxProvider } from './Queries';
 import { SurveyCtxProvider } from './Survey';
 import useWindowDimensions from '../_hooks/useMediaQuery';
-import { Modals, ModalsState, closeModal, openModal } from '../_slices/ModalSlice';
+import { ModalsState, closeModal, openModal } from '../_slices/ModalSlice';
+import { Modals } from '../enums';
 import { RootState } from '../store';
 
 export type TMainCtx = {

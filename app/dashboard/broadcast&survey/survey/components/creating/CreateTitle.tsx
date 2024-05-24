@@ -4,7 +4,7 @@ import { InputComponent } from '@/app/_components/inputs/InputComponent';
 import Main from '@/app/_context/Main';
 import SurveyCtx from '@/app/_context/Survey';
 import useClearErrorMessage from '@/app/_hooks/useClearErrorMessage';
-import { Modals } from '@/app/_slices/ModalSlice';
+import { Modals } from '@/app/enums';
 import { Button } from '@/components/ui/button';
 
 const CreateTitle = () => {

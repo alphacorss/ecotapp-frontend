@@ -6,11 +6,11 @@ import { cleanChartDataMonthly } from '../../helpers';
 import { TAnalyticsConsumption, TRealTimeData } from '@/app/types';
 
 const DataPage = ({
-  viewType,
+  activeToggle,
   consumption,
   realTimeData,
 }: {
-  viewType: string | null;
+  activeToggle: string;
   realTimeData: TRealTimeData;
   consumption: TAnalyticsConsumption;
 }) => {
@@ -18,7 +18,7 @@ const DataPage = ({
 
   return (
     <React.Fragment>
-      {viewType === 'analytics' ? (
+      {activeToggle === 'analytics' ? (
         <Analytics consumption={consumption} monthlyData={monthlyData} />
       ) : (
         <div className="min-h-[calc(100%-30px)]">

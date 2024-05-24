@@ -13,15 +13,16 @@ import { ModalComponent, SuccessModalContent } from '@/app/_components/utils/Mod
 import SectionHeader, { FacilityHeader, OrganizationHeader, TenantHeader } from '@/app/_components/utils/SectionHeader';
 import ToggleSwitch from '@/app/_components/utils/ToggleSwitch';
 import { analyticsOptionsArry, energyToggle } from '@/app/_constants/data';
-import { capitalizeFirstLetter, setUrlParams } from '@/lib/utils';
+import { capitalizeFirstLetter, cleanNumber } from '@/lib/utils';
 
 const EnergyConsumption = () => {
   const {
+    activeToggle,
+    setActiveToggle,
     role,
     addToReport,
     clearReport,
     downloadReport,
-    viewType,
     energy_type,
     refreshTime,
     consumption,
@@ -41,7 +42,7 @@ const EnergyConsumption = () => {
     threshold,
   } = useAnalytics();
 
-  const reportData = viewType === 'analytics' ? consumption : realTimeData;
+  const reportData = activeToggle === 'analytics' ? consumption : realTimeData;
 
   return (
     <div className="card min-h-full flex flex-col h-full overflow-y-auto whitespace-nowrap">
@@ -49,7 +50,9 @@ const EnergyConsumption = () => {
         open={showFilterModal}
         setOpen={() => setShowFilterModal(false)}
         contentClass="min-w-[min(90vw,500px)] max-h-[90svh] overflow-y-auto"
-        content={<EnergyFilter setShowFilterModal={setShowFilterModal} showRefreshTime={viewType === 'real-time'} />}
+        content={
+          <EnergyFilter setShowFilterModal={setShowFilterModal} showRefreshTime={activeToggle === 'real-time'} />
+        }
       />
 
       <ModalComponent
@@ -98,7 +101,7 @@ const EnergyConsumption = () => {
               () => setThresholdModal(true),
               () =>
                 addToReport({
-                  title: viewType as string,
+                  title: activeToggle as string,
                   energyType: energy_type as string,
                   data: reportData,
                   ...(organization && { orgName: organization.name }),
@@ -114,19 +117,7 @@ const EnergyConsumption = () => {
 
       <div className="flex flex-col justify-between items-end">
         <div className="flex w-full justify-between mb-8 flex-col lg:flex-row">
-          <ToggleSwitch
-            arrayOptions={energyToggle}
-            option={viewType}
-            onClick={() => {
-              const newViewType = viewType === 'analytics' ? 'real-time' : 'analytics';
-              setUrlParams({
-                energy_type,
-                vt: newViewType,
-                ...(viewType !== 'real-time' ? { refreshtime: '1h' } : {}),
-              });
-            }}
-          />
-
+          <ToggleSwitch arrayOptions={energyToggle} option={activeToggle} setActiveToggle={setActiveToggle as any} />
           <div className="flex items-center justify-end gap-4 mt-3 lg:mt-0 flex-wrap">
             {isLoading || realTimeIsLoading ? (
               <BoxLoader />
@@ -137,7 +128,7 @@ const EnergyConsumption = () => {
                     <>{capitalizeFirstLetter(energy_type)}</>
                   </span>
                 )}
-                {refreshTime && (
+                {refreshTime && activeToggle === 'real-time' && (
                   <span className="border text-sm h-[45px] px-2 grid place-content-center rounded-[var(--rounded)] text-gray-500">
                     <>{capitalizeFirstLetter(refreshTime)}</>
                   </span>
@@ -151,23 +142,23 @@ const EnergyConsumption = () => {
           </div>
         </div>
         {isLoading || realTimeIsLoading ? (
-          <ChartLoader showTop={viewType === 'analytics'} showBottom={viewType === 'analytics'} />
+          <ChartLoader showTop={activeToggle === 'analytics'} showBottom={activeToggle === 'analytics'} />
         ) : (
           <div className="flex flex-col h-full w-full">
             <div className="flex mb-10 flex-col lg:justify-between lg:items-center lg:flex-row">
               <div className="mb-4 lg:mb-0">
-                <h2 className="text-3xl text-primary-300/90 font-[700]">{total} kWh</h2>
+                <h2 className="text-3xl text-primary-300/90 font-[700]">{cleanNumber(total)} kWh</h2>
                 <p className="text-sm text-gray-500 font-[500]">Energy consumed</p>
               </div>
 
-              {role === 'tenant' && viewType === 'analytics' && threshold && (
+              {role === 'tenant' && activeToggle === 'analytics' && threshold && (
                 <div className="flex flex-col gap-3 border p-2 rounded-[var(--rounded)] max-w-fit">
                   <p className="text-sm text-gray-500 font-[500] border-b-[1px] pb-[2px]">Threshold (kWh)</p>
                   <h3 className="text-xl text-gray-700/90 font-[700]">{threshold}</h3>
                 </div>
               )}
             </div>
-            <DataPage viewType={viewType} consumption={consumption} realTimeData={realTimeData} />
+            <DataPage activeToggle={activeToggle} consumption={consumption} realTimeData={realTimeData} />
           </div>
         )}
       </div>

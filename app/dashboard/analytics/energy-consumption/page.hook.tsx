@@ -1,21 +1,31 @@
 import { useQuery } from '@tanstack/react-query';
-import { getUnixTime } from 'date-fns';
 import ExcelJS from 'exceljs';
 import React from 'react';
 import { toast } from 'sonner';
 
 import { cleanChartDataMonthly, getStartEndDateByHourDiff } from '../helpers';
 import Queries from '@/app/_context/Queries';
-import usePathParams from '@/app/_hooks/usePathParams';
+import useLocalStorage from '@/app/_hooks/useLocalStorage';
+import { EnergyFilterDefaults } from '@/app/enums';
 import { TAnalyticsConsumption, TFacility, TFacilityUser, TOrg, TRealTimeData, TReport, TRole } from '@/app/types';
 import qry from '@/lib/queries';
-import { capitalizeFirstLetter, getDateIndexes, getRole } from '@/lib/utils';
+import { capitalizeFirstLetter, getDateIndexes, getFromLocalStorage, getRole } from '@/lib/utils';
 
 const { year, monthIndex, dayIndex } = getDateIndexes();
 
 const useAnalytics = () => {
   const { orgs, facilities, tenants, getThreshold } = React.useContext(Queries);
-  const { viewType, energy_type, refreshTime, orgId, facilityId, tenantId } = usePathParams();
+
+  const energyFilter = JSON.parse(getFromLocalStorage('@energy_filter') || '{}');
+
+  const [activeToggle, setActiveToggle] = useLocalStorage('@active_toggle', 'analytics');
+
+  const energy_type = energyFilter.energy_type || EnergyFilterDefaults.energy_type;
+  const refreshTime = energyFilter.refreshtime || EnergyFilterDefaults.refreshtime;
+  const orgId = energyFilter.orgId || EnergyFilterDefaults.orgId;
+  const facilityId = energyFilter.facilityId || EnergyFilterDefaults.facilityId;
+  const tenantId = energyFilter.tenantId || EnergyFilterDefaults.tenantId;
+
   const role = getRole() as TRole;
 
   //threshold
@@ -56,7 +66,6 @@ const useAnalytics = () => {
     queryFn: () => qry.realTimeRq(realTimeq),
     refetchInterval: 10000 * (refreshTime === '1h' ? 3600000 : parseInt(refreshTime as string)),
     refetchOnMount: false,
-    enabled: viewType === 'real-time',
   });
 
   const realTimeData: TRealTimeData = realTime.data?.data.data.stat;
@@ -99,14 +108,13 @@ const useAnalytics = () => {
     toast.success('Downloading report');
 
     const workbook = new ExcelJS.Workbook();
-    const time = getUnixTime(new Date());
     try {
       reports.map((report: TReport, index: number) => {
         const { data, title, energyType, orgName, facilityName, tenantName } = report;
 
         if (!data) return;
 
-        const sheet = workbook.addWorksheet(`${title}-${time}-${index}`);
+        const sheet = workbook.addWorksheet(`${title}-${index}`);
 
         sheet.mergeCells('A1:F1');
         sheet.getCell('A1').value = 'ECOTAPP ENERGY CONSUMPTION REPORT';
@@ -205,7 +213,7 @@ const useAnalytics = () => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `ecotapp-energy-consumption-report-${time}.xlsx`;
+      a.download = `ecotapp-energy-consumption-report.xlsx`;
       a.click();
       window.URL.revokeObjectURL(url);
 
@@ -217,6 +225,8 @@ const useAnalytics = () => {
   };
 
   return {
+    activeToggle,
+    setActiveToggle,
     role,
     isLoading,
     realTimeIsLoading,
@@ -226,7 +236,6 @@ const useAnalytics = () => {
     organization,
     facility,
     tenant,
-    viewType,
     energy_type,
     refreshTime,
     showFilterModal,

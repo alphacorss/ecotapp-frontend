@@ -12,7 +12,7 @@ import SectionHeader from '@/app/_components/utils/SectionHeader';
 import ViewUser from '@/app/_components/view/ViewUser';
 import Main from '@/app/_context/Main';
 import Queries from '@/app/_context/Queries';
-import { Modals } from '@/app/_slices/ModalSlice';
+import { Modals } from '@/app/enums';
 import { TFacility, TUser } from '@/app/types';
 import { Button } from '@/components/ui/button';
 

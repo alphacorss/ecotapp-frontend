@@ -2,7 +2,7 @@ import { Diagram, Edit2, Trash } from 'iconsax-react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-import { Modals } from '@/app/_slices/ModalSlice';
+import { Modals } from '@/app/enums';
 import { Button } from '@/components/ui/button';
 
 export const Btns = ({

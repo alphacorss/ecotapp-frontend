@@ -5,7 +5,7 @@ import PieHomeComponent from './PieHomeComponent';
 import BarComponent from '@/app/_components/charts/BarChart';
 import { HomeMainLoader } from '@/app/_components/utils/Loader';
 import qry from '@/lib/queries';
-import { futurePercentage } from '@/lib/utils';
+import { cleanNumber, futurePercentage } from '@/lib/utils';
 
 const HomeMain = ({ orgId, title }: { orgId?: string; title?: string }) => {
   const homeChart = useQuery({
@@ -32,7 +32,7 @@ const HomeMain = ({ orgId, title }: { orgId?: string; title?: string }) => {
         <div className="flex flex-[4] justify-between items-start mb-6 flex-col md:flex-row">
           <div className="flex flex-col gap-5 w-full h-full">
             <div>
-              <h1 className="text-3xl font-bold text-primary-300">{chart.current_month_energy} kWh</h1>
+              <h1 className="text-3xl font-bold text-primary-300">{cleanNumber(chart.current_month_energy)} kWh</h1>
               <p className="text-xs text-gray-400 font-[500]">Current month</p>
             </div>
             <div>

@@ -84,7 +84,7 @@ export const broadcastNav = [
 export const analyticsNav = [
   {
     title: 'Energy Consumption',
-    href: `/dashboard/analytics/energy-consumption?vt=analytics&energy_type=electricity`,
+    href: `/dashboard/analytics/energy-consumption`,
     allowedRoles: [
       'superadmin',
       'psuedoadmin',

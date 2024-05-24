@@ -12,7 +12,7 @@ import Loader from '@/app/_components/utils/Loader';
 import { DeleteModalContent, SuccessModalContent } from '@/app/_components/utils/Modals';
 import { ModalComponent } from '@/app/_components/utils/Modals';
 import SectionHeader from '@/app/_components/utils/SectionHeader';
-import { Modals } from '@/app/_slices/ModalSlice';
+import { Modals } from '@/app/enums';
 import { Button } from '@/components/ui/button';
 
 export default function OrganizationsComponent() {

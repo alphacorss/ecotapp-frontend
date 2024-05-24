@@ -4,7 +4,7 @@ import Main from '@/app/_context/Main';
 import Queries from '@/app/_context/Queries';
 import SurveyCtx from '@/app/_context/Survey';
 import useClearErrorMessage from '@/app/_hooks/useClearErrorMessage';
-import { Modals } from '@/app/_slices/ModalSlice';
+import { Modals } from '@/app/enums';
 import { getUserAnswer, hasUserResponded } from '@/lib/utils';
 
 interface IResponse {

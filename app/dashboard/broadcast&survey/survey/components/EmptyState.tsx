@@ -3,7 +3,7 @@ import Link from 'next/link';
 import React from 'react';
 
 import Main from '@/app/_context/Main';
-import { Modals } from '@/app/_slices/ModalSlice';
+import { Modals } from '@/app/enums';
 import { Button } from '@/components/ui/button';
 import { getRole } from '@/lib/utils';
 

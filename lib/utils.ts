@@ -8,6 +8,10 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export const setToLocalStorage = (key: string, value: string) => localStorage.setItem(key, value);
+
+export const getFromLocalStorage = (key: string) => localStorage.getItem(key);
+
 export const getToken = () => {
   return document.cookie
     ? document.cookie
@@ -44,9 +48,7 @@ export const clearCookies = () => {
     );
 };
 
-export const clearSessionStorage = () => {
-  sessionStorage.clear();
-};
+export const clearSessionStorage = () => sessionStorage.clear();
 
 export const isEmpty = (param: any) =>
   param === null ||

@@ -8,10 +8,11 @@ import ResponsesTab from '../tabs/ResponsesTab';
 import Loader from '@/app/_components/utils/Loader';
 import SurveyCtx from '@/app/_context/Survey';
 import usePathParams from '@/app/_hooks/usePathParams';
-import { Modals, closeModal } from '@/app/_slices/ModalSlice';
+import { closeModal } from '@/app/_slices/ModalSlice';
+import { Modals } from '@/app/enums';
 import { TSurveyData } from '@/app/types';
 import { Button } from '@/components/ui/button';
-import q from "@/lib/queries";
+import q from '@/lib/queries';
 
 const ViewSurveyDetails = () => {
   const dispatch = useDispatch();

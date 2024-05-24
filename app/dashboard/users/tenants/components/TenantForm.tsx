@@ -13,7 +13,7 @@ import { userForm } from '@/app/_constants/forms';
 import Queries from '@/app/_context/Queries';
 import useClearError from '@/app/_hooks/useClearError';
 import { useHandleFormState } from '@/app/_hooks/useHandleFormState';
-import { Modals } from '@/app/_slices/ModalSlice';
+import { Modals } from '@/app/enums';
 import { TComboBoxSelector, TFacility, TMutationHandler, TRole, TFacilityUser } from '@/app/types';
 import { Button } from '@/components/ui/button';
 import { capitalizeFirstLetter, zodInputValidators } from '@/lib/utils';

@@ -4,8 +4,8 @@ import React, { createContext } from 'react';
 import Main from './Main';
 import Queries from './Queries';
 import useEditableDiv from '../_hooks/useEditableDiv';
-import { Modals } from '../_slices/ModalSlice';
 import { TComboBoxSelector, TQuestion, TSurveyData } from '../types';
+import { Modals } from '@/app/enums';
 
 export type TSurveyCtx = {
   surveyId: string;
