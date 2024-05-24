@@ -73,7 +73,7 @@ const AdminsTab = ({ org }: { org: TOrg }) => {
 
   return (
     <div className="w-full flex justify-between flex-col h-full">
-      <div className="flex items-center justify-between w-full mb-10">
+      <div className="flex lg:items-center lg:justify-between items-start w-full mb-10 flex-col lg:flex-row gap-3 lg:gap-0">
         <SectionHeader title="Administrators" description="Manage and review your Admin details here." />
         <Button variant="outline" onClick={() => handleOpenModal(Modals.addOrgAdminModal)}>
           Add Admin +

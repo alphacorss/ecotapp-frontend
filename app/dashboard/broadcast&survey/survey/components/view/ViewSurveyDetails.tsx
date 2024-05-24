@@ -3,15 +3,15 @@ import { Trash } from 'iconsax-react';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-import OverviewTab from './tabs/OverviewTab';
-import ResponsesTab from './tabs/ResponsesTab';
-import q from '../../../../../lib/queries';
+import OverviewTab from '../tabs/OverviewTab';
+import ResponsesTab from '../tabs/ResponsesTab';
 import Loader from '@/app/_components/utils/Loader';
 import SurveyCtx from '@/app/_context/Survey';
 import usePathParams from '@/app/_hooks/usePathParams';
 import { Modals, closeModal } from '@/app/_slices/ModalSlice';
 import { TSurveyData } from '@/app/types';
 import { Button } from '@/components/ui/button';
+import q from "@/lib/queries";
 
 const ViewSurveyDetails = () => {
   const dispatch = useDispatch();

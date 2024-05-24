@@ -230,11 +230,7 @@ export const getUserAnswer = (surveyInfo: TSurveyData | null) => {
 
   const usersResponses = surveyInfo?.questions.flatMap((question) => question.responses.map((response) => response));
 
-  const userAnswer = usersResponses?.map((response) => {
-    if (response.user === userId) {
-      return response.answer;
-    }
-  });
+  const userAnswer = usersResponses?.filter((response) => response.user === userId).map((response) => response.answer);
 
   return userAnswer;
 };

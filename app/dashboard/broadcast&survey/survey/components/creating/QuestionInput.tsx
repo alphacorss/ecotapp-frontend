@@ -9,7 +9,6 @@ type QuestionInputProps = {
   value: string;
   error?: string | null;
   handleAddQuestion: () => void;
-  // eslint-disable-next-line no-unused-vars
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleDeleteQuestion: () => void;
 };

@@ -1,78 +1,25 @@
 import React from 'react';
 
+import useRespond from './Respond.hook';
 import Responses from './Responses';
 import ErrorMessage from '@/app/_components/utils/ErrorMessage';
 import Loader from '@/app/_components/utils/Loader';
-import Main from '@/app/_context/Main';
-import Queries from '@/app/_context/Queries';
-import SurveyCtx from '@/app/_context/Survey';
-import useClearErrorMessage from '@/app/_hooks/useClearErrorMessage';
-import { Modals } from '@/app/_slices/ModalSlice';
 import { Button } from '@/components/ui/button';
-import { getUserAnswer, hasUserResponded } from '@/lib/utils';
-
-interface IResponse {
-  questionId: string;
-  response: string;
-}
 
 const Respond = () => {
-  const { surveyInfo, setSurveyInfo } = React.useContext(SurveyCtx);
-  const [error, setError] = React.useState(false);
-  const { respondToSurvey } = React.useContext(Queries);
-  const { handleOpenModal } = React.useContext(Main);
-  const hasResponded = hasUserResponded(surveyInfo?.filledBy || {});
-  const userAnswer = getUserAnswer(surveyInfo);
-
-  const { reset, isPending, isError, error: backenderror, isSuccess } = respondToSurvey;
-
-  React.useEffect(() => {
-    if (isError) {
-      setError(true);
-    }
-
-    if (isSuccess) {
-      handleOpenModal(Modals.surveySubmiited);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSuccess, isError, backenderror]);
-
-  const r = surveyInfo?.questions.map((question) => ({
-    questionId: question._id,
-    response: '',
-  }));
-
-  const [responses, setResponses] = React.useState<IResponse[]>(r || []);
-
-  const handleChange = (info: { questionId: string; response: string }) => {
-    setResponses((prev) => {
-      return prev.map((response) => {
-        if (response.questionId === info.questionId) {
-          return {
-            ...response,
-            response: info.response,
-          };
-        }
-        return response;
-      });
-    });
-  };
-
-  const handleRespondToSurvey = () => {
-    const hasEmpty = responses.some((response) => response.response === '');
-
-    if (hasEmpty) {
-      setError(true);
-      return;
-    }
-
-    respondToSurvey.mutate({
-      surveyId: surveyInfo?._id,
-      responses,
-    });
-  };
-
-  useClearErrorMessage(error, setError);
+  const {
+    isMobile,
+    surveyInfo,
+    setSurveyInfo,
+    userAnswer,
+    isPending,
+    hasResponded,
+    error,
+    backenderror,
+    reset,
+    handleChange,
+    handleRespondToSurvey,
+  } = useRespond();
 
   return (
     <>
@@ -83,25 +30,29 @@ const Respond = () => {
           <div className="">
             <div className="w-full flex justify-between items-center mb-5">
               <h1 className="font-[600]">Questions</h1>
-              <div className="flex gap-10 items-center justify-between">
-                <p className="font-[600]">Yes</p>
-                <p className="font-[600]">No</p>
-              </div>
+              {!isMobile && (
+                <div className="flex gap-10 items-center justify-between">
+                  <p className="font-[600]">Yes</p>
+                  <p className="font-[600]">No</p>
+                </div>
+              )}
             </div>
 
             <ol className="flex flex-col w-full">
               {surveyInfo.questions.map((question, index) =>
                 userAnswer && userAnswer[index] ? (
                   <Responses
-                    key={question._id}
-                    question={question}
                     index={index}
+                    isMobile={isMobile}
+                    question={question}
+                    key={question._id}
                     userAnswer={userAnswer}
                     handleChange={handleChange}
                   />
                 ) : (
                   <Responses
                     index={index}
+                    isMobile={isMobile}
                     key={question._id}
                     question={question}
                     userAnswer={userAnswer}
@@ -111,7 +62,7 @@ const Respond = () => {
               )}
             </ol>
 
-            <div className="flex gap-[80px] justify-between items-center mt-10 mb-3">
+            <div className="flex flex-col gap-4 lg:flex-row lg:gap-[80px] justify-between items-center mt-10 mb-3">
               <Button
                 variant="outline"
                 className="w-full"

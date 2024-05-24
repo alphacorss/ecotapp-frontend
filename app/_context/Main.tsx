@@ -32,7 +32,7 @@ export function MainCtxProvider({ children }: React.PropsWithChildren<{}>) {
 
   const modalState = useSelector((state: RootState) => state.modals);
   const [mobileNav, toggleMobileNav] = useCycle(false, true);
-  const isMobile = currentWindowWidth.currentWindowWidth < 960;
+  const isMobile = currentWindowWidth.currentWindowWidth < 1024;
 
   const handleCloseModal = (modal: Modals) => {
     dispatch(closeModal(modal));
