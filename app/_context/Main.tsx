@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { QueriesCtxProvider } from './Queries';
 import { SurveyCtxProvider } from './Survey';
 import useWindowDimensions from '../_hooks/useMediaQuery';
-import { Modals, ModalsState, closeModal, openModal } from '../_slices/ModalSlice';
+import { ModalsState, closeModal, openModal } from '../_slices/ModalSlice';
+import { Modals } from '../enums';
 import { RootState } from '../store';
 
 export type TMainCtx = {
@@ -32,7 +33,7 @@ export function MainCtxProvider({ children }: React.PropsWithChildren<{}>) {
 
   const modalState = useSelector((state: RootState) => state.modals);
   const [mobileNav, toggleMobileNav] = useCycle(false, true);
-  const isMobile = currentWindowWidth.currentWindowWidth < 960;
+  const isMobile = currentWindowWidth.currentWindowWidth < 1024;
 
   const handleCloseModal = (modal: Modals) => {
     dispatch(closeModal(modal));

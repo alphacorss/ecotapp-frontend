@@ -6,10 +6,10 @@ import { Btns } from '../../dashboard/users/organizations/components/tabs/Button
 import ManagersTab from '../../dashboard/users/organizations/components/tabs/managers/ManagersTab';
 import { FacilityHeader, OrganizationHeader } from '../utils/SectionHeader';
 import { viewDetailsTabs } from '@/app/_constants/data';
-import { Modals } from '@/app/_slices/ModalSlice';
 import FacilityManagersTab from '@/app/dashboard/users/facilities/components/FacilityManagersTab';
 import FacilityOverviewsTab from '@/app/dashboard/users/facilities/components/overview/OverviewsTab';
 import OrgOverviewTab from '@/app/dashboard/users/organizations/components/tabs/overview/OrgOverviewTab';
+import { Modals } from '@/app/enums';
 import { TFacility, TSingleOrg } from '@/app/types';
 
 const ViewBusinessDetails = ({

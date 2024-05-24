@@ -2,7 +2,7 @@ import { Diagram, Edit2, Trash } from 'iconsax-react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-import { Modals } from '@/app/_slices/ModalSlice';
+import { Modals } from '@/app/enums';
 import { Button } from '@/components/ui/button';
 
 export const Btns = ({
@@ -25,7 +25,7 @@ export const Btns = ({
   const router = useRouter();
   const id = type === 'org' ? orgId : facilityId;
   return (
-    <div className="w-full gap-5 flex pb-5">
+    <div className="w-full gap-5 flex pb-5 flex-col lg:flex-row">
       <Button className="flex gap-3 w-full" variant="outline" onClick={() => showEditModal(id as string)}>
         <Edit2 className="w-4 h-4" /> Edit {type === 'org' ? 'Organization' : 'Facility'}
       </Button>

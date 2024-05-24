@@ -11,7 +11,7 @@ import Loader from '@/app/_components/utils/Loader';
 import { initialOrg } from '@/app/_constants/initialData';
 import useClearError from '@/app/_hooks/useClearError';
 import { useHandleFormState } from '@/app/_hooks/useHandleFormState';
-import { Modals } from '@/app/_slices/ModalSlice';
+import { Modals } from '@/app/enums';
 import { TMutationHandler, TOrg } from '@/app/types';
 import { Button } from '@/components/ui/button';
 import { zodInputValidators } from '@/lib/utils';

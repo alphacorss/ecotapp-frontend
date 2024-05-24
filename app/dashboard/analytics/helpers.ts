@@ -23,6 +23,8 @@ export const cardsData = (consumption: TAnalyticsConsumption | undefined) => {
 };
 
 export const cleanChartDataHourly = (arr: number[], start_hour: number) => {
+  if (!arr) return [];
+
   const result = [];
   const hourInSeconds = 3600; // 1 hour = 3600 seconds
   const maxHours = 24;

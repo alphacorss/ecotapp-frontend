@@ -12,7 +12,7 @@ import { ModalComponent } from '@/app/_components/utils/Modals';
 import { SuccessModalContent, DeleteModalContent } from '@/app/_components/utils/Modals';
 import SectionHeader from '@/app/_components/utils/SectionHeader';
 import ViewUser from '@/app/_components/view/ViewUser';
-import { Modals } from '@/app/_slices/ModalSlice';
+import { Modals } from '@/app/enums';
 import { Button } from '@/components/ui/button';
 
 export default function TenantsComponent() {

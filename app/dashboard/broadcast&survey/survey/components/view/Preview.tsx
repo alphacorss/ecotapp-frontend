@@ -5,7 +5,7 @@ import Loader from '@/app/_components/utils/Loader';
 import Main from '@/app/_context/Main';
 import Queries from '@/app/_context/Queries';
 import SurveyCtx from '@/app/_context/Survey';
-import { Modals } from '@/app/_slices/ModalSlice';
+import { Modals } from '@/app/enums';
 import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 

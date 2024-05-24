@@ -34,7 +34,7 @@ export const TenantColumn = () => {
         const filledBy = row.original.filledBy;
         const userFilled = hasUserResponded(filledBy);
         return (
-          <div className="flex items-start gap-3 flex-col-reverse mt-3 md:flex-row md:mt-0 md:items-center">
+          <div className="flex items-start gap-3 flex-col-reverse md:flex-row md:mt-0 md:items-center">
             <TableCell>{row.original.title}</TableCell>
             {!userFilled && <span className="p-1 px-2 bg-[#E7F8F0] text-[#0B7041] rounded-[var(--rounded)]">New</span>}
           </div>

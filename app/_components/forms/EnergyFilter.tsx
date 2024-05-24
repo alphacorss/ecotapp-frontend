@@ -8,11 +8,11 @@ import { energyTypeArray } from '@/app/_constants/data';
 import Queries from '@/app/_context/Queries';
 import User from '@/app/_context/User';
 import useClearError from '@/app/_hooks/useClearError';
-import usePathParams from '@/app/_hooks/usePathParams';
 import { high, low, mid } from '@/app/dashboard/home/helpers';
+import { EnergyFilterDefaults } from '@/app/enums';
 import { TFacility, TOrg, TFacilityUser, TOrgUser } from '@/app/types';
 import { Button } from '@/components/ui/button';
-import { getUser, setUrlParams, zodInputValidators } from '@/lib/utils';
+import { getFromLocalStorage, getUser, setToLocalStorage, zodInputValidators } from '@/lib/utils';
 
 const energy_type = zodInputValidators.dropDown;
 const organization = zodInputValidators.optionalDropDown;
@@ -36,7 +36,6 @@ const EnergyFilter = ({
   showRefreshTime?: boolean;
   setShowFilterModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const { facilityId, tenantId, orgId, viewType, energy_type, refreshTime } = usePathParams();
   const { role } = React.useContext(User);
 
   const orgUser = getUser() as TOrgUser;
@@ -44,6 +43,14 @@ const EnergyFilter = ({
 
   const orgUserId = orgUser?.organization?._id;
   const facilityUserId = facilityUser?.facility?._id;
+
+  const energyFilter = JSON.parse(getFromLocalStorage('@energy_filter') || '{}');
+
+  const energy_type = energyFilter.energy_type || EnergyFilterDefaults.energy_type;
+  const refreshTime = energyFilter.refreshtime || EnergyFilterDefaults.refreshtime;
+  const orgId = energyFilter.orgId || EnergyFilterDefaults.orgId;
+  const facilityId = energyFilter.facilityId || EnergyFilterDefaults.facilityId;
+  const tenantId = energyFilter.tenantId || EnergyFilterDefaults.tenantId;
 
   const {
     register,
@@ -54,11 +61,11 @@ const EnergyFilter = ({
     formState: { errors },
   } = useForm<EnergyFilterProps>({
     defaultValues: {
-      energy_type: energy_type || '',
-      organization: orgId || orgUserId || '',
-      facility: facilityId || facilityUserId || '',
-      tenant: tenantId || '',
-      refreshTime: refreshTime || '',
+      energy_type: energy_type,
+      organization: orgId || orgUserId,
+      facility: facilityId || facilityUserId,
+      tenant: tenantId,
+      refreshTime: refreshTime,
     },
     resolver: zodResolver(schema),
   });
@@ -94,14 +101,16 @@ const EnergyFilter = ({
 
   const onSubmit = (data: EnergyFilterProps) => {
     setShowFilterModal(false);
-    setUrlParams({
-      vt: viewType,
-      energy_type: data.energy_type,
-      refreshtime: data.refreshTime,
-      ...(data.organization && { orgId: data.organization }),
-      ...(data.facility && { facilityId: data.facility }),
-      ...(data.tenant && { tenantId: data.tenant }),
-    });
+    setToLocalStorage(
+      '@energy_filter',
+      JSON.stringify({
+        energy_type: data.energy_type,
+        refreshtime: data.refreshTime,
+        ...(data.organization && { orgId: data.organization }),
+        ...(data.facility && { facilityId: data.facility }),
+        ...(data.tenant && { tenantId: data.tenant }),
+      }),
+    );
   };
 
   const reset = () => {

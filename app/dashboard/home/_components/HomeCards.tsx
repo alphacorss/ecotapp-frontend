@@ -12,6 +12,7 @@ import User from '@/app/_context/User';
 import useLocalStorage from '@/app/_hooks/useLocalStorage';
 import { TOrgUser } from '@/app/types';
 import qry from '@/lib/queries';
+import { cleanNumber } from '@/lib/utils';
 
 type TCardProps = {
   data: {
@@ -100,7 +101,7 @@ const HomeCards = ({ data }: TCardProps) => {
       <div className="flex gap-3 justify-between items-end">
         <div className="flex flex-col lg:text-3xl font-[600] text-gray-700 gap-[8px]">
           <p className="text-xs lg:text-sm font-[400] text-gray-400">Total {cardData.title}</p>
-          <p>{cardData?.total}</p>
+          <p>{cleanNumber(cardData?.total)}</p>
         </div>
       </div>
     </div>

@@ -12,7 +12,7 @@ import {
   YAxis,
 } from 'recharts';
 
-import { getDateIndexes } from '@/lib/utils';
+import { cleanNumber, getDateIndexes } from '@/lib/utils';
 
 export default function BarComponent({ data }: { data: number[] }) {
   const { monthIndex } = getDateIndexes();
@@ -56,7 +56,11 @@ export default function BarComponent({ data }: { data: number[] }) {
               position="insideLeft"
             />
           </YAxis>
-          <Tooltip labelFormatter={(e) => e} formatter={(value) => `${value}kWh`} cursor={false} />
+          <Tooltip
+            labelFormatter={(e) => e}
+            formatter={(value) => `${cleanNumber(value as number)}kWh`}
+            cursor={false}
+          />
           <Bar
             dataKey="amt"
             name="Energy Consumption"

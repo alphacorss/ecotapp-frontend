@@ -1,7 +1,7 @@
 import React from 'react';
 
 import CreateSurvey from './CreateSurvey';
-import Preview from './Preview';
+import Preview from '../view/Preview';
 import SurveyCtx from '@/app/_context/Survey';
 
 const CreatingSurvey = () => {

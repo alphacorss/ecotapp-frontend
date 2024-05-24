@@ -12,7 +12,7 @@ import SectionHeader from '@/app/_components/utils/SectionHeader';
 import ViewUser from '@/app/_components/view/ViewUser';
 import Main from '@/app/_context/Main';
 import Queries from '@/app/_context/Queries';
-import { Modals } from '@/app/_slices/ModalSlice';
+import { Modals } from '@/app/enums';
 import { TFacility, TUser } from '@/app/types';
 import { Button } from '@/components/ui/button';
 
@@ -70,7 +70,7 @@ const FacilityManagersTab = ({ facility }: { facility: TFacility }) => {
 
   return (
     <div className="w-full flex justify-between flex-col h-full">
-      <div className="flex items-center justify-between w-full mb-10">
+      <div className="flex lg:items-center lg:justify-between items-start w-full mb-10 flex-col lg:flex-row gap-3 lg:gap-0">
         <SectionHeader title="Managers" description="Manage and review your Admin details here." />
         <Button variant="outline" onClick={() => handleOpenModal(Modals.addFacilityManagerModal)}>
           Add Manager +

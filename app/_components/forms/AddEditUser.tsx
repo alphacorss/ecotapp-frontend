@@ -11,7 +11,7 @@ import { countries } from '@/app/_constants/countryCodes';
 import { userForm } from '@/app/_constants/forms';
 import useClearError from '@/app/_hooks/useClearError';
 import { useHandleFormState } from '@/app/_hooks/useHandleFormState';
-import { Modals } from '@/app/_slices/ModalSlice';
+import { Modals } from '@/app/enums';
 import { TMutationHandler, TRole, TUser } from '@/app/types';
 import { Button } from '@/components/ui/button';
 import { cleanRoleSingular, zodInputValidators } from '@/lib/utils';

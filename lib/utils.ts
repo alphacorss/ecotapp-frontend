@@ -8,6 +8,10 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export const setToLocalStorage = (key: string, value: string) => localStorage.setItem(key, value);
+
+export const getFromLocalStorage = (key: string) => localStorage.getItem(key);
+
 export const getToken = () => {
   return document.cookie
     ? document.cookie
@@ -44,9 +48,7 @@ export const clearCookies = () => {
     );
 };
 
-export const clearSessionStorage = () => {
-  sessionStorage.clear();
-};
+export const clearSessionStorage = () => sessionStorage.clear();
 
 export const isEmpty = (param: any) =>
   param === null ||
@@ -230,11 +232,7 @@ export const getUserAnswer = (surveyInfo: TSurveyData | null) => {
 
   const usersResponses = surveyInfo?.questions.flatMap((question) => question.responses.map((response) => response));
 
-  const userAnswer = usersResponses?.map((response) => {
-    if (response.user === userId) {
-      return response.answer;
-    }
-  });
+  const userAnswer = usersResponses?.filter((response) => response.user === userId).map((response) => response.answer);
 
   return userAnswer;
 };

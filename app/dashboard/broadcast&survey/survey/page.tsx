@@ -1,13 +1,13 @@
 'use client';
 import React from 'react';
 
-import { ColumnData } from './components/columns';
-import CreateTitle from './components/CreateTitle';
-import CreatingSurvey from './components/CreatingSurvey';
+import { ColumnData } from './components/columns/columns';
+import { TenantColumn } from './components/columns/TenantColumn';
+import CreateTitle from './components/creating/CreateTitle';
+import CreatingSurvey from './components/creating/CreatingSurvey';
 import EmptyState from './components/EmptyState';
-import Respond from './components/Respond';
-import { TenantColumn } from './components/TenantColumn';
-import ViewSurveyDetails from './components/ViewSurveyDetails';
+import Respond from './components/response/Respond';
+import ViewSurveyDetails from './components/view/ViewSurveyDetails';
 import DataTable from '@/app/_components/tables/Table';
 import { DeleteModalContent, SuccessModalContent } from '@/app/_components/utils/Modals';
 import { ModalComponent } from '@/app/_components/utils/Modals';
@@ -15,7 +15,7 @@ import SectionHeader from '@/app/_components/utils/SectionHeader';
 import Main from '@/app/_context/Main';
 import Queries from '@/app/_context/Queries';
 import SurveyCtx from '@/app/_context/Survey';
-import { Modals } from '@/app/_slices/ModalSlice';
+import { Modals } from '@/app/enums';
 import { Button } from '@/components/ui/button';
 import { getRole } from '@/lib/utils';
 
@@ -41,7 +41,7 @@ const Survey = () => {
   const hasData = createdSurveysData?.length > 0 || tntSurveyDatas?.length > 0;
 
   return (
-    <div className="min-h-full card w-full p-8 flex flex-col gap-10">
+    <div className="min-h-full card w-full lg:p-8 flex flex-col gap-5 lg:gap-10">
       {hasData && !creatingSurvey && !showPreview && (
         <div className="flex justify-between items-start lg:flex-row flex-col gap-3 lg:gap-0">
           <SectionHeader
