@@ -1,5 +1,7 @@
 import { Graph, Home2, LogoutCurve, Messages1, Setting2, UserEdit } from 'iconsax-react';
 
+import { high, mid, low } from '../dashboard/home/helpers';
+
 export const sideNavItems = [
   {
     title: 'Home',
@@ -10,13 +12,13 @@ export const sideNavItems = [
     title: 'User Management',
     icon: (color: 'white' | 'gray') => <UserEdit size={20} color={color} />,
     href: '/dashboard/users/pseudo-admins',
-    allowedRoles: ['superadmin', 'psuedoadmin', 'organizationadmin', 'organizationmanager', 'facilitymanager'],
+    allowedRoles: [...high, ...mid],
   },
   {
     title: 'Analytics',
     icon: (color: 'white' | 'gray') => <Graph size={20} color={color} />,
     href: '/dashboard/analytics/energy-consumption',
-    allowedRoles: ['superadmin', 'psuedoadmin', 'organizationadmin', 'organizationmanager', 'facilitymanager'],
+    allowedRoles: [...high, ...mid],
   },
   // {
   //   title: 'Carbon Trading',
@@ -47,17 +49,17 @@ export const userNav = [
   {
     title: 'Organizations',
     href: '/dashboard/users/organizations',
-    allowedRoles: ['superadmin', 'psuedoadmin'],
+    allowedRoles: high,
   },
   {
     title: 'Facilities',
-    href: '/dashboard/users/facilities?vt=list',
-    allowedRoles: ['superadmin', 'psuedoadmin', 'organizationadmin', 'organizationmanager'],
+    href: '/dashboard/users/facilities',
+    allowedRoles: [...high, ...mid],
   },
   {
     title: 'Tenants',
     href: '/dashboard/users/tenants',
-    allowedRoles: ['superadmin', 'psuedoadmin', 'organizationadmin', 'organizationmanager', 'facilitymanager'],
+    allowedRoles: [...high, ...mid, ...low],
   },
 ];
 
@@ -65,19 +67,12 @@ export const broadcastNav = [
   {
     title: 'Broadcast',
     href: '/dashboard/broadcast&survey/broadcast',
-    allowedRoles: ['superadmin', 'psuedoadmin', 'organizationadmin', 'organizationmanager', 'facilitymanager'],
+    allowedRoles: [...high, ...mid, ...low],
   },
   {
     title: 'Survey',
     href: '/dashboard/broadcast&survey/survey',
-    allowedRoles: [
-      'superadmin',
-      'psuedoadmin',
-      'organizationadmin',
-      'organizationmanager',
-      'facilitymanager',
-      'tenant',
-    ],
+    allowedRoles: [...high, ...mid, ...low, 'tenant'],
   },
 ];
 
@@ -85,38 +80,17 @@ export const analyticsNav = [
   {
     title: 'Energy Consumption',
     href: `/dashboard/analytics/energy-consumption`,
-    allowedRoles: [
-      'superadmin',
-      'psuedoadmin',
-      'organizationadmin',
-      'organizationmanager',
-      'facilitymanager',
-      'tenant',
-    ],
+    allowedRoles: [...high, ...mid, ...low, 'tenant'],
   },
   {
     title: 'Energy Forecast',
     href: '/dashboard/analytics/energy-forecast',
-    allowedRoles: [
-      'superadmin',
-      'psuedoadmin',
-      'organizationadmin',
-      'organizationmanager',
-      'facilitymanager',
-      'tenant',
-    ],
+    allowedRoles: [...high, ...mid, ...low, 'tenant'],
   },
   {
     title: 'Regression',
     href: '/dashboard/analytics/regression',
-    allowedRoles: [
-      'superadmin',
-      'psuedoadmin',
-      'organizationadmin',
-      'organizationmanager',
-      'facilitymanager',
-      'tenant',
-    ],
+    allowedRoles: [...high, ...mid, ...low, 'tenant'],
   },
 ];
 

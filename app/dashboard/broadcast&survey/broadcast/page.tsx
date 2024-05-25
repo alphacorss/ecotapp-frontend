@@ -6,30 +6,51 @@ import { z } from 'zod';
 
 import { InputComponent } from '@/app/_components/inputs/InputComponent';
 import { TextArea } from '@/app/_components/inputs/TextArea';
+import { ComboBoxFormComponent } from '@/app/_components/utils/ComboBoxes';
 import BackendError from '@/app/_components/utils/FormError';
 import Loader from '@/app/_components/utils/Loader';
 import { ModalComponent } from '@/app/_components/utils/Modals';
 import { SuccessModalContent } from '@/app/_components/utils/Modals';
 import { MultiSelectComponent } from '@/app/_components/utils/MultiSelectComponent';
-import { broadcastRoles } from '@/app/_constants/data';
 import Queries from '@/app/_context/Queries';
 import useClearError from '@/app/_hooks/useClearError';
+import useGetRoleList from '@/app/_hooks/useGetRoleList';
 import { TComboBoxSelector } from '@/app/types';
 import { Button } from '@/components/ui/button';
-import { getRole, zodInputValidators } from '@/lib/utils';
+import { zodInputValidators } from '@/lib/utils';
 
+const sendTo = z.union([zodInputValidators.dropDown.nullish(), z.literal('')]);
+const option = z.union([zodInputValidators.dropDown.nullish(), z.literal('')]);
 const subject = zodInputValidators.longText;
 const content = zodInputValidators.message;
 
-const schemaa = z.object({ subject, content });
+const schema = z.object({ sendTo, option, subject, content }).superRefine((data, ctx) => {
+  if (!data.sendTo) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'Please select an option',
+      path: ['sendTo'],
+    });
+  }
 
-type BroadcastForm = z.infer<typeof schemaa>;
+  if (!data.option) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'Please select an option',
+      path: ['option'],
+    });
+  }
+});
+
+type BroadcastForm = z.infer<typeof schema>;
 
 const Broadcast = () => {
   const { sendMessage } = React.useContext(Queries);
   const [noRole, setNoRole] = React.useState<string | null>(null);
   const [successModal, setSuccessModal] = React.useState(false);
   const [selected, setSelected] = React.useState<TComboBoxSelector[]>([]);
+
+  const { allOrgs, allFacilities, allTenants } = useGetRoleList();
 
   const { mutate, isError, isPending, error, isSuccess } = sendMessage;
 
@@ -39,9 +60,11 @@ const Broadcast = () => {
     clearErrors,
     setError,
     reset,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<BroadcastForm>({
-    resolver: zodResolver(schemaa),
+    resolver: zodResolver(schema),
   });
 
   useClearError(errors, clearErrors);
@@ -70,7 +93,56 @@ const Broadcast = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isError, isSuccess]);
 
-  const options = broadcastRoles.filter((role) => role.allowedRoles.includes(getRole() as string));
+  const sendTo = watch('sendTo');
+  const option = watch('option');
+
+  const sendToArry = [
+    {
+      label: 'Organization',
+      value: 'organization',
+    },
+    {
+      label: 'Facility',
+      value: 'facility',
+    },
+    {
+      label: 'Tenants',
+      value: 'tenant',
+    },
+  ];
+
+  const tntOptions = [
+    {
+      label: 'All Tenants',
+      value: 'all',
+    },
+    {
+      label: 'Tenants by Organization',
+      value: 'byOrganization',
+    },
+    {
+      label: 'Tenants by Facility',
+      value: 'byFacility',
+    },
+    {
+      label: 'Specific Tenants',
+      value: 'specific',
+    },
+  ];
+
+  const adminsOptions = [
+    {
+      label: sendTo === 'organization' ? 'All Organization Admins and Managers' : 'All Facility Managers',
+      value: 'all',
+    },
+    {
+      label: sendTo === 'organization' ? 'Specific Organizations Admins and Manager' : 'Specific Facility Managers',
+      value: 'specific',
+    },
+  ];
+
+  const optionArry = sendTo === 'tenant' ? tntOptions : adminsOptions;
+  const multiSelectOption = sendTo === 'organization' ? allOrgs : sendTo === 'tenant' ? allTenants : allFacilities;
 
   return (
     <React.Fragment>
@@ -92,7 +164,51 @@ const Broadcast = () => {
             <h3 className="text-xl font-[600] text-gray-60 mb-1">Broadcast Message</h3>
             <p className="text-xs text-gray-400">Reach All Admins and Tenants with Important Updates</p>
           </div>
-          <MultiSelectComponent error={noRole} options={options} selected={selected} setSelected={setSelected} />
+
+          <ComboBoxFormComponent
+            hideSearch
+            watch={watch}
+            title=""
+            label={'Send To'}
+            register={register}
+            setValue={setValue}
+            data={sendToArry}
+            selectorName={'sendTo'}
+            labelClass="font-[600] text-sm font-poppins text-gray-600"
+            error={errors.sendTo?.message}
+            contentHeight="h-auto"
+          />
+
+          {sendTo && (
+            <ComboBoxFormComponent
+              hideSearch
+              watch={watch}
+              title=""
+              label={'Option'}
+              register={register}
+              setValue={setValue}
+              data={optionArry}
+              selectorName={'option'}
+              labelClass="font-[600] text-sm font-poppins text-gray-600"
+              error={errors.option?.message}
+              contentHeight="h-auto"
+              contentWidth="w-full"
+            />
+          )}
+
+          {
+            
+          }
+
+          {option === 'specific' && (
+            <MultiSelectComponent
+              error={noRole}
+              selected={selected}
+              setSelected={setSelected}
+              options={multiSelectOption}
+            />
+          )}
+
           <InputComponent
             name="subject"
             label="Subject"
@@ -100,6 +216,7 @@ const Broadcast = () => {
             register={register}
             error={errors.subject?.message}
           />
+
           <TextArea
             name="content"
             label="Message"

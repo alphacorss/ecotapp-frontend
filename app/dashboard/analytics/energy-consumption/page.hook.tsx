@@ -43,6 +43,7 @@ const useAnalytics = () => {
   const analytics = useQuery({
     queryKey: ['analytics', energy_type, orgId, facilityId, tenantId],
     queryFn: () => qry.analyticsRq(q),
+    refetchOnMount: false,
   });
 
   const isLoading = analytics.isLoading;

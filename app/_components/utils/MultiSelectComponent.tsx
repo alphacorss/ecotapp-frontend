@@ -17,8 +17,8 @@ export const MultiSelectComponent = ({
 }) => {
   return (
     <div className="flex flex-col">
-      <label className="input-label">Send to</label>
-      <MultiSelect options={options} value={selected} onChange={setSelected} labelledBy="Select" />
+      <label className="input-label font-[600] text-sm font-poppins text-gray-600">Send to</label>
+      <MultiSelect value={selected} options={options} labelledBy="Select" onChange={setSelected} />
       <ErrorMessage error={error} />
     </div>
   );

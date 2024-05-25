@@ -7,7 +7,7 @@ import { InputComponent } from '@/app/_components/inputs/InputComponent';
 import { ComboBoxFormComponent } from '@/app/_components/utils/ComboBoxes';
 import FormInfo from '@/app/_components/utils/FormInfo';
 import { backupGenerators, facilityFormFields, numberOfMeters } from '@/app/_constants/forms';
-import Queries from '@/app/_context/Queries';
+import useGetRoleList from '@/app/_hooks/useGetRoleList';
 import { TComboBoxSelector, TFacilityTabs, TOrg } from '@/app/types';
 import { Button } from '@/components/ui/button';
 
@@ -32,7 +32,8 @@ const FormOne = ({
   setActiveTab: React.Dispatch<React.SetStateAction<TFacilityTabs>>;
   handleCancel: () => void;
 }) => {
-  const orgs = React.useContext(Queries).orgs;
+  const { allOrgs } = useGetRoleList();
+
   const availableOrgs: TComboBoxSelector[] = orgUser
     ? [
         {
@@ -40,10 +41,7 @@ const FormOne = ({
           value: orgUser._id,
         },
       ]
-    : orgs.data?.data.organization?.map((org: TOrg) => ({
-        label: org.name,
-        value: org._id,
-      }));
+    : allOrgs;
 
   const triggerValidation = async () => {
     return await trigger([

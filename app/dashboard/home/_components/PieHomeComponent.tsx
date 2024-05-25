@@ -5,14 +5,14 @@ import { PieComponent } from '@/app/_components/charts/PieChart';
 import { BoxLoader } from '@/app/_components/utils/Loader';
 import { SelectComponent } from '@/app/_components/utils/SelectComponent';
 import { chartSelectOptions } from '@/app/_constants/data';
-import useSessionStorage from '@/app/_hooks/useSessionStorage';
+import useLocalStorage from '@/app/_hooks/useLocalStorage';
 import qry from '@/lib/queries';
 import { getDateIndexes } from '@/lib/utils';
 
 const { year, monthIndex, dayIndex } = getDateIndexes();
 
 const PieHomeComponent = () => {
-  const [selected, setSelected] = useSessionStorage(`@homeChart`, `${year}-${monthIndex}-${dayIndex}`);
+  const [selected, setSelected] = useLocalStorage(`@homeChart`, `${year}-${monthIndex}-${dayIndex}`);
 
   const handleSelect = (value: string) => {
     setSelected(value);

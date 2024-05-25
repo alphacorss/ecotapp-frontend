@@ -1,16 +1,15 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import QuestionInput from './QuestionInput';
 import { ComboBoxFormComponent } from '@/app/_components/utils/ComboBoxes';
 import ErrorMessage from '@/app/_components/utils/ErrorMessage';
-import Queries from '@/app/_context/Queries';
 import SurveyCtx from '@/app/_context/Survey';
 import useClearError from '@/app/_hooks/useClearError';
 import useClearErrorMessage from '@/app/_hooks/useClearErrorMessage';
-import { TFacility, TOrg } from '@/app/types';
+import useGetRoleList from '@/app/_hooks/useGetRoleList';
 import { Button } from '@/components/ui/button';
 import { zodInputValidators } from '@/lib/utils';
 
@@ -41,7 +40,6 @@ type SurveyForm = z.infer<typeof schema>;
 
 const CreateSurvey = () => {
   const sCtx = React.useContext(SurveyCtx);
-  const { facilities, orgs } = useContext(Queries);
   const [error, setError] = useState(false);
   const [emptyQuestion, setEmptyQuestion] = React.useState(false);
 
@@ -80,15 +78,7 @@ const CreateSurvey = () => {
 
   const selectedOption = watch('toSend');
 
-  const organization = orgs.data?.data?.organization?.map((org: TOrg) => ({
-    label: org.name,
-    value: org._id,
-  }));
-
-  const facility = facilities.data?.data?.facilities?.map((facility: TFacility) => ({
-    label: facility.name,
-    value: facility._id,
-  }));
+  const { allOrgs, allFacilities } = useGetRoleList();
 
   useClearError(errors, clearErrors);
   useClearErrorMessage(error, setError);
@@ -106,7 +96,7 @@ const CreateSurvey = () => {
     }
 
     sCtx.setSendToTenant(data.toSend || '');
-    sCtx.setSendToOption(data.toSend === 'organization' ? organization : data.toSend === 'facility' ? facility : []);
+    sCtx.setSendToOption(data.toSend === 'organization' ? allOrgs : data.toSend === 'facility' ? allFacilities : []);
     sCtx.setShowPreview(true);
   };
 
@@ -139,7 +129,7 @@ const CreateSurvey = () => {
             label={selectedOption === 'organization' ? 'Organization' : 'Facility'}
             register={register}
             setValue={setValue}
-            data={selectedOption === 'organization' ? organization : facility}
+            data={selectedOption === 'organization' ? allOrgs : allFacilities}
             selectorName={selectedOption === 'organization' ? 'organizationId' : 'facilityId'}
             labelClass="font-[600] text-sm font-poppins text-gray-600"
             error={selectedOption === 'organization' ? errors.organizationId?.message : errors.facilityId?.message}

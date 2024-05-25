@@ -192,6 +192,9 @@ export function ComboBoxFormComponent({
   disabled,
   labelClass,
   defaultValue,
+  hideSearch,
+  contentHeight,
+  contentWidth,
 }: {
   label: string;
   title: string;
@@ -204,6 +207,9 @@ export function ComboBoxFormComponent({
   register: UseFormRegister<any>;
   labelClass?: string;
   defaultValue?: string;
+  hideSearch?: boolean;
+  contentHeight?: string;
+  contentWidth?: string;
 }) {
   const [open, setOpen] = React.useState(false);
   const value = watch(selectorName);
@@ -213,7 +219,7 @@ export function ComboBoxFormComponent({
   return (
     <Popover modal open={open} onOpenChange={setOpen}>
       <PopoverTrigger disabled={disabled} className="h-auto" asChild>
-        <div className={`w-full flex flex-col gap-1 ${disabled ? 'pointer-events-none' : ''}`}>
+        <div className={`w-full flex flex-col gap-1 truncate ${disabled ? 'pointer-events-none' : ''}`}>
           <p className={cn('input-label', labelClass)}>{label}</p>
           <Button
             type="button"
@@ -222,7 +228,7 @@ export function ComboBoxFormComponent({
             disabled={disabled}
             {...register(selectorName)}
             aria-expanded={open}
-            className={`justify-between border font-[500] border-gray-300 h-[45px] ${error ? 'border-red-500' : ''}
+            className={`truncate justify-between border font-[500] border-gray-300 h-[45px] ${error ? 'border-red-500' : ''}
           ${value ? 'text-gray-700' : 'text-gray-500/40'}
             `}
           >
@@ -236,10 +242,12 @@ export function ComboBoxFormComponent({
           )}
         </div>
       </PopoverTrigger>
-      <PopoverContent className="min-w-[250px] p-0">
+      <PopoverContent className={cn('min-w-[250px] p-0', contentWidth)}>
         <Command>
-          <CommandInput className="text-xs tracking-tighter" placeholder={`Search by ${title.toLowerCase()} name`} />
-          <ScrollArea className="h-40 w-full rounded-md border">
+          {!hideSearch && (
+            <CommandInput className="text-xs tracking-tighter" placeholder={`Search by ${title.toLowerCase()} name`} />
+          )}
+          <ScrollArea className={cn('h-40 w-full rounded-md border', contentHeight)}>
             <CommandEmpty>No {title.toLowerCase()} found.</CommandEmpty>
             <CommandGroup>
               {data?.map((item, i) => {
