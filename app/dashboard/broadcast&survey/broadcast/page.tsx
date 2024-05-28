@@ -4,14 +4,16 @@ import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { ArrowIndicator } from './_components/ArrowIndicator';
+import { SelectedOptionButton, TierSelectedOptionButton } from './_components/SelectedOptionButton';
+import { adminsOptions, sendToArry, tntOptions } from './helper';
 import { InputComponent } from '@/app/_components/inputs/InputComponent';
 import { TextArea } from '@/app/_components/inputs/TextArea';
-import { ComboBoxFormComponent } from '@/app/_components/utils/ComboBoxes';
+import { ComboBoxFormComponent, ComboBoxFormMultiSelectComponent } from '@/app/_components/utils/ComboBoxes';
 import BackendError from '@/app/_components/utils/FormError';
 import Loader from '@/app/_components/utils/Loader';
 import { ModalComponent } from '@/app/_components/utils/Modals';
 import { SuccessModalContent } from '@/app/_components/utils/Modals';
-import { MultiSelectComponent } from '@/app/_components/utils/MultiSelectComponent';
 import Queries from '@/app/_context/Queries';
 import useClearError from '@/app/_hooks/useClearError';
 import useGetRoleList from '@/app/_hooks/useGetRoleList';
@@ -46,15 +48,16 @@ type BroadcastForm = z.infer<typeof schema>;
 
 const Broadcast = () => {
   const { sendMessage } = React.useContext(Queries);
-  const [noRole, setNoRole] = React.useState<string | null>(null);
   const [successModal, setSuccessModal] = React.useState(false);
-  const [selected, setSelected] = React.useState<TComboBoxSelector[]>([]);
+  const [selectedValues, setSelectedValues] = React.useState<TComboBoxSelector[]>([]);
+  const [selectedError, setSelectedError] = React.useState<string | undefined>(undefined);
 
   const { allOrgs, allFacilities, allTenants } = useGetRoleList();
 
   const { mutate, isError, isPending, error, isSuccess } = sendMessage;
 
   const {
+    getValues,
     register,
     handleSubmit,
     clearErrors,
@@ -70,19 +73,20 @@ const Broadcast = () => {
   useClearError(errors, clearErrors);
 
   const onSubmit: SubmitHandler<BroadcastForm> = async (response) => {
-    const selectedRoles = selected.map((role) => role.value);
-    if (selectedRoles.length === 0) {
-      setNoRole('Select at least one role');
+    const isEmpty = selectedValues.length === 0;
+
+    if (isEmpty) {
+      setSelectedError('Please select at least one recipient');
       return;
     }
 
-    mutate({ ...response, to: selectedRoles });
+    // mutate({ ...response, to: selectedRoles });
   };
 
   React.useEffect(() => {
     if (isSuccess) {
       setSuccessModal(!successModal);
-      setSelected([]);
+      setSelectedValues([]);
       reset();
       sendMessage.reset();
     }
@@ -93,55 +97,10 @@ const Broadcast = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isError, isSuccess]);
 
-  const sendTo = watch('sendTo');
-  const option = watch('option');
+  const sendTo = getValues().sendTo;
+  const option = getValues().option;
 
-  const sendToArry = [
-    {
-      label: 'Organization',
-      value: 'organization',
-    },
-    {
-      label: 'Facility',
-      value: 'facility',
-    },
-    {
-      label: 'Tenants',
-      value: 'tenant',
-    },
-  ];
-
-  const tntOptions = [
-    {
-      label: 'All Tenants',
-      value: 'all',
-    },
-    {
-      label: 'Tenants by Organization',
-      value: 'byOrganization',
-    },
-    {
-      label: 'Tenants by Facility',
-      value: 'byFacility',
-    },
-    {
-      label: 'Specific Tenants',
-      value: 'specific',
-    },
-  ];
-
-  const adminsOptions = [
-    {
-      label: sendTo === 'organization' ? 'All Organization Admins and Managers' : 'All Facility Managers',
-      value: 'all',
-    },
-    {
-      label: sendTo === 'organization' ? 'Specific Organizations Admins and Manager' : 'Specific Facility Managers',
-      value: 'specific',
-    },
-  ];
-
-  const optionArry = sendTo === 'tenant' ? tntOptions : adminsOptions;
+  const optionArry = sendTo === 'tenant' ? tntOptions : adminsOptions(sendTo);
   const multiSelectOption = sendTo === 'organization' ? allOrgs : sendTo === 'tenant' ? allTenants : allFacilities;
 
   return (
@@ -159,32 +118,65 @@ const Broadcast = () => {
         }
       />
       <div className="min-h-full card w-full py-5 md:py-10">
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5 w-[min(100%,600px)] mx-auto">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
           <div className="text-center mb-4">
             <h3 className="text-xl font-[600] text-gray-60 mb-1">Broadcast Message</h3>
             <p className="text-xs text-gray-400">Reach All Admins and Tenants with Important Updates</p>
           </div>
 
-          <ComboBoxFormComponent
-            hideSearch
-            watch={watch}
-            title=""
-            label={'Send To'}
-            register={register}
-            setValue={setValue}
-            data={sendToArry}
-            selectorName={'sendTo'}
-            labelClass="font-[600] text-sm font-poppins text-gray-600"
-            error={errors.sendTo?.message}
-            contentHeight="h-auto"
-          />
-
-          {sendTo && (
+          <div className="flex flex-wrap gap-5 items-center">
+            <SelectedOptionButton
+              arry={sendToArry}
+              label="Send To"
+              value={sendTo}
+              onClick={() => {
+                setSelectedValues([]);
+                reset({
+                  sendTo: undefined,
+                  option: undefined,
+                });
+              }}
+            />
+            <ArrowIndicator sendTo={sendTo} option={option} />
+            <SelectedOptionButton
+              arry={optionArry}
+              label="Option"
+              value={option}
+              onClick={() => {
+                setSelectedValues([]);
+                setValue('option', undefined);
+              }}
+            />
+            {selectedValues.length > 0 && <ArrowIndicator sendTo={sendTo} option={option} />}
+            <TierSelectedOptionButton
+              sendTo={sendTo}
+              option={option}
+              selectedValues={selectedValues}
+              setSelectedValues={setSelectedValues}
+            />
+          </div>
+          {!sendTo && (
             <ComboBoxFormComponent
               hideSearch
               watch={watch}
               title=""
-              label={'Option'}
+              label={'Send To'}
+              register={register}
+              setValue={setValue}
+              data={sendToArry}
+              selectorName={'sendTo'}
+              labelClass="font-[600] text-sm font-poppins text-gray-600"
+              error={errors.sendTo?.message}
+              contentHeight="h-auto"
+            />
+          )}
+
+          {sendTo && !option && (
+            <ComboBoxFormComponent
+              hideSearch
+              watch={watch}
+              title=""
+              label={'Send To'}
               register={register}
               setValue={setValue}
               data={optionArry}
@@ -196,16 +188,37 @@ const Broadcast = () => {
             />
           )}
 
-          {
-            
-          }
-
           {option === 'specific' && (
-            <MultiSelectComponent
-              error={noRole}
-              selected={selected}
-              setSelected={setSelected}
-              options={multiSelectOption}
+            <ComboBoxFormMultiSelectComponent
+              title=""
+              label={'Send To'}
+              data={multiSelectOption}
+              error={selectedError}
+              setError={setSelectedError}
+              values={selectedValues}
+              setValues={setSelectedValues}
+            />
+          )}
+          {option === 'byFacility' && (
+            <ComboBoxFormMultiSelectComponent
+              title="Facility"
+              label={'Send To'}
+              data={allFacilities}
+              error={selectedError}
+              setError={setSelectedError}
+              values={selectedValues}
+              setValues={setSelectedValues}
+            />
+          )}
+          {option === 'byOrganization' && (
+            <ComboBoxFormMultiSelectComponent
+              title="Organization"
+              label={'Send To'}
+              data={allOrgs}
+              error={selectedError}
+              setError={setSelectedError}
+              values={selectedValues}
+              setValues={setSelectedValues}
             />
           )}
 
