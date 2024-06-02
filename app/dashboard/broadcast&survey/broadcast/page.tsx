@@ -54,6 +54,7 @@ const Broadcast = () => {
 
   const { allOrgs, allFacilities, allTenants } = useGetRoleList();
 
+  // eslint-disable-next-line no-unused-vars
   const { mutate, isError, isPending, error, isSuccess } = sendMessage;
 
   const {
