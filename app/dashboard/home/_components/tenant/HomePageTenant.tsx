@@ -1,25 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
-import { Filter } from 'iconsax-react';
-import { ChevronDown } from 'lucide-react';
 import React, { memo } from 'react';
 
 import BarComponent from '../../../../_components/charts/BarChart';
-import { DropdownMenuComponent } from '../../../../_components/utils/DropDowns';
-import NotificationComponent from '../../../../_components/utils/NotificationComponent';
 import { SelectComponent } from '../../../../_components/utils/SelectComponent';
-import { cleanTypes } from '../../helpers';
 import { HomeMainLoader } from '@/app/_components/utils/Loader';
 import { chartSelectOptions } from '@/app/_constants/data';
-import Queries from '@/app/_context/Queries';
 import useLocalStorage from '@/app/_hooks/useLocalStorage';
-import { TMessages } from '@/app/types';
-import { Button } from '@/components/ui/button';
 import qry from '@/lib/queries';
 import { getDateIndexes } from '@/lib/utils';
 
 const HomePageTenant = () => {
-  const { myMessages } = React.useContext(Queries);
-
   const { year, monthIndex, dayIndex } = getDateIndexes();
 
   const [selected, setSelected] = useLocalStorage(`@homeChart`, `${year}-${monthIndex}-${dayIndex}`);
@@ -39,9 +29,7 @@ const HomePageTenant = () => {
   if (homeChart.isError) return <div className="error-page flex-1">Something went wrong loading the charts</div>;
 
   const chart = homeChart?.data?.data?.data?.stat;
-  const notifications: TMessages[] = myMessages?.data?.data?.messages;
-
-  const types = cleanTypes(chart.current_month_energy_breakdown);
+  // const types = cleanTypes(chart.current_month_energy_breakdown);
 
   const currentMonth = chart.current_month_energy;
 
@@ -58,9 +46,9 @@ const HomePageTenant = () => {
   const width = percentageIncrease > maxPercentage ? maxPercentage : percentageIncrease + 5;
 
   return (
-    <div className="flex flex-col gap-5 justify-between min-h-full">
-      <div className="flex gap-5 flex-col lg:flex-row lg:h-[400px]">
-        <div className="card flex flex-col flex-[7] h-full">
+    <div className="flex flex-col gap-5 min-h-full">
+      <div className="flex gap-5 flex-col lg:flex-row">
+        <div className="card flex flex-col w-full h-full">
           <div className="flex justify-between items-center mb-5">
             <h3 className="text-lg font-[700] text-gray-600 pb-1">Total Energy Consumption</h3>
             <div>
@@ -74,7 +62,7 @@ const HomePageTenant = () => {
               />
             </div>
           </div>
-          <div className="flex flex-col gap-3 mb-8 ">
+          <div className="flex flex-col gap-3">
             <h2 className="text-primary-200 font-[700] text-2xl">{currentMonth} kWh</h2>
 
             <div className="w-full bg-[#EBEBEB] rounded-[7px] dark:bg-gray-700">
@@ -95,7 +83,7 @@ const HomePageTenant = () => {
               </p>
             </div>
           </div>
-          <div className="flex flex-col justify-between items-start border border-gray-300 p-3 rounded-[var(--rounded)] flex-1">
+          {/* <div className="flex flex-col justify-between items-start border border-gray-300 p-3 rounded-[var(--rounded)] flex-1">
             <h3 className="text-lg font-[700] text-gray-600 pb-1 mb-3">Consumption by Energy Type</h3>
             <div className="flex justify-between flex-wrap gap-4 lg:gap-0 items-center w-full">
               {types.map((type, index) => (
@@ -105,17 +93,14 @@ const HomePageTenant = () => {
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-        <div className="card flex-[4] min-h-full">
-          <NotificationComponent notifications={notifications} />
+          </div> */}
         </div>
       </div>
-      <div className="card w-full">
+      <div className="card w-full flex-1">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-lg font-[600] text-gray-600">Consumption History</h1>
         </div>
-        <div className="flex gap-3 mb-10 lg:mb-6 justify-start items-start lg:justify-end lg:items-center flex-col lg:flex-row">
+        {/* <div className="flex gap-3 mb-10 lg:mb-6 justify-start items-start lg:justify-end lg:items-center flex-col lg:flex-row">
           <DropdownMenuComponent
             trigger={
               <Button className="px-2" variant="outlineGrayHover">
@@ -130,7 +115,7 @@ const HomePageTenant = () => {
               </Button>
             }
           />
-        </div>
+        </div> */}
 
         <div className="flex gap-10 justify-between items-center flex-col md:flex-row">
           <BarComponent data={chart.array_of_energy} />

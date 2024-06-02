@@ -19,34 +19,6 @@ export const viewDetailsTabs = [
   },
 ];
 
-export const broadcastRoles = [
-  {
-    label: 'Pseudo Admins',
-    value: 'psuedoadmin',
-    allowedRoles: ['superadmin'],
-  },
-  {
-    label: 'Organization Admins',
-    value: 'organizationadmin',
-    allowedRoles: ['superadmin', 'psuedoadmin'],
-  },
-  {
-    label: 'Organization Managers',
-    value: 'organizationmanager',
-    allowedRoles: ['superadmin', 'psuedoadmin', 'organizationadmin'],
-  },
-  {
-    label: 'Facility Managers',
-    value: 'facilitymanager',
-    allowedRoles: ['superadmin', 'psuedoadmin', 'organizationadmin', 'organizationmanager'],
-  },
-  {
-    label: 'Tenants',
-    value: 'tenant',
-    allowedRoles: ['superadmin', 'psuedoadmin', 'organizationadmin', 'organizationmanager', 'facilityadmin'],
-  },
-];
-
 export const filterToggle = [
   {
     name: 'list',

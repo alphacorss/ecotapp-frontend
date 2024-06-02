@@ -27,42 +27,44 @@ const Header = () => {
         )}
         <p className="text-gray-500 font-[500] text-xs">{currentDate()}</p>
       </div>
-      {isMobile && (
+
+      <div className="flex gap-3 justify-center items-center">
         <div className="flex justify-center items-center gap-5">
-          {role !== 'tenant' && role !== 'superadmin' && <NotificationDropDown notifications={notifications} />}
+          {role !== 'superadmin' && <NotificationDropDown notifications={notifications} />}
         </div>
-      )}
-      {isMobile && (
-        <div className="relative z-10 content lg:hidden">
-          <motion.button
-            animate={mobileNav ? 'open' : 'closed'}
-            className="flex flex-col justify-center items-center rounded-lg bg-white dark:bg-gray-500 p-2 py-3 gap-[5px] border"
-            onClick={() => toggleMobileNav()}
-          >
-            <motion.span
-              variants={{
-                closed: { rotate: 0, y: 0 },
-                open: { rotate: 45, y: 7 },
-              }}
-              className="w-5 h-[1px] bg-gray-400 dark:bg-gray-100  block"
-            ></motion.span>
-            <motion.span
-              variants={{
-                closed: { opacity: 1 },
-                open: { opacity: 0 },
-              }}
-              className="w-5 h-[1px] bg-gray-400 dark:bg-gray-100 block"
-            ></motion.span>
-            <motion.span
-              variants={{
-                closed: { rotate: 0, y: 0 },
-                open: { rotate: -45, y: -5 },
-              }}
-              className="w-5 h-[1px] bg-gray-400 dark:bg-gray-100 block"
-            ></motion.span>
-          </motion.button>
-        </div>
-      )}
+
+        {isMobile && (
+          <div className="relative z-10 content lg:hidden">
+            <motion.button
+              animate={mobileNav ? 'open' : 'closed'}
+              className="flex flex-col justify-center items-center rounded-lg bg-white dark:bg-gray-500 p-2 py-3 gap-[5px] border"
+              onClick={() => toggleMobileNav()}
+            >
+              <motion.span
+                variants={{
+                  closed: { rotate: 0, y: 0 },
+                  open: { rotate: 45, y: 7 },
+                }}
+                className="w-5 h-[1px] bg-gray-400 dark:bg-gray-100  block"
+              ></motion.span>
+              <motion.span
+                variants={{
+                  closed: { opacity: 1 },
+                  open: { opacity: 0 },
+                }}
+                className="w-5 h-[1px] bg-gray-400 dark:bg-gray-100 block"
+              ></motion.span>
+              <motion.span
+                variants={{
+                  closed: { rotate: 0, y: 0 },
+                  open: { rotate: -45, y: -5 },
+                }}
+                className="w-5 h-[1px] bg-gray-400 dark:bg-gray-100 block"
+              ></motion.span>
+            </motion.button>
+          </div>
+        )}
+      </div>
     </header>
   );
 };

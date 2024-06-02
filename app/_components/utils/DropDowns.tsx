@@ -46,7 +46,7 @@ export const DropdownMenuComponent = ({
 export const NotificationDropDown = ({ notifications }: { notifications: TMessages[] }) => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild className="ring-0 outline-0 cursor-pointer bg-transparent px-3 py-3">
+      <DropdownMenuTrigger asChild className="ring-0 outline-0 cursor-pointer bg-transparent p-3">
         <span>
           <Notification size={24} color="gray" />
         </span>
@@ -56,7 +56,7 @@ export const NotificationDropDown = ({ notifications }: { notifications: TMessag
         className="text-sm font-[400] flex gap-2 px-5 justify-end w-fit h-fit bg-transparent border-none ring-0 shadow-none"
       >
         <Dialog>
-          <div className="max-w-[400px] h-fit bg-white card">
+          <div className="w-[90vw] sm:w-[400px] h-fit bg-white card">
             <NotificationComponent
               notifications={notifications}
               containerClass={notifications?.length > 0 ? 'h-fit max-h-[400px]' : ''}

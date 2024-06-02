@@ -5,12 +5,12 @@ import { z } from 'zod';
 
 import { ComboBoxFormComponent } from '@/app/_components/utils/ComboBoxes';
 import { energyTypeArray } from '@/app/_constants/data';
-import Queries from '@/app/_context/Queries';
 import User from '@/app/_context/User';
 import useClearError from '@/app/_hooks/useClearError';
+import useGetRoleList from '@/app/_hooks/useGetRoleList';
 import { high, low, mid } from '@/app/dashboard/home/helpers';
 import { EnergyFilterDefaults } from '@/app/enums';
-import { TFacility, TOrg, TFacilityUser, TOrgUser } from '@/app/types';
+import { TFacilityUser, TOrgUser } from '@/app/types';
 import { Button } from '@/components/ui/button';
 import { getFromLocalStorage, getUser, setToLocalStorage, zodInputValidators } from '@/lib/utils';
 
@@ -44,6 +44,7 @@ const EnergyFilter = ({
   const orgUserId = orgUser?.organization?._id;
   const facilityUserId = facilityUser?.facility?._id;
 
+  const { allOrgs, allTenantsByFacility, allFacilitiesByOrg } = useGetRoleList();
   const energyFilter = JSON.parse(getFromLocalStorage('@energy_filter') || '{}');
 
   const energy_type = energyFilter.energy_type || EnergyFilterDefaults.energy_type;
@@ -72,30 +73,6 @@ const EnergyFilter = ({
 
   const selectedOrg = watch('organization');
   const selectedFacility = watch('facility');
-
-  const { orgs, facilities, tenants } = React.useContext(Queries);
-  const orgsOption = orgs.data?.data?.organization.map((org: TOrg) => ({
-    label: org.name,
-    value: org._id,
-  }));
-
-  const facilitiesArry = facilities.data?.data.facilities ?? facilities.data?.data?.data?.facilities;
-
-  const facilitiesOption = facilitiesArry
-    ?.filter((facility: TFacility) => facility.organization._id === selectedOrg)
-    .map((facility: TFacility) => ({
-      label: facility.name,
-      value: facility._id,
-    }));
-
-  const tenantsArry = tenants.data?.data?.users ?? tenants.data?.data?.data?.users;
-
-  const tenantsOption = tenantsArry
-    ?.filter((user: TFacilityUser) => user.facility._id === selectedFacility)
-    .map((user: TFacilityUser) => ({
-      label: user.user.firstName + ' ' + user.user.lastName,
-      value: user._id,
-    }));
 
   useClearError(errors, clearErrors);
 
@@ -161,7 +138,7 @@ const EnergyFilter = ({
         {high.includes(role as string) && (
           <ComboBoxFormComponent
             label="Organization"
-            data={orgsOption}
+            data={allOrgs}
             selectorName="organization"
             setValue={setValue}
             title="Organization"
@@ -174,7 +151,7 @@ const EnergyFilter = ({
         {(high.includes(role as string) || mid.includes(role as string)) && (
           <ComboBoxFormComponent
             label="Facility"
-            data={facilitiesOption}
+            data={allFacilitiesByOrg(selectedOrg as string)}
             selectorName="facility"
             setValue={setValue}
             title="Facility"
@@ -188,7 +165,7 @@ const EnergyFilter = ({
         {(high.includes(role as string) || mid.includes(role as string) || low.includes(role as string)) && (
           <ComboBoxFormComponent
             label="Tenant"
-            data={tenantsOption}
+            data={allTenantsByFacility(selectedFacility as string)}
             selectorName="tenant"
             setValue={setValue}
             title="Tenant"

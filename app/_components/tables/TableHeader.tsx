@@ -13,7 +13,7 @@ export const TableHeader = ({
 }) => {
   return (
     <button
-      className="flex items-center gap-2 text-gray-400 text-sm font-[500] lg:text-base lg:text-gray-700"
+      className="flex items-center gap-2 text-gray-400 text-sm font-[500] lg:text-gray-700"
       onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
     >
       {title}

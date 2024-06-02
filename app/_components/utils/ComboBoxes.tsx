@@ -192,6 +192,9 @@ export function ComboBoxFormComponent({
   disabled,
   labelClass,
   defaultValue,
+  hideSearch,
+  contentHeight,
+  contentWidth,
 }: {
   label: string;
   title: string;
@@ -204,6 +207,9 @@ export function ComboBoxFormComponent({
   register: UseFormRegister<any>;
   labelClass?: string;
   defaultValue?: string;
+  hideSearch?: boolean;
+  contentHeight?: string;
+  contentWidth?: string;
 }) {
   const [open, setOpen] = React.useState(false);
   const value = watch(selectorName);
@@ -213,7 +219,7 @@ export function ComboBoxFormComponent({
   return (
     <Popover modal open={open} onOpenChange={setOpen}>
       <PopoverTrigger disabled={disabled} className="h-auto" asChild>
-        <div className={`w-full flex flex-col gap-1 ${disabled ? 'pointer-events-none' : ''}`}>
+        <div className={`w-full flex flex-col gap-1 truncate ${disabled ? 'pointer-events-none' : ''}`}>
           <p className={cn('input-label', labelClass)}>{label}</p>
           <Button
             type="button"
@@ -222,7 +228,7 @@ export function ComboBoxFormComponent({
             disabled={disabled}
             {...register(selectorName)}
             aria-expanded={open}
-            className={`justify-between border font-[500] border-gray-300 h-[45px] ${error ? 'border-red-500' : ''}
+            className={`truncate justify-between border font-[500] border-gray-300 h-[45px] ${error ? 'border-red-500' : ''}
           ${value ? 'text-gray-700' : 'text-gray-500/40'}
             `}
           >
@@ -236,10 +242,12 @@ export function ComboBoxFormComponent({
           )}
         </div>
       </PopoverTrigger>
-      <PopoverContent className="min-w-[250px] p-0">
+      <PopoverContent className={cn('min-w-[250px] p-0', contentWidth)}>
         <Command>
-          <CommandInput className="text-xs tracking-tighter" placeholder={`Search by ${title.toLowerCase()} name`} />
-          <ScrollArea className="h-40 w-full rounded-md border">
+          {!hideSearch && (
+            <CommandInput className="text-xs tracking-tighter" placeholder={`Search by ${title.toLowerCase()} name`} />
+          )}
+          <ScrollArea className={cn('h-40 w-full rounded-md border', contentHeight)}>
             <CommandEmpty>No {title.toLowerCase()} found.</CommandEmpty>
             <CommandGroup>
               {data?.map((item, i) => {
@@ -254,6 +262,91 @@ export function ComboBoxFormComponent({
                     }}
                   >
                     <Check className={cn('mr-2 h-4 w-4', value === item?.value ? 'opacity-100' : 'opacity-0')} />
+                    {item?.label}
+                  </CommandItem>
+                );
+              })}
+            </CommandGroup>
+          </ScrollArea>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
+export function ComboBoxFormMultiSelectComponent({
+  label,
+  data,
+  title,
+  error,
+  values,
+  setError,
+  setValues,
+}: {
+  label: string;
+  title: string;
+  error: string | undefined;
+  values: TComboBoxSelector[] | [];
+  data: TComboBoxSelector[];
+  setError: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setValues: React.Dispatch<React.SetStateAction<TComboBoxSelector[] | []>>;
+}) {
+  const [open, setOpen] = React.useState(false);
+
+  const addToArray = (item: TComboBoxSelector) => {
+    setError(undefined);
+    setValues((p) => {
+      const index = p.findIndex((i) => i.value === item.value);
+      if (index === -1) {
+        return [...p, item];
+      }
+      return p.filter((i) => i.value !== item.value);
+    });
+  };
+
+  const selectedValues = values.map((i) => i.label).join(', ');
+
+  return (
+    <Popover modal open={open} onOpenChange={setOpen}>
+      <PopoverTrigger className="h-auto" asChild>
+        <div className={`w-full flex flex-col gap-1 truncate `}>
+          <p className={'input-label font-[600] text-sm font-poppins text-gray-600'}>{label}</p>
+          <Button
+            type="button"
+            variant="link"
+            role="combobox"
+            aria-expanded={open}
+            className={`truncate justify-between border font-[500] border-gray-300 h-[45px] ${error ? 'border-red-500' : ''}
+          ${selectedValues ? 'text-gray-700' : 'text-gray-500/40'}
+            `}
+          >
+            <p className="truncate">{selectedValues ? selectedValues : `Select an option`}</p>
+            <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50 text-black" />
+          </Button>
+          {error && (
+            <p className={`error-input ${error ? 'animate-fade-in opacity-1' : 'animate-fade-out opacity-0'}`}>
+              {error}
+            </p>
+          )}
+        </div>
+      </PopoverTrigger>
+      <PopoverContent className={'min-w-[250px] p-0'}>
+        <Command>
+          <CommandInput className="text-xs tracking-tighter" placeholder={`Search by ${title.toLowerCase()} name`} />
+
+          <ScrollArea className={'h-40 w-full rounded-md border'}>
+            <CommandEmpty>No {title.toLowerCase()} found.</CommandEmpty>
+            <CommandGroup>
+              {data?.map((item, i) => {
+                const isSelected = values.findIndex((i) => i.value === item.value) !== -1;
+                return (
+                  <CommandItem
+                    key={i}
+                    value={item?.label?.toLowerCase()}
+                    className={`cursor-pointer ${isSelected ? 'bg-gray-200' : ''}`}
+                    onSelect={() => addToArray(item)}
+                  >
+                    <Check className={cn('mr-2 h-4 w-4', isSelected ? 'opacity-100' : 'opacity-0')} />
                     {item?.label}
                   </CommandItem>
                 );

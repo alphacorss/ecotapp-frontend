@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/browser';
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
@@ -88,8 +89,14 @@ export function UserCtxProvider({ children }: React.PropsWithChildren<{}>) {
         name: `${user.user.firstName} ${user.user.lastName}`,
         role: user.user.role[0],
       });
+      Sentry.setUser({
+        email: user.user.email,
+        id: user.user._id,
+        username: `${user.user.firstName} ${user.user.lastName}`,
+      });
     } else if (!user.user) {
       posthog.reset();
+      Sentry.setUser(null);
     }
   }, [user.user]);
 
