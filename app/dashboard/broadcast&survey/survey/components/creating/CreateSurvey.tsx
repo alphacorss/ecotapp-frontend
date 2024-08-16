@@ -64,7 +64,7 @@ const CreateSurvey = () => {
   const sendTo = [
     {
       label: 'All Tenants',
-      value: 'all',
+      value: 'tenant_all',
     },
     {
       label: 'Organization',
@@ -122,7 +122,7 @@ const CreateSurvey = () => {
           labelClass="font-[600] text-sm font-poppins text-gray-600"
           error={errors.toSend?.message}
         />
-        {selectedOption !== 'all' && (
+        {selectedOption !== 'tenant_all' && (
           <ComboBoxFormComponent
             watch={watch}
             title={selectedOption === 'organization' ? 'Organization' : 'Facility'}

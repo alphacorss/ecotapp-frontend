@@ -61,6 +61,7 @@ export type TCountry = {
 export type TComboBoxSelector = {
   label: string;
   value: string;
+  allowedRoles?: string[];
 };
 
 //mutations
@@ -200,14 +201,16 @@ export type TFilledBy = {
   _id: string;
 };
 
-export type TMessages = {
+export type TNotificationType = 'ALL' | 'SURVEY' | 'BROADCAST';
+
+export type TNotification = {
   _id: string;
-  subject: string;
-  content: string;
-  files: any[];
-  isViewed: boolean;
+  title: string;
+  body: string;
+  type: TNotificationType;
   createdAt: string;
   updatedAt: string;
+  viewedBy: Record<string, boolean>;
 };
 
 export type TSurveyData = {

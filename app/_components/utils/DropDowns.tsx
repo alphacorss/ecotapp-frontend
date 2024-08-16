@@ -6,7 +6,7 @@ import React from 'react';
 
 import FilterBtn from './FilterBtn';
 import NotificationComponent from './NotificationComponent';
-import { TComboBoxSelector, TMessages } from '@/app/types';
+import { TComboBoxSelector } from '@/app/types';
 import { Dialog } from '@/components/ui/dialog';
 import {
   DropdownMenu,
@@ -43,7 +43,7 @@ export const DropdownMenuComponent = ({
   );
 };
 
-export const NotificationDropDown = ({ notifications }: { notifications: TMessages[] }) => {
+export const NotificationDropDown = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className="ring-0 outline-0 cursor-pointer bg-transparent p-3">
@@ -57,10 +57,7 @@ export const NotificationDropDown = ({ notifications }: { notifications: TMessag
       >
         <Dialog>
           <div className="w-[90vw] sm:w-[400px] h-fit bg-white card">
-            <NotificationComponent
-              notifications={notifications}
-              containerClass={notifications?.length > 0 ? 'h-fit max-h-[400px]' : ''}
-            />
+            <NotificationComponent />
           </div>
         </Dialog>
       </DropdownMenuContent>

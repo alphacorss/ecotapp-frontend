@@ -12,7 +12,7 @@ export const sideNavItems = [
     title: 'User Management',
     icon: (color: 'white' | 'gray') => <UserEdit size={20} color={color} />,
     href: '/dashboard/users/pseudo-admins',
-    allowedRoles: [...high, ...mid],
+    allowedRoles: [...high, ...mid, ...low],
   },
   {
     title: 'Analytics',

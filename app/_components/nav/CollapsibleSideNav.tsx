@@ -3,7 +3,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import * as React from 'react';
 
+import { TRole } from '@/app/types';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { isNotAllowed } from '@/lib/utils';
 
 export function CollapsibleSideNav({
   array,
@@ -18,7 +20,7 @@ export function CollapsibleSideNav({
   expandDrawer: boolean;
   setExpandDrawer: React.Dispatch<React.SetStateAction<boolean>>;
   array: any[];
-  role: string | undefined;
+  role: TRole | undefined;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
@@ -47,9 +49,7 @@ export function CollapsibleSideNav({
       <CollapsibleContent className="w-full pl-10 data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden">
         <ul className="flex flex-col">
           {array.map((item, index) => {
-            if (!item?.allowedRoles?.includes(role as string)) {
-              return null;
-            }
+            if (isNotAllowed(item, role)) return null;
             return (
               <Link
                 key={index}

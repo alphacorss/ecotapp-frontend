@@ -2,7 +2,7 @@ import React from 'react';
 
 import { cn } from '@/lib/utils';
 
-const ToggleSwitch = ({
+const ToggleSwitch = <T,>({
   arrayOptions,
   option,
   onClick,
@@ -19,7 +19,7 @@ const ToggleSwitch = ({
   onClick?: () => void;
   showView?: boolean;
   itemClass?: string;
-  setActiveToggle?: React.Dispatch<React.SetStateAction<string>>;
+  setActiveToggle?: React.Dispatch<React.SetStateAction<T>>;
 }) => {
   return (
     <ul
@@ -28,7 +28,7 @@ const ToggleSwitch = ({
       {arrayOptions.map((toggle) => (
         <li
           key={toggle.name}
-          onClick={() => (setActiveToggle ? setActiveToggle(toggle.name) : onClick && onClick())}
+          onClick={() => (setActiveToggle ? setActiveToggle(toggle.name as T) : onClick && onClick())}
           className={cn(
             ` ${
               option === toggle.name ? 'text-gray-900 bg-white rounded-[5px] font-[600]' : 'text-gray-500'

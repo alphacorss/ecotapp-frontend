@@ -3,17 +3,12 @@ import React from 'react';
 
 import { NotificationDropDown } from '../utils/DropDowns';
 import Main from '@/app/_context/Main';
-import Queries from '@/app/_context/Queries';
 import User from '@/app/_context/User';
-import { TMessages } from '@/app/types';
 import { capitalizeFirstLetter, currentDate } from '@/lib/utils';
 
 const Header = () => {
   const { mobileNav, toggleMobileNav, isMobile } = React.useContext(Main);
   const { user, cleanRole, role } = React.useContext(User);
-  const { myMessages } = React.useContext(Queries);
-
-  const notifications: TMessages[] = myMessages?.data?.data?.messages;
 
   return (
     <header className="h-[80px] flex justify-between items-center w-full px-5 bg-[#fafafa]">
@@ -30,7 +25,7 @@ const Header = () => {
 
       <div className="flex gap-3 justify-center items-center">
         <div className="flex justify-center items-center gap-5">
-          {role !== 'superadmin' && <NotificationDropDown notifications={notifications} />}
+          {!['superadmin', 'psuedoadmin'].includes(role as string) && <NotificationDropDown />}
         </div>
 
         {isMobile && (

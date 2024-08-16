@@ -56,7 +56,7 @@ const LoginPage = () => {
               className={`text-xs font-[500] text-error-300 select-none text-center 
            ${authError ? 'animate-fade-in opacity-1' : 'animate-fade-out opacity-0'}`}
             >
-              User validation failed, please sign in again
+              User validation failed, please sign in
             </p>
           )}
         </form>

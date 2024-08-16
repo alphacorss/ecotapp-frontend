@@ -134,19 +134,25 @@ const resetPasswordInAppRq = async (data: { currentPasword: string; newPassword:
   return response;
 };
 
-//broadcast
-const sendMessageRq = async (info: { subject: string; content: string; to: string[] }) => {
-  const formData = new FormData();
-  formData.append('subject', info.subject);
-  formData.append('content', info.content);
-  info.to.forEach((role) => formData.append('to', role));
-
-  const { data } = await axios.post(`${baseUrl}/business/createmessage`, formData);
+// notifications
+const getMyNotificationsRq = async ({ pageParam = 1 }) => {
+  const { data } = await axios.get(`${baseUrl}/business/mynotifications?limit=10&page=${pageParam}`);
   return data;
 };
 
-const getMyMessagesRq = async () => {
-  const { data } = await axios.get(`${baseUrl}/business/mymessages`);
+const viewNotificationsRq = async (id: string) => {
+  const { data } = await axios.get(`${baseUrl}/business/notification/${id}`);
+  return data;
+};
+
+//broadcast
+const getMyBroadCastRq = async ({ pageParam = 1 }) => {
+  const { data } = await axios.get(`${baseUrl}/business/mybroadcasts?limit=10&page=${pageParam}`);
+  return data;
+};
+
+const sendBroadcastRq = async (send: FormData) => {
+  const { data } = await axios.post(`${baseUrl}/business/createbroadcast`, send);
   return data;
 };
 
@@ -268,8 +274,10 @@ export default {
   deleteFacilityRq,
   updateProfileRq,
   resetPasswordInAppRq,
-  sendMessageRq,
-  getMyMessagesRq,
+  sendBroadcastRq,
+  getMyBroadCastRq,
+  getMyNotificationsRq,
+  viewNotificationsRq,
   createSurveyRq,
   mySurveysRq,
   surverDetailRq,

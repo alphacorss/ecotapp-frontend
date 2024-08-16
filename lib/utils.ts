@@ -127,7 +127,7 @@ export const getTimeAgo = (timestamp: string): string => {
   } else if (minutesAgo > 0) {
     return minutesAgo === 1 ? '1 minute ago' : `${minutesAgo} minutes ago`;
   } else {
-    return 'just now';
+    return 'Just now';
   }
 };
 
@@ -257,5 +257,7 @@ export const cleanNumber = (number: number) => {
 
   return formatter.format(number);
 };
+
+export const isNotAllowed = (item: any, role: TRole | undefined) => !item?.allowedRoles?.includes(role as string);
 
 export const baseUrl = `http://ecotapp-app-elb-dev-2089191536.ca-central-1.elb.amazonaws.com:4000/api/v1`;
