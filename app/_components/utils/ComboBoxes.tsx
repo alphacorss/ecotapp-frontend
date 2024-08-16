@@ -5,11 +5,11 @@ import * as React from 'react';
 import { UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form';
 
 import { ScrollArea } from '../../../components/ui/scroll-area';
-import { TComboBoxSelector, TCountry } from '@/app/types';
+import { TComboBoxSelector, TCountry, TRole } from '@/app/types';
 import { Button } from '@/components/ui/button';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@/components/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { cn } from '@/lib/utils';
+import { cn, isNotAllowed } from '@/lib/utils';
 
 export function NestedComboBoxComponentInput({
   data,
@@ -181,6 +181,8 @@ export function ComboBoxFormCountryState({
 }
 
 export function ComboBoxFormComponent({
+  role,
+  filterByRole,
   label,
   data,
   title,
@@ -196,6 +198,8 @@ export function ComboBoxFormComponent({
   contentHeight,
   contentWidth,
 }: {
+  role?: TRole | undefined;
+  filterByRole?: boolean;
   label: string;
   title: string;
   disabled?: boolean;
@@ -248,9 +252,10 @@ export function ComboBoxFormComponent({
             <CommandInput className="text-xs tracking-tighter" placeholder={`Search by ${title.toLowerCase()} name`} />
           )}
           <ScrollArea className={cn('h-40 w-full rounded-md border', contentHeight)}>
-            <CommandEmpty>No {title.toLowerCase()} found.</CommandEmpty>
+            <CommandEmpty>No {title.toLowerCase()}s found.</CommandEmpty>
             <CommandGroup>
               {data?.map((item, i) => {
+                if (isNotAllowed(item, role) && filterByRole) return null;
                 return (
                   <CommandItem
                     key={i}
@@ -335,7 +340,7 @@ export function ComboBoxFormMultiSelectComponent({
           <CommandInput className="text-xs tracking-tighter" placeholder={`Search by ${title.toLowerCase()} name`} />
 
           <ScrollArea className={'h-40 w-full rounded-md border'}>
-            <CommandEmpty>No {title.toLowerCase()} found.</CommandEmpty>
+            <CommandEmpty>No {title.toLowerCase()}s found.</CommandEmpty>
             <CommandGroup>
               {data?.map((item, i) => {
                 const isSelected = values.findIndex((i) => i.value === item.value) !== -1;

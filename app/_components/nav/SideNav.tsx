@@ -9,7 +9,7 @@ import { analyticsNav, bottomNav, broadcastNav, sideNavItems, userNav } from '@/
 import Main from '@/app/_context/Main';
 import User from '@/app/_context/User';
 import useLocalStorage from '@/app/_hooks/useLocalStorage';
-import { capitalizeFirstLetter, clearCookies, clearSessionStorage } from '@/lib/utils';
+import { capitalizeFirstLetter, clearCookies, clearSessionStorage, isNotAllowed } from '@/lib/utils';
 
 const SideNav = () => {
   const currentPath = usePathname();
@@ -110,9 +110,8 @@ const SideNav = () => {
           <ul className="w-full pb-10">
             {sideNavItems.map((item, index) => {
               if (item.title === 'User Management') {
-                if (!item?.allowedRoles?.includes(role as string)) {
-                  return null;
-                }
+                if (isNotAllowed(item, role)) return null;
+
                 return (
                   <CollapsibleSideNav
                     key={index}

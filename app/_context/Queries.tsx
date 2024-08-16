@@ -55,8 +55,7 @@ export type TQueriesCtx = {
   updateProfile: TMutationHandler;
   updatePassword: TMutationHandler;
   // broadcast
-  sendMessage: TMutationHandler;
-  myMessages: UseQueryResult<any, Error>;
+  sendBroadcast: TMutationHandler;
   //survey
   createSurvey: TMutationHandler;
   mySurveys: UseQueryResult<any, Error>;
@@ -116,8 +115,7 @@ const Queries = createContext<TQueriesCtx>({
   updateProfile: {} as TMutationHandler,
   updatePassword: {} as TMutationHandler,
   // broadcast
-  sendMessage: {} as TMutationHandler,
-  myMessages: {} as UseQueryResult<any, Error>,
+  sendBroadcast: {} as TMutationHandler,
   //survey
   createSurvey: {} as TMutationHandler,
   mySurveys: {} as UseQueryResult<any, Error>,
@@ -310,12 +308,7 @@ export function QueriesCtxProvider({ children }: React.PropsWithChildren<{}>) {
   const updatePassword = useHandleMutation(qry.resetPasswordInAppRq, []);
 
   //broadcast
-  const sendMessage = useHandleMutation(qry.sendMessageRq, []);
-  const myMessages = useQuery({
-    queryKey: ['messages'],
-    queryFn: () => qry.getMyMessagesRq(),
-    enabled: defaultEnable && getRole() !== 'superadmin',
-  });
+  const sendBroadcast = useHandleMutation(qry.sendBroadcastRq, []);
 
   //survey
   const mySurveys = useQuery({
@@ -391,8 +384,7 @@ export function QueriesCtxProvider({ children }: React.PropsWithChildren<{}>) {
     updateProfile,
     updatePassword,
     // broadcast
-    sendMessage,
-    myMessages,
+    sendBroadcast,
     //survey
     mySurveys,
     createSurvey,

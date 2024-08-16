@@ -39,6 +39,8 @@ jobs:
             git checkout development
             git pull
             sudo docker compose -f docker-compose.yml up --build -d
+    - name: Prune Docker
+      run: docker system prune -f
     - name: revoke runner ip address
       run: |
         aws ec2 revoke-security-group-ingress \

@@ -19,7 +19,7 @@ import useClearError from '@/app/_hooks/useClearError';
 import useGetRoleList from '@/app/_hooks/useGetRoleList';
 import { TComboBoxSelector } from '@/app/types';
 import { Button } from '@/components/ui/button';
-import { zodInputValidators } from '@/lib/utils';
+import { capitalizeFirstLetter, getRole, zodInputValidators } from '@/lib/utils';
 
 const sendTo = z.union([zodInputValidators.dropDown.nullish(), z.literal('')]);
 const option = z.union([zodInputValidators.dropDown.nullish(), z.literal('')]);
@@ -47,7 +47,8 @@ const schema = z.object({ sendTo, option, subject, content }).superRefine((data,
 type BroadcastForm = z.infer<typeof schema>;
 
 const Broadcast = () => {
-  const { sendMessage } = React.useContext(Queries);
+  const role = getRole();
+  const { sendBroadcast } = React.useContext(Queries);
   const [successModal, setSuccessModal] = React.useState(false);
   const [selectedValues, setSelectedValues] = React.useState<TComboBoxSelector[]>([]);
   const [selectedError, setSelectedError] = React.useState<string | undefined>(undefined);
@@ -55,7 +56,7 @@ const Broadcast = () => {
   const { allOrgs, allFacilities, allTenants } = useGetRoleList();
 
   // eslint-disable-next-line no-unused-vars
-  const { mutate, isError, isPending, error, isSuccess } = sendMessage;
+  const { mutate, isError, isPending, error, isSuccess } = sendBroadcast;
 
   const {
     getValues,
@@ -68,20 +69,48 @@ const Broadcast = () => {
     setValue,
     formState: { errors },
   } = useForm<BroadcastForm>({
+    defaultValues: {
+      sendTo: undefined,
+      option: undefined,
+      subject: 'Message from Admin',
+      content: `Dear Tenant,\n\nWe hope you are doing well. We would like to inform you that we have scheduled a maintenance activity on the 15th of October 2021. Please make sure to vacate the premises by 10:00 AM. We apologize for any inconvenience this may cause.\n\nBest Regards,\nAdmin. Timestamp: ${new Date().toLocaleString()}`,
+    },
     resolver: zodResolver(schema),
   });
 
   useClearError(errors, clearErrors);
 
-  const onSubmit: SubmitHandler<BroadcastForm> = async (response) => {
+  const onSubmit: SubmitHandler<BroadcastForm> = async (data) => {
     const isEmpty = selectedValues.length === 0;
-
-    if (isEmpty) {
+    if (isEmpty && data.option !== 'all') {
       setSelectedError('Please select at least one recipient');
       return;
     }
 
-    // mutate({ ...response, to: selectedRoles });
+    const formData = new FormData();
+    formData.append('subject', data.subject);
+    formData.append('content', data.content);
+
+    if (data.option === 'all') {
+      formData.append(
+        'to[]',
+        JSON.stringify({
+          sendTo: data.sendTo,
+          [`all${capitalizeFirstLetter(data.sendTo as string)}`]: true,
+        }),
+      );
+    } else {
+      formData.append(
+        'to[]',
+        JSON.stringify({
+          sendTo: data.sendTo,
+          [`all${capitalizeFirstLetter(data.sendTo as string)}`]: false,
+          [`${data.option}Ids`]: selectedValues.map((item) => item.value),
+        }),
+      );
+    }
+
+    mutate(formData);
   };
 
   React.useEffect(() => {
@@ -89,7 +118,7 @@ const Broadcast = () => {
       setSuccessModal(!successModal);
       setSelectedValues([]);
       reset();
-      sendMessage.reset();
+      sendBroadcast.reset();
     }
 
     if (isError) {
@@ -158,9 +187,11 @@ const Broadcast = () => {
           </div>
           {!sendTo && (
             <ComboBoxFormComponent
+              role={role}
+              filterByRole
               hideSearch
               watch={watch}
-              title=""
+              title={role === 'tenant' ? 'Tenant' : 'Admin'}
               label={'Send To'}
               register={register}
               setValue={setValue}
@@ -176,7 +207,7 @@ const Broadcast = () => {
             <ComboBoxFormComponent
               hideSearch
               watch={watch}
-              title=""
+              title={sendTo === 'tenant' ? 'Tenant' : 'Admin'}
               label={'Send To'}
               register={register}
               setValue={setValue}
@@ -189,33 +220,23 @@ const Broadcast = () => {
             />
           )}
 
-          {option === 'specific' && (
-            <ComboBoxFormMultiSelectComponent
-              title=""
-              label={'Send To'}
-              data={multiSelectOption}
-              error={selectedError}
-              setError={setSelectedError}
-              values={selectedValues}
-              setValues={setSelectedValues}
-            />
-          )}
-          {option === 'byFacility' && (
+          {sendTo === 'tenant' && ['facility', 'organization']?.includes(option as string) && (
             <ComboBoxFormMultiSelectComponent
               title="Facility"
               label={'Send To'}
-              data={allFacilities}
+              data={option === 'facility' ? allFacilities : allOrgs}
               error={selectedError}
               setError={setSelectedError}
               values={selectedValues}
               setValues={setSelectedValues}
             />
           )}
-          {option === 'byOrganization' && (
+
+          {sendTo === 'tenant' && ['tenant']?.includes(option as string) && (
             <ComboBoxFormMultiSelectComponent
-              title="Organization"
+              title={sendTo as string}
               label={'Send To'}
-              data={allOrgs}
+              data={multiSelectOption}
               error={selectedError}
               setError={setSelectedError}
               values={selectedValues}
