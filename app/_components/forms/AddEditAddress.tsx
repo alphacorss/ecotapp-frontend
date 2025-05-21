@@ -11,6 +11,7 @@ import { zodInputValidators } from '@/lib/utils';
 
 const CountryStateGetter = require('countrycitystatejson');
 
+const address = zodInputValidators.longText;
 const apt = zodInputValidators.twoNumbers;
 const street = zodInputValidators.longText;
 const country = zodInputValidators.dropDown;
@@ -19,6 +20,7 @@ const city = zodInputValidators.name;
 const postalCode = zodInputValidators.postalCode;
 
 export const addressSchema = z.object({
+  address,
   apt,
   street,
   country,
@@ -84,6 +86,23 @@ const AddEditAddress = ({
             </div>
           );
         }
+
+        if (input.name === 'address') {
+          return (
+            <div key={input.name} className="w-full md:col-span-2">
+              <InputComponent
+                key={input.name}
+                id={input.name}
+                name={input.name}
+                label={input.label}
+                placeholder={input.placeholder}
+                error={errors[input.name as keyof TAddressForm]?.message as string}
+                register={register}
+              />
+            </div>
+          );
+        }
+
         return (
           <InputComponent
             key={input.name}

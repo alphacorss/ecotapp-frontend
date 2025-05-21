@@ -6,6 +6,7 @@ import TableCell from '@/app/_components/tables/TableCell';
 import TableContext from '@/app/_components/tables/TableContext';
 import { TableHeader } from '@/app/_components/tables/TableHeader';
 import { TFacility } from '@/app/types';
+import { getOrgOrFacilityAddress } from '@/lib/utils';
 
 export const FacilityColumn = (showDeleteModal: (id: string) => void, showDetailsModal: (id: string) => void) => {
   const columns: ColumnDef<TFacility>[] = [
@@ -56,6 +57,13 @@ export const FacilityColumn = (showDeleteModal: (id: string) => void, showDetail
         } else {
           return <TableCell>-</TableCell>;
         }
+      },
+    },
+    {
+      accessorKey: 'address',
+      cell: ({ row }) => {
+        const address = getOrgOrFacilityAddress(row.original);
+        return <TableCell>{address || '-'}</TableCell>;
       },
     },
     {

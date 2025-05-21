@@ -81,6 +81,12 @@ export const facilityFormFields = [
 
 export const addressFormFields = [
   {
+    label: 'Address',
+    name: 'address',
+    placeholder: 'Enter your address',
+    type: 'text',
+  },
+  {
     label: 'Apt/Unit',
     name: 'apt',
     placeholder: 'Enter your apt/unit',

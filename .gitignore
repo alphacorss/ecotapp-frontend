@@ -52,3 +52,5 @@ dump.txt
 
 # Sentry Config File
 .env.sentry-build-plugin
+
+.env

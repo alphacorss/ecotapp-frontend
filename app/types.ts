@@ -111,6 +111,7 @@ export type TFacilityTabs = 'form' | 'amenities' | 'certifications' | 'address';
 //forms
 export type TOrgForm = {
   name: string;
+  address: string;
   apt: string;
   country: string;
   city: string;
@@ -139,6 +140,7 @@ export interface TOrg extends TOrgForm {
   _id: string;
   name: string;
   faclitiesCount: number;
+  address: string;
   apt: string;
   country: string;
   city: string;
@@ -167,6 +169,7 @@ export type TFacility = {
   totalNumberOfMeters: string;
   Amenities: string[];
   Certifications: string[];
+  address: string;
   apt: string;
   country: string;
   city: string;

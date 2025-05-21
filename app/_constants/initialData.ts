@@ -27,6 +27,7 @@ export const initialUser: TUser = {
 };
 
 export const initialAddress: TAddressForm = {
+  address: '',
   apt: '',
   street: '',
   country: '',
@@ -38,6 +39,7 @@ export const initialAddress: TAddressForm = {
 export const initialOrg: TOrg = {
   _id: '',
   name: '',
+  address: '',
   apt: '',
   street: '',
   city: '',

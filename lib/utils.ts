@@ -2,7 +2,7 @@ import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { z } from 'zod';
 
-import { TFacilityUser, TOrgUser, TRole, TSurveyData } from '@/app/types';
+import { TFacility, TFacilityUser, TOrg, TOrgUser, TRole, TSurveyData } from '@/app/types';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -260,4 +260,14 @@ export const cleanNumber = (number: number) => {
 
 export const isNotAllowed = (item: any, role: TRole | undefined) => !item?.allowedRoles?.includes(role as string);
 
-export const baseUrl = `http://ecotapp-app-elb-dev-2089191536.ca-central-1.elb.amazonaws.com:4000/api/v1`;
+export const getOrgOrFacilityAddress = (item: TOrg | TFacility) => {
+  if (item?.address) {
+    return item.address;
+  } else {
+    return `No ${item.apt}, ${item.street}, ${item.province}, ${item.country}`;
+  }
+};
+
+export const baseUrl =
+  process.env.NEXT_PUBLIC_BASE_URL ||
+  `http://ecotapp-app-elb-dev-2089191536.ca-central-1.elb.amazonaws.com:4000/api/v1`;
