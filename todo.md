@@ -14,3 +14,4 @@
 22/05/2025
 
 1. Increased error timeout from 3 seconds to 4 seconds to allow user to see the error message
+2. Made apt/unit field optional and set default value to 0, also added validation to the field to ensure it is a number between 0 and 99

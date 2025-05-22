@@ -27,6 +27,7 @@ export const InputComponent = ({
   register,
   container,
   isPassword,
+  type,
   ...props
 }: InputComponentProps) => {
   const [passwordVisible, setPasswordVisible] = React.useState(false);
@@ -46,10 +47,11 @@ export const InputComponent = ({
       >
         {before}
         <Input
-          type={isPassword && !passwordVisible ? 'password' : 'text'}
           id={name}
           {...props}
+          type={isPassword && !passwordVisible ? 'password' : type || 'text'}
           {...(register && register(name))}
+          onWheel={(e) => type === 'number' && e.currentTarget.blur()}
         />
         <>
           {isPassword && (

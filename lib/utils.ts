@@ -261,11 +261,14 @@ export const cleanNumber = (number: number) => {
 export const isNotAllowed = (item: any, role: TRole | undefined) => !item?.allowedRoles?.includes(role as string);
 
 export const getOrgOrFacilityAddress = (item: TOrg | TFacility) => {
+  let address = '';
   if (item?.address) {
-    return item.address;
+    address = item.address;
   } else {
-    return `No ${item.apt}, ${item.street}, ${item.province}, ${item.country}`;
+    const aptDisplay = typeof item.apt === 'number' ? item.apt : '-';
+    address = `No ${aptDisplay}, ${item.street}, ${item.province}, ${item.country}`;
   }
+  return `${address}, ${item?.postalCode}`;
 };
 
 export const baseUrl =
