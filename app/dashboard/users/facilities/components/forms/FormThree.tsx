@@ -46,8 +46,8 @@ const FormThree = ({
     <div>
       <GoBack tab="amenities" setActiveTab={setActiveTab} setValidTabs={setValidTabs} />
       <FormInfo
-        title="Select Amenities for the Facility"
-        description="Select the boxes corresponding to the amenities available in the facility"
+        title="Select Certifications for the Facility"
+        description="Select the boxes corresponding to the certifications available in the facility"
       />
       <div className="flex justify-start items-center flex-wrap gap-4 cursor-pointer">
         {certifications.map((certification) => (

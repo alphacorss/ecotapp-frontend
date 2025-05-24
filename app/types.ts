@@ -160,15 +160,14 @@ export interface TSingleOrg {
 export type TFacility = {
   _id: string;
   siteId: string;
-  area: string;
-  buidingFoundation: string;
-  backupgenerator: string;
+  grossFloorArea: string;
   name: string;
-  totalCommonAreas: string;
   totalNumberOfUnits: string;
-  totalNumberOfMeters: string;
-  Amenities: string[];
-  Certifications: string[];
+  buildingType: string;
+  totalFloors: number;
+  alternativeEnergySource: string;
+  amenities: string[];
+  certifications: string[];
   address: string;
   apt?: number | null;
   country: string;

@@ -3,7 +3,6 @@ import { Loader } from 'lucide-react';
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
-
 import FormFour from './forms/FormFour';
 import FormOne from './forms/FormOne';
 import FormThree from './forms/FormThree';
@@ -20,26 +19,24 @@ import { TFacility, TFacilityTabs, TMutationHandler, TOrgUser } from '@/app/type
 import { Button } from '@/components/ui/button';
 import { getUser, zodInputValidators } from '@/lib/utils';
 
-const siteId = zodInputValidators.twoNumbers;
-const name = zodInputValidators.longText;
-const area = zodInputValidators.name;
-const totalCommonAreas = zodInputValidators.noneNull;
-const buidingFoundation = zodInputValidators.name;
-const totalNumberOfUnits = zodInputValidators.twoNumbers;
-const backupgenerator = zodInputValidators.dropDown;
-const totalNumberOfMeters = zodInputValidators.dropDown;
+const siteId = zodInputValidators.number.nullable().optional();
+const name = zodInputValidators.longText.optional();
+const grossFloorArea = zodInputValidators.name;
+const totalNumberOfUnits = zodInputValidators.twoNumbers.optional();
+const buildingType = zodInputValidators.dropDown;
+const totalFloors = zodInputValidators.twoNumbers;
+const alternativeEnergySource = zodInputValidators.name;
 const organizationId = zodInputValidators.dropDown;
 
 const formOneSchema = z.object({
   organizationId,
   siteId,
   name,
-  area,
-  totalCommonAreas,
-  buidingFoundation,
+  grossFloorArea,
+  buildingType,
   totalNumberOfUnits,
-  backupgenerator,
-  totalNumberOfMeters,
+  totalFloors,
+  alternativeEnergySource,
 });
 
 const schema = z.object({
@@ -84,10 +81,10 @@ const AddEditFacility = ({
   const facilityData: TFacility = facility.data?.data.data.facility;
 
   const [selectedAmenities, setSelectedAmenities] = React.useState<string[]>(
-    facilityData ? facilityData.Amenities : [],
+    facilityData ? facilityData.amenities : [],
   );
   const [selectedCertifications, setSelectedCertifications] = React.useState<string[]>(
-    facilityData ? facilityData.Certifications : [],
+    facilityData ? facilityData.certifications : [],
   );
 
   const {
@@ -112,14 +109,14 @@ const AddEditFacility = ({
   const handleAddFacility: SubmitHandler<any> = (data) => {
     const addData = {
       ...data,
-      Amenities: selectedAmenities,
-      Certifications: selectedCertifications,
+      amenities: selectedAmenities,
+      certifications: selectedCertifications,
     };
     const updateData = {
       ...facilityData,
       ...data,
-      Amenities: selectedAmenities,
-      Certifications: selectedCertifications,
+      amenities: selectedAmenities,
+      certifications: selectedCertifications,
       id: facilityData?._id,
     };
     mutate(action === 'add' ? addData : updateData);

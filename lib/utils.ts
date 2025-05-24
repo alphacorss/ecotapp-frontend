@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { z } from 'zod';
+import { number, z } from 'zod';
 
 import { TFacility, TFacilityUser, TOrg, TOrgUser, TRole, TSurveyData } from '@/app/types';
 
@@ -138,9 +138,10 @@ export function capitalizeFirstLetter(string: string) {
 export const zodInputValidators = {
   noneNull: z.string().min(1, { message: 'This field is required' }),
   twoNumbers: z.string().min(2, { message: 'Please Two numbers required' }),
+  number: z.number().min(0, { message: 'Please enter a valid number' }),
   code: z.string().min(6, { message: 'Minimum 6 characters' }),
   phone: z.string().min(8, { message: 'Minimum 8 digits' }),
-  postalCode: z.string().min(6, { message: 'Minimum 6 characters' }),
+  postalCode: z.string().min(4, { message: 'Minimum 5 characters' }),
   email: z.string().email({ message: 'Please enter a valid email' }),
   name: z.string().trim().min(3, { message: 'Minimum 3 characters' }).max(15, { message: 'Maximum 15 characters' }),
   password: z.string().min(8, { message: 'Minimum 8 characters' }),
