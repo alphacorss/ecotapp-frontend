@@ -11,7 +11,18 @@ import { zodInputValidators } from '@/lib/utils';
 
 const CountryStateGetter = require('countrycitystatejson');
 
-const apt = zodInputValidators.twoNumbers;
+const address = zodInputValidators.longText;
+const apt = z
+  .union([
+    z
+      .number()
+      .min(0, { message: 'Apt/Unit must be a number between 0 and 99' })
+      .max(99, { message: 'Apt/Unit must be a number between 0 and 99' }),
+    z.nan().transform(() => undefined), // Accept NaN and treat as undefined
+    z.undefined(),
+    z.null(),
+  ])
+  .optional();
 const street = zodInputValidators.longText;
 const country = zodInputValidators.dropDown;
 const province = zodInputValidators.dropDown;
@@ -19,6 +30,7 @@ const city = zodInputValidators.name;
 const postalCode = zodInputValidators.postalCode;
 
 export const addressSchema = z.object({
+  address,
   apt,
   street,
   country,
@@ -84,6 +96,40 @@ const AddEditAddress = ({
             </div>
           );
         }
+
+        if (input.name === 'address') {
+          return (
+            <div key={input.name} className="w-full md:col-span-2">
+              <InputComponent
+                key={input.name}
+                id={input.name}
+                name={input.name}
+                label={input.label}
+                placeholder={input.placeholder}
+                error={errors[input.name as keyof TAddressForm]?.message as string}
+                register={register}
+              />
+            </div>
+          );
+        }
+
+        if (input.name === 'apt') {
+          return (
+            <div key={input.name} className="w-full md:col-span-2">
+              <InputComponent
+                key={input.name}
+                id={input.name}
+                name={input.name}
+                label={input.label}
+                placeholder={input.placeholder}
+                error={errors[input.name as keyof TAddressForm]?.message as string}
+                register={(name) => register(name, { valueAsNumber: true })}
+                type="number"
+              />
+            </div>
+          );
+        }
+
         return (
           <InputComponent
             key={input.name}

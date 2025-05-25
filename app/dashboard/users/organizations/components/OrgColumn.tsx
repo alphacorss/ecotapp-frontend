@@ -6,6 +6,7 @@ import TableCell from '@/app/_components/tables/TableCell';
 import TableContext from '@/app/_components/tables/TableContext';
 import { TableHeader } from '@/app/_components/tables/TableHeader';
 import { TOrg } from '@/app/types';
+import { getOrgOrFacilityAddress } from '@/lib/utils';
 
 export const OrgColumnData = (showDeleteModal: (id: string) => void, showDetailsModal: (id: string) => void) => {
   const columns: ColumnDef<TOrg>[] = [
@@ -72,6 +73,20 @@ export const OrgColumnData = (showDeleteModal: (id: string) => void, showDetails
           );
         } else {
           return <TableCell>0</TableCell>;
+        }
+      },
+    },
+    {
+      accessorKey: 'address',
+      header: ({ column }) => {
+        return <TableHeader title="Address" column={column} isSorted={column.getIsSorted()} />;
+      },
+      cell: ({ row }) => {
+        const address = getOrgOrFacilityAddress(row.original);
+        if (address) {
+          return <TableCell>{address}</TableCell>;
+        } else {
+          return <TableCell>-</TableCell>;
         }
       },
     },

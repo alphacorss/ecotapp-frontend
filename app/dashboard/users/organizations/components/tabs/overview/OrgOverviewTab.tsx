@@ -8,6 +8,7 @@ import HomeMain from '@/app/dashboard/home/_components/HomeMain';
 import { Modals } from '@/app/enums';
 import { TSingleOrg } from '@/app/types';
 import { Button } from '@/components/ui/button';
+import { getOrgOrFacilityAddress } from '@/lib/utils';
 
 const OrgOverviewTab = ({ singleOrg }: { singleOrg: TSingleOrg }) => {
   const dispatch = useDispatch();
@@ -32,10 +33,7 @@ const OrgOverviewTab = ({ singleOrg }: { singleOrg: TSingleOrg }) => {
               </Button>
             </span>
           </div>
-          <ViewModalInfo
-            title="Address"
-            info={`No ${organization.apt}, ${organization.street}, ${organization.province}, ${organization.country}`}
-          />
+          <ViewModalInfo title="Address" info={getOrgOrFacilityAddress(singleOrg.organization)} />
         </div>
       </div>
       <div>

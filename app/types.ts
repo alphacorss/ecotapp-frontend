@@ -111,7 +111,8 @@ export type TFacilityTabs = 'form' | 'amenities' | 'certifications' | 'address';
 //forms
 export type TOrgForm = {
   name: string;
-  apt: string;
+  address: string;
+  apt?: number;
   country: string;
   city: string;
   street: string;
@@ -139,7 +140,8 @@ export interface TOrg extends TOrgForm {
   _id: string;
   name: string;
   faclitiesCount: number;
-  apt: string;
+  address: string;
+  apt?: number;
   country: string;
   city: string;
   street: string;
@@ -158,16 +160,16 @@ export interface TSingleOrg {
 export type TFacility = {
   _id: string;
   siteId: string;
-  area: string;
-  buidingFoundation: string;
-  backupgenerator: string;
+  grossFloorArea: string;
   name: string;
-  totalCommonAreas: string;
   totalNumberOfUnits: string;
-  totalNumberOfMeters: string;
-  Amenities: string[];
-  Certifications: string[];
-  apt: string;
+  buildingType: string;
+  totalFloors: number;
+  alternativeEnergySource: string;
+  amenities: string[];
+  certifications: string[];
+  address: string;
+  apt?: number | null;
   country: string;
   city: string;
   street: string;

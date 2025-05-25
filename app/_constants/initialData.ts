@@ -27,7 +27,8 @@ export const initialUser: TUser = {
 };
 
 export const initialAddress: TAddressForm = {
-  apt: '',
+  address: '',
+  apt: 0,
   street: '',
   country: '',
   province: '',
@@ -38,7 +39,8 @@ export const initialAddress: TAddressForm = {
 export const initialOrg: TOrg = {
   _id: '',
   name: '',
-  apt: '',
+  address: '',
+  apt: 0,
   street: '',
   city: '',
   country: '',
@@ -55,14 +57,14 @@ export const initialFacility: TFacility = {
   organization: initialOrg,
   siteId: '',
   name: '',
-  area: '',
-  totalCommonAreas: '',
-  buidingFoundation: '',
+  grossFloorArea: '',
+  buildingType: '',
   totalNumberOfUnits: '',
-  backupgenerator: '',
-  totalNumberOfMeters: '',
+  totalFloors: 0,
+  alternativeEnergySource: '',
+  apt: 0,
   ...initialAddress,
-  Amenities: [],
-  Certifications: [],
+  amenities: [],
+  certifications: [],
   __v: 0,
 };

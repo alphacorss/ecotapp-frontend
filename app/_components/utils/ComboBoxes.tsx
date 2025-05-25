@@ -197,6 +197,7 @@ export function ComboBoxFormComponent({
   hideSearch,
   contentHeight,
   contentWidth,
+  required,
 }: {
   role?: TRole | undefined;
   filterByRole?: boolean;
@@ -214,6 +215,7 @@ export function ComboBoxFormComponent({
   hideSearch?: boolean;
   contentHeight?: string;
   contentWidth?: string;
+  required?: boolean;
 }) {
   const [open, setOpen] = React.useState(false);
   const value = watch(selectorName);
@@ -224,7 +226,10 @@ export function ComboBoxFormComponent({
     <Popover modal open={open} onOpenChange={setOpen}>
       <PopoverTrigger disabled={disabled} className="h-auto" asChild>
         <div className={`w-full flex flex-col gap-1 truncate ${disabled ? 'pointer-events-none' : ''}`}>
-          <p className={cn('input-label', labelClass)}>{label}</p>
+          <div className="flex justify-start items-center">
+            <p className={cn('input-label', labelClass)}>{label}</p>
+            {required === false ? <></> : <span className="text-red-500 pl-1">*</span>}
+          </div>
           <Button
             type="button"
             variant="link"

@@ -44,16 +44,16 @@ const ViewUser = ({
   let address = '';
   switch (role) {
     case 'organizationadmin':
-      address = `No ${org?.apt}, ${org?.street}, ${org?.province}, ${org?.country}`;
+      address = `No ${typeof org?.apt === 'number' ? org?.apt : '-'}, ${org?.street}, ${org?.province}, ${org?.country}`;
       break;
     case 'organizationmanager':
-      address = `No ${org?.apt}, ${org?.street}, ${org?.province}, ${org?.country}`;
+      address = `No ${typeof org?.apt === 'number' ? org?.apt : '-'}, ${org?.street}, ${org?.province}, ${org?.country}`;
       break;
     case 'facilitymanager':
-      address = `No ${facility?.apt}, ${facility?.street}, ${facility?.province}, ${facility?.country}`;
+      address = `No ${typeof facility?.apt === 'number' ? facility?.apt : '-'}, ${facility?.street}, ${facility?.province}, ${facility?.country}`;
       break;
     case 'tenant':
-      address = `No ${extendedUser?.facility?.apt}, ${extendedUser?.facility?.street}, ${extendedUser?.facility?.province}, ${extendedUser?.facility?.country}`;
+      address = `No ${typeof extendedUser?.facility?.apt === 'number' ? extendedUser?.facility?.apt : '-'}, ${extendedUser?.facility?.street}, ${extendedUser?.facility?.province}, ${extendedUser?.facility?.country}`;
       break;
     default:
       break;
@@ -105,7 +105,7 @@ const ViewUser = ({
                 variant="outline"
                 onClick={() =>
                   router.push(
-                    `/dashboard/analytics/energy-consumption?vt=analytics&filter=true&from=03-12-24&to=03-28-24&energyType=electricity&orgId=${extendedUser.facility.organization._id}&facilityId=${extendedUser.facility._id}&tenantId=${extendedUser._id}`,
+                    `/dashboard/analytics/energy-consumption?vt=analytics&filter=true&from=03-12-24&to=03-28-24&energyType=electricity&orgId=${extendedUser.facility?.organization?._id}&facilityId=${extendedUser?.facility?._id}&tenantId=${extendedUser?._id}`,
                   )
                 }
               >

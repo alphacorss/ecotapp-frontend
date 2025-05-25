@@ -45,41 +45,56 @@ export const facilityFormFields = [
     label: 'Site Unique ID',
     name: 'siteId',
     placeholder: 'Enter the site unique id',
-    type: 'text',
+    type: 'number',
+    required: false
   },
   {
     label: 'Facility Name',
     name: 'name',
     placeholder: 'Enter the facility name',
     type: 'text',
+    required: false
   },
   {
-    label: 'Area',
-    name: 'area',
-    placeholder: 'Enter the area',
+    label: 'Gross Floor Area',
+    name: 'grossFloorArea',
+    placeholder: 'Enter the gross floor area (e.g., 45000 sq ft)',
     type: 'text',
   },
   {
-    label: 'Common Areas',
-    name: 'totalCommonAreas',
-    placeholder: 'Enter the common areas',
-    type: 'text',
-  },
-  {
-    label: 'Building Foundation',
-    name: 'buidingFoundation',
-    placeholder: 'Enter the building foundation',
-    type: 'text',
+    label: 'Building Type',
+    name: 'buildingType',
+    placeholder: 'Select building type',
+    type: 'dropdown',
   },
   {
     label: 'Number of Units',
     name: 'totalNumberOfUnits',
     placeholder: 'Enter the number of units',
     type: 'text',
+    required: false
+  },
+  {
+    label: 'Total Floors',
+    name: 'totalFloors',
+    placeholder: 'Enter the number of floors/storeys',
+    type: 'number',
+  },
+  {
+    label: 'Alternative Energy Source',
+    name: 'alternativeEnergySource',
+    placeholder: 'Enter alternative energy source (e.g., Solar)',
+    type: 'text',
   },
 ];
 
 export const addressFormFields = [
+  {
+    label: 'Address',
+    name: 'address',
+    placeholder: 'Enter your address',
+    type: 'text',
+  },
   {
     label: 'Apt/Unit',
     name: 'apt',
@@ -118,35 +133,19 @@ export const addressFormFields = [
   },
 ];
 
-export const backupGenerators = [
-  { label: 'Honda EU2200i', value: 'Honda EU2200i' },
-  {
-    label: 'Champion 3800-Watt Dual Fuel',
-    value: 'Champion 3800-Watt Dual Fuel',
-  },
-  { label: 'Generac Guardian Series', value: 'Generac Guardian Series' },
-  { label: 'Westinghouse WGen7500', value: 'Westinghouse WGen7500' },
-  {
-    label: 'Briggs & Stratton P2200 PowerSmart',
-    value: 'Briggs & Stratton P2200 PowerSmart',
-  },
-  { label: 'Duromax XP12000EH', value: 'Duromax XP12000EH' },
-  { label: 'Kohler 20RESCL-200SELS', value: 'Kohler 20RESCL-200SELS' },
-  { label: 'Yamaha EF2000iSv2', value: 'Yamaha EF2000iSv2' },
-  { label: 'Cat RP12000E', value: 'Cat RP12000E' },
-  { label: 'Pulsar PG10000B16', value: 'Pulsar PG10000B16' },
-];
-
-export const numberOfMeters = [
-  { label: '100', value: '100' },
-  { label: '200', value: '200' },
-  { label: '300', value: '300' },
-  { label: '400', value: '400' },
-  { label: '500', value: '500' },
-  { label: '600', value: '600' },
-  { label: '700', value: '700' },
-  { label: '800', value: '800' },
-  { label: '900', value: '900' },
+export const buildingTypes = [
+  { label: 'Commercial', value: 'Commercial' },
+  { label: 'Residential', value: 'Residential' },
+  { label: 'Industrial', value: 'Industrial' },
+  { label: 'Mixed Use', value: 'Mixed Use' },
+  { label: 'Office', value: 'Office' },
+  { label: 'Retail', value: 'Retail' },
+  { label: 'Institutional', value: 'Institutional' },
+  { label: 'Healthcare', value: 'Healthcare' },
+  { label: 'Educational', value: 'Educational' },
+  { label: 'Hospitality', value: 'Hospitality' },
+  { label: 'Warehouse', value: 'Warehouse' },
+  { label: 'Other', value: 'Other' },
 ];
 
 export const amenities = [

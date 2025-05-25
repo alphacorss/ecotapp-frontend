@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   const { isLoading, isFetching } = React.useContext(User);
 
-  if (typeof window !== 'undefined') {
+  if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_POSTHOG_KEY) {
     posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
       api_host: '/ingest',
       ui_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
@@ -24,9 +24,16 @@ export default function RootLayout({
     });
   }
 
+  const PostHogWrapper = ({ children }: { children: React.ReactNode }) => {
+    if (process.env.NEXT_PUBLIC_POSTHOG_KEY) {
+      return <PostHogProvider client={posthog}>{children}</PostHogProvider>;
+    }
+    return <>{children}</>;
+  };
+
   return (
     <React.Fragment>
-      <PostHogProvider client={posthog}>
+      <PostHogWrapper>
         <div>
           {isLoading || isFetching ? (
             <PageLoader />
@@ -42,7 +49,7 @@ export default function RootLayout({
             </ProtectedRoutes>
           )}
         </div>
-      </PostHogProvider>
+      </PostHogWrapper>
     </React.Fragment>
   );
 }

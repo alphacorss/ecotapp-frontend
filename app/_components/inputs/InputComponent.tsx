@@ -16,6 +16,7 @@ interface InputComponentProps extends InputProps {
   error?: string | undefined;
   container?: string;
   isPassword?: boolean;
+  required?: boolean;
 }
 
 export const InputComponent = ({
@@ -27,6 +28,8 @@ export const InputComponent = ({
   register,
   container,
   isPassword,
+  type,
+  required,
   ...props
 }: InputComponentProps) => {
   const [passwordVisible, setPasswordVisible] = React.useState(false);
@@ -38,6 +41,7 @@ export const InputComponent = ({
     <div className={cn('flex gap-1 flex-col w-full rounded-[var(--rounded)]', container)}>
       <label htmlFor={name} className="input-label">
         {label}
+        {required === false ? <></> : <span className="text-red-500 pl-1">*</span>}
       </label>
       <div
         className={`flex items-center border rounded-[var(--rounded)] ${
@@ -46,10 +50,11 @@ export const InputComponent = ({
       >
         {before}
         <Input
-          type={isPassword && !passwordVisible ? 'password' : 'text'}
           id={name}
           {...props}
+          type={isPassword && !passwordVisible ? 'password' : type || 'text'}
           {...(register && register(name))}
+          onWheel={(e) => type === 'number' && e.currentTarget.blur()}
         />
         <>
           {isPassword && (

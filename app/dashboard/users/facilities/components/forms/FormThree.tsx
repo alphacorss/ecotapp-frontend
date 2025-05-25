@@ -23,7 +23,7 @@ const FormThree = ({
   const [fromTwoError, setFromTwoError] = React.useState(false);
 
   const submitFormThree = () => {
-    if (selectedCertifications.length === 0) {
+    if (!selectedCertifications?.length) {
       setFromTwoError(true);
       return;
     }
@@ -46,22 +46,22 @@ const FormThree = ({
     <div>
       <GoBack tab="amenities" setActiveTab={setActiveTab} setValidTabs={setValidTabs} />
       <FormInfo
-        title="Select Amenities for the Facility"
-        description="Select the boxes corresponding to the amenities available in the facility"
+        title="Select Certifications for the Facility"
+        description="Select the boxes corresponding to the certifications available in the facility"
       />
       <div className="flex justify-start items-center flex-wrap gap-4 cursor-pointer">
         {certifications.map((certification) => (
           <span
             key={certification}
             onClick={() => {
-              if (selectedCertifications.includes(certification)) {
+              if (selectedCertifications?.includes(certification)) {
                 setSelectedCertification(selectedCertifications.filter((item) => item !== certification));
               } else {
-                setSelectedCertification([...selectedCertifications, certification]);
+                setSelectedCertification([...(selectedCertifications || []), certification]);
               }
             }}
             className={`border border-gray-300 text-sm font-[500] text-gray-500 p-2 rounded-[var(--rounded)] ${
-              selectedCertifications.includes(certification)
+              selectedCertifications?.includes(certification)
                 ? 'bg-primary-300 text-white border-primary-300'
                 : 'bg-white'
             }`}

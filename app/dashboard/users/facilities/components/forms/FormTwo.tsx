@@ -23,7 +23,7 @@ const FormTwo = ({
   const [fromTwoError, setFromTwoError] = React.useState(false);
 
   const submitFormTwo = () => {
-    if (selectedAmenities.length === 0) {
+    if (!selectedAmenities?.length) {
       setFromTwoError(true);
       return;
     }
@@ -50,18 +50,18 @@ const FormTwo = ({
         description="Select the boxes corresponding to the amenities available in the facility"
       />
       <div className="flex justify-start items-center flex-wrap gap-4 cursor-pointer">
-        {amenities.map((amenity) => (
+        {amenities?.map((amenity) => (
           <span
             key={amenity}
             onClick={() => {
-              if (selectedAmenities.includes(amenity)) {
+              if (selectedAmenities?.includes(amenity)) {
                 setSelectedAmenities(selectedAmenities.filter((item) => item !== amenity));
               } else {
-                setSelectedAmenities([...selectedAmenities, amenity]);
+                setSelectedAmenities([...(selectedAmenities || []), amenity]);
               }
             }}
             className={`border text-sm font-[500] text-gray-500 border-gray-300 p-2 rounded-[var(--rounded)] ${
-              selectedAmenities.includes(amenity) ? 'bg-primary-300 text-white border-primary-300' : 'bg-white'
+              selectedAmenities?.includes(amenity) ? 'bg-primary-300 text-white border-primary-300' : 'bg-white'
             }`}
           >
             {amenity}

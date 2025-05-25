@@ -18,28 +18,26 @@ import { high } from '@/app/dashboard/home/helpers';
 import { Modals } from '@/app/enums';
 import { TFacility, TFacilityTabs, TMutationHandler, TOrgUser } from '@/app/types';
 import { Button } from '@/components/ui/button';
-import { getUser, zodInputValidators } from '@/lib/utils';
+import { getUser, zodInputValidators, zOptional } from '@/lib/utils';
 
-const siteId = zodInputValidators.twoNumbers;
-const name = zodInputValidators.longText;
-const area = zodInputValidators.name;
-const totalCommonAreas = zodInputValidators.noneNull;
-const buidingFoundation = zodInputValidators.name;
-const totalNumberOfUnits = zodInputValidators.twoNumbers;
-const backupgenerator = zodInputValidators.dropDown;
-const totalNumberOfMeters = zodInputValidators.dropDown;
+const siteId = zOptional(zodInputValidators.number);
+const name = zOptional(zodInputValidators.longText);
+const grossFloorArea = zodInputValidators.name;
+const totalNumberOfUnits = zOptional(zodInputValidators.twoNumbers);
+const buildingType = zodInputValidators.dropDown;
+const totalFloors = zodInputValidators.number;
+const alternativeEnergySource = zodInputValidators.name;
 const organizationId = zodInputValidators.dropDown;
 
 const formOneSchema = z.object({
   organizationId,
   siteId,
   name,
-  area,
-  totalCommonAreas,
-  buidingFoundation,
+  grossFloorArea,
+  buildingType,
   totalNumberOfUnits,
-  backupgenerator,
-  totalNumberOfMeters,
+  totalFloors,
+  alternativeEnergySource,
 });
 
 const schema = z.object({
@@ -84,10 +82,10 @@ const AddEditFacility = ({
   const facilityData: TFacility = facility.data?.data.data.facility;
 
   const [selectedAmenities, setSelectedAmenities] = React.useState<string[]>(
-    facilityData ? facilityData.Amenities : [],
+    facilityData ? facilityData.amenities : [],
   );
   const [selectedCertifications, setSelectedCertifications] = React.useState<string[]>(
-    facilityData ? facilityData.Certifications : [],
+    facilityData ? facilityData.certifications : [],
   );
 
   const {
@@ -104,7 +102,7 @@ const AddEditFacility = ({
     resolver: zodResolver(schema),
     defaultValues: {
       ...facilityData,
-      organizationId: high.includes(role as string) ? facilityData?.organization._id : orgId,
+      organizationId: high.includes(role as string) ? facilityData?.organization?._id : orgId,
     },
     reValidateMode: 'onChange',
   });
@@ -112,14 +110,14 @@ const AddEditFacility = ({
   const handleAddFacility: SubmitHandler<any> = (data) => {
     const addData = {
       ...data,
-      Amenities: selectedAmenities,
-      Certifications: selectedCertifications,
+      amenities: selectedAmenities,
+      certifications: selectedCertifications,
     };
     const updateData = {
       ...facilityData,
       ...data,
-      Amenities: selectedAmenities,
-      Certifications: selectedCertifications,
+      amenities: selectedAmenities,
+      certifications: selectedCertifications,
       id: facilityData?._id,
     };
     mutate(action === 'add' ? addData : updateData);

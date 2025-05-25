@@ -2,7 +2,7 @@ import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { z } from 'zod';
 
-import { TFacilityUser, TOrgUser, TRole, TSurveyData } from '@/app/types';
+import { TFacility, TFacilityUser, TOrg, TOrgUser, TRole, TSurveyData } from '@/app/types';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -138,9 +138,10 @@ export function capitalizeFirstLetter(string: string) {
 export const zodInputValidators = {
   noneNull: z.string().min(1, { message: 'This field is required' }),
   twoNumbers: z.string().min(2, { message: 'Please Two numbers required' }),
+  number: z.number().min(0, { message: 'Please enter a valid number' }),
   code: z.string().min(6, { message: 'Minimum 6 characters' }),
   phone: z.string().min(8, { message: 'Minimum 8 digits' }),
-  postalCode: z.string().min(6, { message: 'Minimum 6 characters' }),
+  postalCode: z.string().min(4, { message: 'Minimum 5 characters' }),
   email: z.string().email({ message: 'Please enter a valid email' }),
   name: z.string().trim().min(3, { message: 'Minimum 3 characters' }).max(15, { message: 'Maximum 15 characters' }),
   password: z.string().min(8, { message: 'Minimum 8 characters' }),
@@ -246,7 +247,7 @@ export const setUrlParams = (items: Object) => {
 };
 
 export const futurePercentage = (next: number, current: number) => {
-  return parseInt((((next - current) / current) * 100 ?? 0).toFixed(2));
+  return parseInt((((next - current) / current) * 100 || 0).toFixed(2));
 };
 
 export const cleanNumber = (number: number) => {
@@ -260,4 +261,21 @@ export const cleanNumber = (number: number) => {
 
 export const isNotAllowed = (item: any, role: TRole | undefined) => !item?.allowedRoles?.includes(role as string);
 
-export const baseUrl = `http://ecotapp-app-elb-dev-2089191536.ca-central-1.elb.amazonaws.com:4000/api/v1`;
+export const getOrgOrFacilityAddress = (item: TOrg | TFacility) => {
+  let address = '';
+  if (item?.address) {
+    address = item.address;
+  } else {
+    const aptDisplay = typeof item.apt === 'number' ? item.apt : '-';
+    address = `No ${aptDisplay}, ${item.street}, ${item.province}, ${item.country}`;
+  }
+  return `${address}, ${item?.postalCode}`;
+};
+
+export const zOptional = <T extends z.ZodTypeAny>(schema: T) => {
+  return z.preprocess((val) => (val === '' ? undefined : val), schema.optional());
+};
+
+export const baseUrl =
+  process.env.NEXT_PUBLIC_BASE_URL ||
+  `http://ecotapp-app-elb-dev-2089191536.ca-central-1.elb.amazonaws.com:4000/api/v1`;
