@@ -42,7 +42,7 @@ const ViewBusinessDetails = ({
           const params = new URLSearchParams();
           params.set('tab', link.href);
           if (facilityData) params.set('facilityId', facilityData?._id);
-          if (orgData) params.set('orgId', orgData?.organization._id);
+          if (orgData) params.set('orgId', orgData?.organization?._id);
           if (link.href === 'admins' && !orgData) return null;
           return (
             <li
@@ -72,7 +72,7 @@ const ViewBusinessDetails = ({
               <Btns
                 modalToClose={Modals.viewOrgModal}
                 closeModalFn={closeModalFn}
-                orgId={orgData.organization._id}
+                orgId={orgData?.organization?._id}
                 showDeleteModal={showDeleteModal}
                 showEditModal={showEditModal}
                 type={'org'}
@@ -92,8 +92,8 @@ const ViewBusinessDetails = ({
                 <Btns
                   modalToClose={Modals.viewFacilityModal}
                   closeModalFn={closeModalFn}
-                  orgId={facilityData.organization._id}
-                  facilityId={facilityData._id}
+                  orgId={facilityData?.organization?._id}
+                  facilityId={facilityData?._id}
                   showDeleteModal={showDeleteModal}
                   showEditModal={showEditModal}
                   type={'facility'}

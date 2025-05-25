@@ -45,13 +45,15 @@ export const facilityFormFields = [
     label: 'Site Unique ID',
     name: 'siteId',
     placeholder: 'Enter the site unique id',
-    type: 'text',
+    type: 'number',
+    required: false
   },
   {
     label: 'Facility Name',
     name: 'name',
     placeholder: 'Enter the facility name',
     type: 'text',
+    required: false
   },
   {
     label: 'Gross Floor Area',
@@ -70,6 +72,7 @@ export const facilityFormFields = [
     name: 'totalNumberOfUnits',
     placeholder: 'Enter the number of units',
     type: 'text',
+    required: false
   },
   {
     label: 'Total Floors',

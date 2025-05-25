@@ -13,6 +13,7 @@ const FacilityOverviewsTab = ({ facility }: { facility: TFacility }) => {
           <h3 className="font-[700] tracking-tight mb-3">Facility information</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-y-8 gap-x-10">
             <ViewModalInfo title="Facility Name" info={facility.name} />
+            <ViewModalInfo title="Site ID" info={facility.siteId}/>
             <ViewModalInfo title="Address" info={getOrgOrFacilityAddress(facility)} />
             <ViewModalInfo title="Gross Floor Area" info={facility.grossFloorArea} />
             <ViewModalInfo title="Building Type" info={facility.buildingType} />

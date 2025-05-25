@@ -8,7 +8,7 @@ const useClearError = (errors: Record<string, any>, clearErrors: UseFormClearErr
     if (errors) {
       timeout = setTimeout(() => {
         clearErrors();
-      }, 4000);
+      }, 5000);
     }
 
     return () => {

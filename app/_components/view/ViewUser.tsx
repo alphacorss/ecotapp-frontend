@@ -105,7 +105,7 @@ const ViewUser = ({
                 variant="outline"
                 onClick={() =>
                   router.push(
-                    `/dashboard/analytics/energy-consumption?vt=analytics&filter=true&from=03-12-24&to=03-28-24&energyType=electricity&orgId=${extendedUser.facility.organization._id}&facilityId=${extendedUser.facility._id}&tenantId=${extendedUser._id}`,
+                    `/dashboard/analytics/energy-consumption?vt=analytics&filter=true&from=03-12-24&to=03-28-24&energyType=electricity&orgId=${extendedUser.facility?.organization?._id}&facilityId=${extendedUser?.facility?._id}&tenantId=${extendedUser?._id}`,
                   )
                 }
               >

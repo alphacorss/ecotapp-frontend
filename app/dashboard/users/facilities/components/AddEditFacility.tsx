@@ -3,6 +3,7 @@ import { Loader } from 'lucide-react';
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
+
 import FormFour from './forms/FormFour';
 import FormOne from './forms/FormOne';
 import FormThree from './forms/FormThree';
@@ -17,14 +18,14 @@ import { high } from '@/app/dashboard/home/helpers';
 import { Modals } from '@/app/enums';
 import { TFacility, TFacilityTabs, TMutationHandler, TOrgUser } from '@/app/types';
 import { Button } from '@/components/ui/button';
-import { getUser, zodInputValidators } from '@/lib/utils';
+import { getUser, zodInputValidators, zOptional } from '@/lib/utils';
 
-const siteId = zodInputValidators.number.nullable().optional();
-const name = zodInputValidators.longText.optional();
+const siteId = zOptional(zodInputValidators.number);
+const name = zOptional(zodInputValidators.longText);
 const grossFloorArea = zodInputValidators.name;
-const totalNumberOfUnits = zodInputValidators.twoNumbers.optional();
+const totalNumberOfUnits = zOptional(zodInputValidators.twoNumbers);
 const buildingType = zodInputValidators.dropDown;
-const totalFloors = zodInputValidators.twoNumbers;
+const totalFloors = zodInputValidators.number;
 const alternativeEnergySource = zodInputValidators.name;
 const organizationId = zodInputValidators.dropDown;
 
@@ -101,7 +102,7 @@ const AddEditFacility = ({
     resolver: zodResolver(schema),
     defaultValues: {
       ...facilityData,
-      organizationId: high.includes(role as string) ? facilityData?.organization._id : orgId,
+      organizationId: high.includes(role as string) ? facilityData?.organization?._id : orgId,
     },
     reValidateMode: 'onChange',
   });

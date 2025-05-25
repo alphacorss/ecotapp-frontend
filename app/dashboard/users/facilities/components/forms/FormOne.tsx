@@ -95,6 +95,7 @@ const FormOne = ({
                 selectorName={input.name}
                 register={register}
                 error={errors[input.name as keyof TFacilityForm]?.message}
+                required={input.required}
               />
             );
           }
@@ -106,8 +107,9 @@ const FormOne = ({
               label={input.label}
               placeholder={input.placeholder}
               error={errors[input.name as keyof TFacilityForm]?.message}
-              register={register}
+              register={input.type === 'number' ? (name) => register(name, { valueAsNumber: true }) : register}
               type={input.type}
+              required={input.required}
             />
           );
         })}

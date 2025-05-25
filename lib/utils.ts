@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { number, z } from 'zod';
+import { z } from 'zod';
 
 import { TFacility, TFacilityUser, TOrg, TOrgUser, TRole, TSurveyData } from '@/app/types';
 
@@ -247,7 +247,7 @@ export const setUrlParams = (items: Object) => {
 };
 
 export const futurePercentage = (next: number, current: number) => {
-  return parseInt((((next - current) / current) * 100 ?? 0).toFixed(2));
+  return parseInt((((next - current) / current) * 100 || 0).toFixed(2));
 };
 
 export const cleanNumber = (number: number) => {
@@ -270,6 +270,10 @@ export const getOrgOrFacilityAddress = (item: TOrg | TFacility) => {
     address = `No ${aptDisplay}, ${item.street}, ${item.province}, ${item.country}`;
   }
   return `${address}, ${item?.postalCode}`;
+};
+
+export const zOptional = <T extends z.ZodTypeAny>(schema: T) => {
+  return z.preprocess((val) => (val === '' ? undefined : val), schema.optional());
 };
 
 export const baseUrl =
