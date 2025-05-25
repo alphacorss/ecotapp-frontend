@@ -26,7 +26,7 @@ const grossFloorArea = zodInputValidators.name;
 const totalNumberOfUnits = zOptional(zodInputValidators.twoNumbers);
 const buildingType = zodInputValidators.dropDown;
 const totalFloors = zodInputValidators.number;
-const alternativeEnergySource = zodInputValidators.name;
+const alternativeEnergySource = zOptional(z.string());
 const organizationId = zodInputValidators.dropDown;
 
 const formOneSchema = z.object({

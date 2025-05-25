@@ -6,7 +6,7 @@ import { TFacilityForm } from '../AddEditFacility';
 import { InputComponent } from '@/app/_components/inputs/InputComponent';
 import { ComboBoxFormComponent } from '@/app/_components/utils/ComboBoxes';
 import FormInfo from '@/app/_components/utils/FormInfo';
-import { buildingTypes, facilityFormFields } from '@/app/_constants/forms';
+import { alternativeEnergySource, buildingTypes, facilityFormFields } from '@/app/_constants/forms';
 import useGetRoleList from '@/app/_hooks/useGetRoleList';
 import { TComboBoxSelector, TFacilityTabs, TOrg } from '@/app/types';
 import { Button } from '@/components/ui/button';
@@ -90,6 +90,22 @@ const FormOne = ({
                 label={input.label}
                 title={input.label}
                 data={buildingTypes}
+                setValue={setValue}
+                watch={watch}
+                selectorName={input.name}
+                register={register}
+                error={errors[input.name as keyof TFacilityForm]?.message}
+                required={input.required}
+              />
+            );
+          }
+          if (input.type === 'dropdown' && input.name === 'alternativeEnergySource') {
+            return (
+              <ComboBoxFormComponent
+                key={input.name}
+                label={input.label}
+                title={input.label}
+                data={alternativeEnergySource}
                 setValue={setValue}
                 watch={watch}
                 selectorName={input.name}
