@@ -228,7 +228,7 @@ export function ComboBoxFormComponent({
         <div className={`w-full flex flex-col gap-1 truncate ${disabled ? 'pointer-events-none' : ''}`}>
           <div className="flex justify-start items-center">
             <p className={cn('input-label', labelClass)}>{label}</p>
-            {required === false ? <></> : <span className="text-red-500 pl-1">*</span>}
+            {required === true && <span className="text-red-500 pl-1">*</span>}
           </div>
           <Button
             type="button"

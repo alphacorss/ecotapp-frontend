@@ -41,7 +41,7 @@ export const InputComponent = ({
     <div className={cn('flex gap-1 flex-col w-full rounded-[var(--rounded)]', container)}>
       <label htmlFor={name} className="input-label">
         {label}
-        {required === false ? <></> : <span className="text-red-500 pl-1">*</span>}
+        {required === true && <span className="text-red-500 pl-1">*</span>}
       </label>
       <div
         className={`flex items-center border rounded-[var(--rounded)] ${
