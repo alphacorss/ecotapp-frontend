@@ -180,16 +180,15 @@ export const amenities = [
 ];
 
 export const certifications = [
-  'Certified Financial Analyst (CFA)',
-  'Certified Management Accountant (CMA)',
-  'Certified Information Systems Auditor (CISA)',
-  'Certified Information Security Manager (CISM)',
-  'AWS Certified Solutions Architect',
-  'Cisco Certified Network Associate (CCNA)',
-  'Microsoft Certified: Azure Administrator Associate',
-  'Google Cloud Professional Cloud Architect',
-  'Certified Salesforce Administrator',
-  'Certified Human Resources Professional (CHRP)',
+  'LEED (Leadership in Energy and Environmental Design)',
+  'BOMA BEST (Building Owners and Managers Association)',
+  'ENERGY STAR',
+  'Passive House Certification',
+  'WELL Building Standard',
+  'Collaborative for High-Performance Schools (CHPS)',
+  'Green Globes',
+  'BREEAM (Building Research Establishment Environmental Assessment Method)',
+  'ISO 50001 (Energy Management System)',
 ];
 
 export const alternativeEnergySource = [{ label: 'Backup Generator', value: 'Backup Generator' }];
