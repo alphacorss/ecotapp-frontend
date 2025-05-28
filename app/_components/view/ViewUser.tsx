@@ -86,6 +86,7 @@ const ViewUser = ({
               <ViewModalInfo title="First Name" info={user.user.firstName} />
               <ViewModalInfo title="Last Name" info={user.user.lastName} />
               <ViewModalInfo title="Phone no." info={user.user.phone} />
+              {extendedUser?.meterId && <ViewModalInfo title="Meter ID" info={extendedUser.meterId} />}
               {role !== 'pseudoadmin' && (
                 <ViewModalInfo
                   title={`${role.includes('tenant') ? 'Facility' : 'Organization'} Address`}
@@ -95,6 +96,8 @@ const ViewUser = ({
               <ViewModalInfo lowercase title="Email Address" info={user.user.email} />
             </div>
           </div>
+
+          {/* Buttons */}
           <div className="flex flex-col md:flex-row items-center gap-5">
             <Button variant="outline" className="w-full flex items-center gap-3 font-[500]" onClick={showEditModal}>
               <Edit2 size={17} /> Edit Details
