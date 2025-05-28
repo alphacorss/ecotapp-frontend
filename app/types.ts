@@ -47,6 +47,7 @@ export interface TOrgUser extends TUser {
 
 export interface TFacilityUser extends TUser {
   facility: TFacility;
+  meterId: string;
 }
 
 //select

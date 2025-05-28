@@ -37,6 +37,7 @@ const email = zodInputValidators.email;
 const phone = zodInputValidators.phone;
 const country = zodInputValidators.dropDown;
 const facilityId = zodInputValidators.dropDown;
+const meterId = z.string();
 
 const schema = z.object({
   firstName,
@@ -45,6 +46,7 @@ const schema = z.object({
   country,
   phone,
   facilityId,
+  meterId,
 });
 
 type FormFieldsUser = z.infer<typeof schema>;
@@ -78,6 +80,7 @@ export const AddEditTenant = ({
       country: user?.user?.phone?.split('-')[0],
       phone: user?.user?.phone?.split('-')[1],
       facilityId: facilityId ? facilityId : user?.facility?._id,
+      meterId: user?.meterId,
     },
     reValidateMode: 'onChange',
     resolver: zodResolver(schema),
@@ -164,6 +167,15 @@ export const AddEditTenant = ({
             disabled={input.name === 'email' && action === 'edit'}
           />
         ))}
+
+        <InputComponent
+          id="meterId"
+          name="meterId"
+          label="Meter ID"
+          placeholder="Enter the Meter ID"
+          error={errors.meterId?.message}
+          register={register}
+        />
 
         <InputComponentWithSelector
           inputId="phone"

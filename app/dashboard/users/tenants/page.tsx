@@ -78,7 +78,7 @@ export default function TenantsComponent() {
                 role="tenant"
                 user={tenantData}
                 showEditModal={() => handleOpenModal(Modals.editTenantModal)}
-                showDeleteModal={() => showDeleteModal(tenantData._id)}
+                showDeleteModal={() => showDeleteModal(tenantData?._id)}
               />
             }
           />
