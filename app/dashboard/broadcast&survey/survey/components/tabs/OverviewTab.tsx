@@ -11,39 +11,46 @@ const OverviewTab = ({ surveyDetail }: { surveyDetail: TSurveyData | undefined }
   const isOrg = surveyDetail?.to[0]?.includes('organization');
   const isFacility = surveyDetail?.to[0]?.includes('facility');
 
-  if (surveyDetail?.to[0] === 'all') {
-    to = 'All tenants';
+  if (
+    Array.isArray(surveyDetail?.to) &&
+    (surveyDetail?.to.includes('all') || surveyDetail?.to.includes('tenant_all'))
+  ) {
+    to = 'All';
   } else {
     if (isOrg) {
       const org = orgs?.data?.data?.organization?.find((org: TOrg) => {
         return org._id === surveyDetail?.to[0]?.split('_')[1];
       });
-
       to = `${org?.name ?? 'Organization Not Found'}`;
-    } else {
+    } else if (isFacility) {
       const facility = facilities?.data?.data?.facilities?.find((facility: TOrg) => {
         return facility._id === surveyDetail?.to[0]?.split('_')[1];
       });
-
-      to = `${facility?.name ?? 'Facilty Not Found'}`;
+      to = `${facility?.name ?? 'Facility Not Found'}`;
+    } else {
+      to = 'Tenant';
     }
   }
 
   const info = [
     {
-      title: 'Created By',
+      title: 'Created by',
       value: `${surveyDetail?.from?.firstName} ${surveyDetail?.from?.lastName}`,
     },
     {
-      title: isOrg ? 'Sent to Organization' : isFacility ? 'Sent to Facility' : 'Sent to Tenant',
-      value: `${to}`,
+      title: 'Sent to',
+      value: to,
     },
     {
-      title: 'No of Responses',
+      title: 'Total Sent',
+      value: surveyDetail?.sentCounts || 0,
+    },
+    {
+      title: 'Total Responses',
       value: surveyDetail?.responseCounts || 0,
     },
     {
-      title: 'Date Created',
+      title: 'Date created',
       value: cleanDate(surveyDetail?.createdAt || ''),
     },
     {
@@ -60,11 +67,11 @@ const OverviewTab = ({ surveyDetail }: { surveyDetail: TSurveyData | undefined }
           {capitalizeFirstLetter(surveyDetail?.description || 'No description provided for this survey')}
         </p>
       </div>
-      <div className="grid grid-cols-2 gap-y-8">
+      <div className="grid grid-cols-2 gap-y-8 gap-x-8">
         {info.map((item, i) => (
           <div key={i} className="flex flex-col text-left">
-            <p className="text-left text-xs text-gray-400 font-[500] mb-1">{item.title}</p>
-            <p className="text-left text-gray-900 font-[500]">{item.value}</p>
+            <p className="text-xs text-gray-400 font-[500] mb-1">{item.title}</p>
+            <p className="text-gray-900 font-[500]">{item.value}</p>
           </div>
         ))}
       </div>

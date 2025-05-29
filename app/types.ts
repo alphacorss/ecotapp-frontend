@@ -221,6 +221,8 @@ export type TSurveyData = {
   title: string;
   description: string;
   responseCounts: string;
+  sentCounts: number;
+  responses?: any[];
   from: {
     _id: string;
     firstName: string;

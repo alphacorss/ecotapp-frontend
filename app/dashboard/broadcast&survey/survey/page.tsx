@@ -19,7 +19,12 @@ import { Modals } from '@/app/enums';
 import { Button } from '@/components/ui/button';
 import { getRole } from '@/lib/utils';
 
+/**
+ * Survey component for managing and interacting with surveys.
+ * Handles creation, viewing, responding to, and deleting surveys based on user role.
+ */
 const Survey = () => {
+  // Context and state for survey management
   const {
     surveyId,
     surveyInfo,
@@ -31,10 +36,13 @@ const Survey = () => {
     setSurveyInfo,
   } = React.useContext(SurveyCtx);
 
+  // Context for modal state management
   const { modalState, handleOpenModal, handleCloseModal } = React.useContext(Main);
 
+  // Context for data queries and mutations
   const { mySurveys, createdSurveys, deleteSurvey, respondToSurvey, tenantDeleteSurvey } = React.useContext(Queries);
 
+  // Determine user role and fetch survey data
   const role = getRole();
   const createdSurveysData = createdSurveys?.data?.data?.surveys;
   const tntSurveyDatas = mySurveys?.data?.data?.surveys;
@@ -42,6 +50,7 @@ const Survey = () => {
 
   return (
     <div className="min-h-full card w-full lg:p-8 flex flex-col gap-5 lg:gap-10">
+      {/* Header section with title and action button (visible when data exists and not in creation/preview mode) */}
       {hasData && !creatingSurvey && !showPreview && (
         <div className="flex justify-between items-start lg:flex-row flex-col gap-3 lg:gap-0">
           <SectionHeader
@@ -53,6 +62,7 @@ const Survey = () => {
             }
           />
 
+          {/* Show 'Add Survey' button only for non-tenant users */}
           {role !== 'tenant' && (
             <Button variant="outline" onClick={() => handleOpenModal(Modals.createSurveyModal)}>
               Add Survey +
@@ -60,6 +70,8 @@ const Survey = () => {
           )}
         </div>
       )}
+
+      {/* Modal for creating a new survey title */}
       <ModalComponent
         open={modalState.modals.createSurveyModal}
         setOpen={() => handleCloseModal(Modals.createSurveyModal)}
@@ -67,6 +79,7 @@ const Survey = () => {
         content={<CreateTitle />}
       />
 
+      {/* Modal for viewing survey details */}
       <ModalComponent
         open={modalState.modals.viewSurveyModal}
         setOpen={() => resetForms()}
@@ -74,13 +87,14 @@ const Survey = () => {
         content={<ViewSurveyDetails />}
       />
 
+      {/* Modal for success notification after sending a survey */}
       <ModalComponent
         open={modalState.modals.surveySentModal}
         setOpen={() => handleCloseModal(Modals.surveySentModal)}
         content={
           <SuccessModalContent
             title="Survey sent successfully"
-            message="You’ve successfully added a new survey to the system"
+            message="You've successfully added a new survey to the system"
             onConfirm={() => {
               resetForms();
               setCreatingSurvey(false);
@@ -91,6 +105,7 @@ const Survey = () => {
         }
       />
 
+      {/* Modal for success notification after submitting a survey response */}
       <ModalComponent
         open={modalState.modals.surveySubmiited}
         setOpen={() => handleCloseModal(Modals.surveySubmiited)}
@@ -111,6 +126,7 @@ const Survey = () => {
         }
       />
 
+      {/* Modal for confirming survey deletion */}
       <ModalComponent
         open={modalState.modals.deleteSurveyModal}
         setOpen={() => {
@@ -128,6 +144,7 @@ const Survey = () => {
         }
       />
 
+      {/* Conditional rendering based on survey state */}
       {hasData || creatingSurvey ? (
         <>
           {creatingSurvey ? (

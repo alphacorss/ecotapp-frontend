@@ -9,31 +9,15 @@ import ErrorMessage from '@/app/_components/utils/ErrorMessage';
 import SurveyCtx from '@/app/_context/Survey';
 import useClearError from '@/app/_hooks/useClearError';
 import useClearErrorMessage from '@/app/_hooks/useClearErrorMessage';
-import useGetRoleList from '@/app/_hooks/useGetRoleList';
 import { Button } from '@/components/ui/button';
 import { zodInputValidators } from '@/lib/utils';
 
 const schema = z
   .object({
-    toSend: z.union([zodInputValidators.dropDown.nullish(), z.literal('')]),
-    facilityId: z.union([zodInputValidators.dropDown.nullish(), z.literal('')]),
-    organizationId: z.union([zodInputValidators.dropDown.nullish(), z.literal('')]),
+    to: z.union([zodInputValidators.dropDown.nullish(), z.literal('')]),
   })
   .superRefine((data, ctx) => {
-    if (data.toSend === 'organization' && data.organizationId === '') {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Please select an organization',
-        path: ['organizationId'],
-      });
-    }
-    if (data.toSend === 'facility' && data.facilityId === '') {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Please select a facility',
-        path: ['facilityId'],
-      });
-    }
+    // No additional validation needed for 'to' as a string
   });
 
 type SurveyForm = z.infer<typeof schema>;
@@ -54,9 +38,7 @@ const CreateSurvey = () => {
     setValue,
   } = useForm<SurveyForm>({
     defaultValues: {
-      toSend: sCtx.sendToTenant,
-      organizationId: sCtx.sendToOption[0]?.value || '',
-      facilityId: sCtx.sendToOption[0]?.value || '',
+      to: sCtx.sendToTenant || 'tenant_all',
     },
     resolver: zodResolver(schema),
   });
@@ -76,16 +58,16 @@ const CreateSurvey = () => {
     },
   ];
 
-  const selectedOption = watch('toSend');
-
-  const { allOrgs, allFacilities } = useGetRoleList();
-
   useClearError(errors, clearErrors);
   useClearErrorMessage(error, setError);
   useClearErrorMessage(emptyQuestion, setEmptyQuestion);
 
   const onSubmit: SubmitHandler<SurveyForm> = (data) => {
-    if (sCtx.title.trim() === '' || sCtx.description.trim() === '') {
+    // Get the latest title from the contentEditable div
+    const latestTitle = sCtx.titleRef.current?.textContent || '';
+    sCtx.setTitle(latestTitle);
+
+    if (latestTitle.trim() === '' || sCtx.description.trim() === '') {
       setError(true);
       return;
     }
@@ -95,8 +77,7 @@ const CreateSurvey = () => {
       return;
     }
 
-    sCtx.setSendToTenant(data.toSend || '');
-    sCtx.setSendToOption(data.toSend === 'organization' ? allOrgs : data.toSend === 'facility' ? allFacilities : []);
+    sCtx.setSendToTenant(data.to || '');
     sCtx.setShowPreview(true);
   };
 
@@ -118,28 +99,15 @@ const CreateSurvey = () => {
           register={register}
           setValue={setValue}
           data={sendTo}
-          selectorName={'toSend'}
+          selectorName={'to'}
           labelClass="font-[600] text-sm font-poppins text-gray-600"
-          error={errors.toSend?.message}
+          error={errors.to?.message}
         />
-        {selectedOption !== 'tenant_all' && (
-          <ComboBoxFormComponent
-            watch={watch}
-            title={selectedOption === 'organization' ? 'Organization' : 'Facility'}
-            label={selectedOption === 'organization' ? 'Organization' : 'Facility'}
-            register={register}
-            setValue={setValue}
-            data={selectedOption === 'organization' ? allOrgs : allFacilities}
-            selectorName={selectedOption === 'organization' ? 'organizationId' : 'facilityId'}
-            labelClass="font-[600] text-sm font-poppins text-gray-600"
-            error={selectedOption === 'organization' ? errors.organizationId?.message : errors.facilityId?.message}
-          />
-        )}
       </div>
       <div className="w-full">
         <h1 className="font-[600] text-sm font-poppins text-gray-600">Survey Description</h1>
         <textarea
-          className={`w-fullsCtx. min-h-[100px] mt-1 p-3 rounded-[var(--rounded)] border border-gray-200 focus:outline-none focus:ring-0 placeholder:text-sm placeholder:font-[500] placeholder:text-gray-300 text-gray-600 text-sm font-[500] w-full ${
+          className={`w-full min-h-[100px] mt-1 p-3 rounded-[var(--rounded)] border border-gray-200 focus:outline-none focus:ring-0 placeholder:text-sm placeholder:font-[500] placeholder:text-gray-300 text-gray-600 text-sm font-[500] w-full ${
             error ? 'border-red-500' : ''
           }`}
           value={sCtx.description}

@@ -39,7 +39,7 @@ const Respond = () => {
             </div>
 
             <ol className="flex flex-col w-full">
-              {surveyInfo.questions.map((question, index) =>
+              {surveyInfo?.questions?.map((question, index) =>
                 userAnswer && userAnswer[index] ? (
                   <Responses
                     index={index}
