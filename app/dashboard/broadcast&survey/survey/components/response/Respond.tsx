@@ -1,25 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import useRespond from './Respond.hook';
-import Responses from './Responses';
 import ErrorMessage from '@/app/_components/utils/ErrorMessage';
 import Loader from '@/app/_components/utils/Loader';
 import { Button } from '@/components/ui/button';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
 const Respond = () => {
   const {
     isMobile,
     surveyInfo,
     setSurveyInfo,
-    userAnswer,
     isPending,
     hasResponded,
     error,
     backenderror,
-    reset,
     handleChange,
+    reset,
     handleRespondToSurvey,
   } = useRespond();
+
+  const [answers, setAnswers] = useState<{ [questionId: string]: string }>({});
+
+  // Helper: Get the current user's response (if any)
+  const getCurrentUserAnswers = () => {
+    const userId = surveyInfo?.responses?.[0]?.user; // Assumes only one response per user
+    const userResponse = surveyInfo?.responses?.find((r) => r.user === userId);
+    if (!userResponse) return {};
+    return userResponse.answers.reduce((acc: any, ans: any) => {
+      acc[ans.question] = ans.answer;
+      return acc;
+    }, {});
+  };
+
+  const currentUserAnswers = getCurrentUserAnswers();
+
+  // Handler for radio change
+  const handleRadioChange = (questionId: string, value: string) => {
+    setAnswers((prev) => ({ ...prev, [questionId]: value }));
+  };
 
   return (
     <>
@@ -39,27 +58,62 @@ const Respond = () => {
             </div>
 
             <ol className="flex flex-col w-full">
-              {surveyInfo?.questions?.map((question, index) =>
-                userAnswer && userAnswer[index] ? (
-                  <Responses
-                    index={index}
-                    isMobile={isMobile}
-                    question={question}
+              {surveyInfo?.questions?.map((question, index) => {
+                const alreadyAnswered = currentUserAnswers[question._id];
+                return (
+                  <li
                     key={question._id}
-                    userAnswer={userAnswer}
-                    handleChange={handleChange}
-                  />
-                ) : (
-                  <Responses
-                    index={index}
-                    isMobile={isMobile}
-                    key={question._id}
-                    question={question}
-                    userAnswer={userAnswer}
-                    handleChange={handleChange}
-                  />
-                ),
-              )}
+                    className="w-full flex lg:justify-between items-start lg:gap-0 gap-3 flex-col mb-8 lg:mb-5 lg:flex-row"
+                  >
+                    <div className="flex mr-3">
+                      <span className="mr-3 text-sm font-[600]">{index + 1}.</span>
+                      <div className="flex w-full justify-between items-center rounded-[var(--rounded)]">
+                        <span className="font-[500] text-sm text-gray-700">{question.questionText}</span>
+                      </div>
+                    </div>
+                    <RadioGroup
+                      disabled={!!alreadyAnswered}
+                      className="flex gap-10 items-center lg:justify-between ml-6"
+                      value={alreadyAnswered ? alreadyAnswered : answers[question._id] || ''}
+                      onValueChange={(e) => {
+                        handleRadioChange(question._id, e);
+                        handleChange({
+                          questionId: question._id,
+                          response: e,
+                        });
+                      }}
+                    >
+                      {isMobile ? (
+                        <div className="flex gap-5 items-center">
+                          <div className="flex items-center">
+                            <label htmlFor={`yes-${question._id}`} className="font-[500] mr-2">
+                              Yes
+                            </label>
+                            <RadioGroupItem value="yes" id={`yes-${question._id}`} />
+                          </div>
+                          <div className="flex items-center">
+                            <label htmlFor={`no-${question._id}`} className="font-[500] mr-2">
+                              No
+                            </label>
+                            <RadioGroupItem value="no" id={`no-${question._id}`} />
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <div className="flex items-center ">
+                            <RadioGroupItem value="yes" id={`yes-${question._id}`} />
+                            <label htmlFor={`yes-${question._id}`}></label>
+                          </div>
+                          <div className="flex items-center ">
+                            <RadioGroupItem value="no" id={`no-${question._id}`} />
+                            <label htmlFor={`no-${question._id}`}></label>
+                          </div>
+                        </>
+                      )}
+                    </RadioGroup>
+                  </li>
+                );
+              })}
             </ol>
 
             <div className="flex flex-col gap-4 lg:flex-row lg:gap-[80px] justify-between items-center mt-10 mb-3">

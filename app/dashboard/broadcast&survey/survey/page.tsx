@@ -63,7 +63,7 @@ const Survey = () => {
           />
 
           {/* Show 'Add Survey' button only for non-tenant users */}
-          {role !== 'tenant' && (
+          {['superadmin', 'psuedoadmin'].includes(role || '') && (
             <Button variant="outline" onClick={() => handleOpenModal(Modals.createSurveyModal)}>
               Add Survey +
             </Button>
