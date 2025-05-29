@@ -206,34 +206,34 @@ export const convertDate = (dateStr: string, convertToClean: boolean) => {
   }
 };
 
-export const hasUserResponded = (filledBy: {} | undefined) => {
+export const hasUserResponded = (filledBy: Record<string, boolean> | undefined) => {
   if (!filledBy) {
     return false;
   }
 
-  let userFilled = false;
   const user = sessionStorage.getItem('@user');
   const userId = user ? JSON.parse(user).user._id : '';
 
-  Object.keys(filledBy).forEach((key) => {
-    if (key === userId) {
-      userFilled = true;
-    }
-  });
-  return userFilled;
+  // Only return true if the user's entry is true
+  return filledBy[userId] === true;
 };
 
 export const getUserAnswer = (surveyInfo: TSurveyData | null) => {
-  if (!surveyInfo) {
+  // Extract user answers from each question's responses array
+  if (!surveyInfo || !Array.isArray(surveyInfo.questions)) {
     return [];
   }
 
   const user = sessionStorage.getItem('@user');
   const userId = user ? JSON.parse(user).user._id : '';
 
-  const usersResponses = surveyInfo?.questions.flatMap((question) => question.responses.map((response) => response));
+  // Collect all responses from all questions
+  const usersResponses = surveyInfo.questions.flatMap((question) =>
+    Array.isArray(question.responses) ? question.responses : [],
+  );
 
-  const userAnswer = usersResponses?.filter((response) => response.user === userId).map((response) => response.answer);
+  // Filter for current user's answers
+  const userAnswer = usersResponses.filter((response) => response.user === userId).map((response) => response.answer);
 
   return userAnswer;
 };

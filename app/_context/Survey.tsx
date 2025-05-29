@@ -133,7 +133,7 @@ export function SurveyCtxProvider({ children }: React.PropsWithChildren<{}>) {
         title,
         questions: questions.map((el) => ({ questionText: el.questionText })),
         description,
-        to: ['tenant_all'],
+        to: 'tenant_all',
       };
       createSurvey.mutate(data);
     } else {
@@ -141,7 +141,7 @@ export function SurveyCtxProvider({ children }: React.PropsWithChildren<{}>) {
         title,
         questions: questions.map((el) => ({ questionText: el.questionText })),
         description,
-        to: [`tenant_${sendToTenant}_${sendToOption[0]?.value}`],
+        to: `tenant_${sendToTenant}_${sendToOption[0]?.value}`,
       };
       createSurvey.mutate(data);
     }

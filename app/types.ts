@@ -200,9 +200,7 @@ export type TResponseTable = {
   answer: string;
 };
 
-export type TFilledBy = {
-  _id: string;
-};
+export type TFilledBy = Record<string, boolean>;
 
 export type TNotificationType = 'ALL' | 'SURVEY' | 'BROADCAST';
 
@@ -221,6 +219,8 @@ export type TSurveyData = {
   title: string;
   description: string;
   responseCounts: string;
+  sentCounts: number;
+  responses?: any[];
   from: {
     _id: string;
     firstName: string;
