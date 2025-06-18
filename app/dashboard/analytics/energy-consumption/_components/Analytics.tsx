@@ -4,6 +4,7 @@ import React from 'react';
 import { cardsData } from '../../helpers';
 import AreaComponent from '@/app/_components/charts/AreaChart';
 import { Percentage } from '@/app/_components/utils/Percentage';
+import { MOCK_ANALYTICS_CONSUMPTION } from '@/app/_constants/mockChartData';
 import { TAnalyticsConsumption } from '@/app/types';
 import { cleanNumber } from '@/lib/utils';
 
@@ -17,11 +18,14 @@ const Analytics = ({
     value: number;
   }[];
 }) => {
+  // Use mock data if consumption is undefined
+  const chartConsumption = consumption || MOCK_ANALYTICS_CONSUMPTION;
+
   return (
     <div className="flex flex-col">
       {monthlyData && <AreaComponent type="monotone" data={monthlyData} />}
       <div className="border mt-10 flex lg:flex-row flex-col justify-between p-3 lg:p-5 rounded-[var(--rounded)]">
-        {cardsData(consumption).map((data, i) => (
+        {cardsData(chartConsumption).map((data, i) => (
           <div
             key={i}
             className={`flex flex-col items-center justify-cetner p-5 w-full ${i + 1 !== 3 ? ' border-b lg:border-b-0 lg:border-r' : ''}`}
