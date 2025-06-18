@@ -6,12 +6,12 @@ import EnergyFilter from '@/app/_components/forms/EnergyFilter';
 import FilterBtn from '@/app/_components/utils/FilterBtn';
 import { ModalComponent } from '@/app/_components/utils/Modals';
 import SectionHeader from '@/app/_components/utils/SectionHeader';
-import { largeDataSet } from '@/app/_constants/data';
+import { MOCK_LINE_CHART_DATA } from '@/app/_constants/mockChartData';
 
 const EnergyForecast = () => {
   const [showFilterModal, setShowFilterModal] = React.useState(false);
 
-  const barData = [...largeDataSet];
+  const barData = [...MOCK_LINE_CHART_DATA];
 
   return (
     <div className="card min-h-full flex flex-col h-full overflow-y-auto">

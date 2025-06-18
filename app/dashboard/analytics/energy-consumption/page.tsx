@@ -147,7 +147,7 @@ const EnergyConsumption = () => {
           <div className="flex flex-col h-full w-full">
             <div className="flex mb-10 flex-col lg:justify-between lg:items-center lg:flex-row">
               <div className="mb-4 lg:mb-0">
-                <h2 className="text-3xl text-primary-300/90 font-[700]">{cleanNumber(total)} kWh</h2>
+                <h2 className="text-3xl text-primary-300/90 font-[700]">{cleanNumber(total || 0)} kWh</h2>
                 <p className="text-sm text-gray-500 font-[500]">Energy consumed</p>
               </div>
 

@@ -7,13 +7,13 @@ import FilterBtn from '@/app/_components/utils/FilterBtn';
 import { ModalComponent } from '@/app/_components/utils/Modals';
 import SectionHeader from '@/app/_components/utils/SectionHeader';
 import { SelectComponent } from '@/app/_components/utils/SelectComponent';
-import { largeDataSet } from '@/app/_constants/data';
+import { MOCK_DOUBLE_LINE_CHART_DATA } from '@/app/_constants/mockChartData';
 import useLocalStorage from '@/app/_hooks/useLocalStorage';
 
 const CarbonTrading = () => {
   const [showFilterModal, setShowFilterModal] = React.useState(false);
 
-  const barData = [...largeDataSet];
+  const barData = [...MOCK_DOUBLE_LINE_CHART_DATA];
 
   const COLORS = ['#D91668', '#1AD916'];
 
@@ -38,6 +38,7 @@ const CarbonTrading = () => {
   const [showLine2, setShowLine2] = React.useState(true);
 
   const handleSelectShowLine = (line: string) => {
+    setLine(line);
     if (line === 'all') {
       setShowLine1(true);
       setShowLine2(true);
@@ -66,24 +67,30 @@ const CarbonTrading = () => {
   return (
     <div className="card min-h-full flex flex-col h-full overflow-y-auto">
       <div className="flex justify-between items-start mb-5">
-        <SectionHeader title="Carbon" description="" />
+        <SectionHeader title="Carbon Trading" description="" />
       </div>
       <div className="flex justify-end items-end mb-5 gap-3 z-[1]">
-        <div>
+        <div className="h-[40px]">
           <SelectComponent
-            array={[
-              { value: 'all', name: 'All' },
-              { value: 'carbon_emitted', name: 'Carbon Emitted' },
-              { value: 'carbon_off_setted', name: 'Carbon Off-setted' },
-            ]}
-            defaultValue={line}
-            title=""
-            handleSelect={(line) => {
-              setLine(line);
-              handleSelectShowLine(line);
-            }}
-            className="h-[100px]"
             size="h40"
+            className="h-[100px]"
+            array={[
+              {
+                name: 'All',
+                value: 'all',
+              },
+              {
+                name: 'Carbon Emitted',
+                value: 'carbon_emitted',
+              },
+              {
+                name: 'Carbon Off-setted',
+                value: 'carbon_off_setted',
+              },
+            ]}
+            handleSelect={handleSelectShowLine}
+            title="Filter"
+            defaultValue={line}
           />
         </div>
         <span className="h-[40px]" onClick={() => setShowFilterModal(!showFilterModal)}>

@@ -7,12 +7,12 @@ import FilterBtn from '@/app/_components/utils/FilterBtn';
 import { ModalComponent } from '@/app/_components/utils/Modals';
 import SectionHeader from '@/app/_components/utils/SectionHeader';
 import { SelectComponent } from '@/app/_components/utils/SelectComponent';
-import { largeDataSet } from '@/app/_constants/data';
+import { MOCK_SCATTER_CHART_DATA } from '@/app/_constants/mockChartData';
 
 const RegressionAnalysis = () => {
   const [showFilterModal, setShowFilterModal] = React.useState(false);
 
-  const barData = [...largeDataSet];
+  const barData = [...MOCK_SCATTER_CHART_DATA];
 
   return (
     <div className="card min-h-full flex flex-col h-full overflow-y-auto">
