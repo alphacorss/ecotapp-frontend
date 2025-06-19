@@ -27,7 +27,8 @@ const PieHomeComponent = () => {
   });
 
   // Get chart data with fallback to mock data
-  const chart = homePieChart?.data?.data?.data?.stat || MOCK_PIE_CHART_DATA.current_month_energy_breakdown;
+  // const chart = homePieChart?.data?.data?.data?.stat || MOCK_PIE_CHART_DATA.current_month_energy_breakdown;
+  const chart = MOCK_PIE_CHART_DATA.current_month_energy_breakdown;
 
   if (homePieChart.isError) {
     console.error('Error loading pie chart data, falling back to mock data');

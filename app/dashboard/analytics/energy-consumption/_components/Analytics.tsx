@@ -19,7 +19,8 @@ const Analytics = ({
   }[];
 }) => {
   // Use mock data if consumption is undefined
-  const chartConsumption = consumption || MOCK_ANALYTICS_CONSUMPTION;
+  // const chartConsumption = consumption || MOCK_ANALYTICS_CONSUMPTION;
+  const chartConsumption = MOCK_ANALYTICS_CONSUMPTION;
 
   return (
     <div className="flex flex-col">

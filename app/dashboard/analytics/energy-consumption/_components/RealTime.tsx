@@ -10,7 +10,8 @@ const RealTime = ({ realTimeData }: { realTimeData: TRealTimeData }) => {
   const startHour = parseInt(start_date.split('-').slice(3).join('-'));
 
   // Use mock data if realTimeData is undefined
-  const chartRealTimeData = realTimeData || MOCK_REAL_TIME_DATA;
+  // const chartRealTimeData = realTimeData || MOCK_REAL_TIME_DATA;
+  const chartRealTimeData = MOCK_REAL_TIME_DATA;
   const hourlyData = cleanChartDataHourly(chartRealTimeData?.array_of_energy, startHour);
 
   return (
