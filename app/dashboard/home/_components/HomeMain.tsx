@@ -23,7 +23,8 @@ const HomeMain = ({ orgId, title }: { orgId?: string; title?: string }) => {
   }
 
   // Get chart data with fallback to mock data
-  const chart = homeChart?.data?.data?.data?.stat || MOCK_HOME_CHART_DATA;
+  // const chart = homeChart?.data?.data?.data?.stat || MOCK_HOME_CHART_DATA;
+  const chart = MOCK_HOME_CHART_DATA;
 
   const percentageForecast: number = futurePercentage(chart.next_month_energy_forcast, chart.current_month_energy) ?? 0;
 
