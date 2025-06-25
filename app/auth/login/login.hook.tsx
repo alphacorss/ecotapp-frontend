@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -16,6 +17,7 @@ const loginSchema = z.object({ email, password });
 type LoginSchema = z.infer<typeof loginSchema>;
 
 const useLoginHook = () => {
+  const router = useRouter();
   const { isError } = React.useContext(Auth);
   const [authError, setAuthError] = React.useState(false);
 
@@ -53,7 +55,7 @@ const useLoginHook = () => {
       document.cookie = `token=${token}; path=/`;
       document.cookie = `role=${role}; path=/`;
       reset();
-      window.location.replace('/dashboard/home');
+      router.replace('/dashboard/home');
     } catch (error: any) {
       const errorMessage = error.response.data.message;
       setError('root', {

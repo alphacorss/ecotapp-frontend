@@ -4,54 +4,65 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { ComboBoxFormComponent } from '@/app/_components/utils/ComboBoxes';
-import { energyTypeArray } from '@/app/_constants/data';
 import User from '@/app/_context/User';
 import useClearError from '@/app/_hooks/useClearError';
 import useGetRoleList from '@/app/_hooks/useGetRoleList';
-import { high, low, mid } from '@/app/dashboard/home/helpers';
-import { EnergyFilterDefaults } from '@/app/enums';
-import { TFacilityUser, TOrgUser } from '@/app/types';
 import { Button } from '@/components/ui/button';
-import { getFromLocalStorage, getUser, setToLocalStorage, zodInputValidators } from '@/lib/utils';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
+import { getUser } from '@/lib/utils';
 
-const energy_type = zodInputValidators.dropDown;
-const organization = zodInputValidators.optionalDropDown;
-const facility = zodInputValidators.optionalDropDown;
-const tenant = zodInputValidators.optionalDropDown;
-
+// New: Flexible schema
 const schema = z.object({
-  energy_type,
-  organization,
-  facility,
-  tenant,
-  refreshTime: z.union([zodInputValidators.refreshTime.nullish(), z.literal('')]),
+  energy_type: z.string().optional(),
+  organization: z.string().optional(),
+  facility: z.string().optional(),
+  start_date: z.string().optional(),
+  end_date: z.string().optional(),
 });
 
 type EnergyFilterProps = z.infer<typeof schema>;
 
-const EnergyFilter = ({
-  showRefreshTime,
-  setShowFilterModal,
-}: {
-  showRefreshTime?: boolean;
+type Props = {
   setShowFilterModal: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+  onSubmit: (data: EnergyFilterProps) => void;
+  showOrg?: boolean;
+  showFacility?: boolean;
+  showTenant?: boolean; // for future
+  showEnergyType?: boolean;
+  showDateRange?: boolean;
+  energyTypeOptions?: { label: string; value: string }[];
+  defaultValues?: Partial<EnergyFilterProps>;
+};
+
+const EnergyFilter = ({
+  setShowFilterModal,
+  onSubmit,
+  showOrg = false,
+  showFacility = false,
+  showEnergyType = false,
+  showDateRange = false,
+  energyTypeOptions = [],
+  defaultValues = {},
+}: Props) => {
   const { role } = React.useContext(User);
+  const orgUser = getUser();
+  let orgUserId = '';
+  let facilityUserId = '';
+  if (orgUser && 'organization' in orgUser && orgUser.organization) {
+    orgUserId = orgUser.organization._id;
+  }
+  if (orgUser && 'facility' in orgUser && orgUser.facility) {
+    facilityUserId = orgUser.facility._id;
+  }
+  const { allOrgs, allFacilitiesByOrg } = useGetRoleList();
 
-  const orgUser = getUser() as TOrgUser;
-  const facilityUser = getUser() as TFacilityUser;
-
-  const orgUserId = orgUser?.organization?._id;
-  const facilityUserId = facilityUser?.facility?._id;
-
-  const { allOrgs, allTenantsByFacility, allFacilitiesByOrg } = useGetRoleList();
-  const energyFilter = JSON.parse(getFromLocalStorage('@energy_filter') || '{}');
-
-  const energy_type = energyFilter.energy_type || EnergyFilterDefaults.energy_type;
-  const refreshTime = energyFilter.refreshtime || EnergyFilterDefaults.refreshtime;
-  const orgId = energyFilter.orgId || EnergyFilterDefaults.orgId;
-  const facilityId = energyFilter.facilityId || EnergyFilterDefaults.facilityId;
-  const tenantId = energyFilter.tenantId || EnergyFilterDefaults.tenantId;
+  // For tenants, get facility from profile
+  const isTenant = role === 'tenant';
+  const tenantFacility =
+    isTenant && 'facility' in orgUser && orgUser.facility
+      ? [{ label: orgUser.facility.name, value: orgUser.facility._id }]
+      : [];
 
   const {
     register,
@@ -62,80 +73,66 @@ const EnergyFilter = ({
     formState: { errors },
   } = useForm<EnergyFilterProps>({
     defaultValues: {
-      energy_type: energy_type,
-      organization: orgId || orgUserId,
-      facility: facilityId || facilityUserId,
-      tenant: tenantId,
-      refreshTime: refreshTime,
+      energy_type: defaultValues.energy_type || '',
+      organization: defaultValues.organization || orgUserId || '',
+      facility: defaultValues.facility || facilityUserId || '',
+      start_date: defaultValues.start_date || '',
+      end_date: defaultValues.end_date || '',
     },
     resolver: zodResolver(schema),
   });
 
   const selectedOrg = watch('organization');
-  const selectedFacility = watch('facility');
 
   useClearError(errors, clearErrors);
 
-  const onSubmit = (data: EnergyFilterProps) => {
+  // Date pickers state
+  const [startDate, setStartDate] = React.useState(
+    defaultValues.start_date ? new Date(defaultValues.start_date) : undefined,
+  );
+  const [endDate, setEndDate] = React.useState(defaultValues.end_date ? new Date(defaultValues.end_date) : undefined);
+
+  React.useEffect(() => {
+    if (startDate) setValue('start_date', startDate.toISOString().slice(0, 10));
+    if (endDate) setValue('end_date', endDate.toISOString().slice(0, 10));
+  }, [startDate, endDate, setValue]);
+
+  const handleFormSubmit = (data: EnergyFilterProps) => {
     setShowFilterModal(false);
-    setToLocalStorage(
-      '@energy_filter',
-      JSON.stringify({
-        energy_type: data.energy_type,
-        refreshtime: data.refreshTime,
-        ...(data.organization && { orgId: data.organization }),
-        ...(data.facility && { facilityId: data.facility }),
-        ...(data.tenant && { tenantId: data.tenant }),
-      }),
-    );
+    onSubmit(data);
   };
 
   const reset = () => {
-    if (high.includes(role as string)) {
-      setValue('organization', '');
-      setValue('facility', '');
-      setValue('tenant', '');
-    } else if (mid.includes(role as string)) {
-      setValue('facility', '');
-      setValue('tenant', '');
-    }
+    setValue('organization', '');
+    setValue('facility', '');
+    setValue('energy_type', '');
+    setStartDate(undefined);
+    setEndDate(undefined);
   };
+
+  // Show facility for all roles if showFacility is true
+  const showFacilityDropdown = showFacility;
+  // For tenants, use facility from profile; for others, use allFacilitiesByOrg
+  const facilityData = isTenant ? tenantFacility : allFacilitiesByOrg(selectedOrg as string);
+  const facilityDisabled = showOrg && !isTenant && !selectedOrg;
 
   return (
     <div>
       <h1 className="text-xl font-[600] mb-5">Filter</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
-        {showRefreshTime && (
+      <form onSubmit={handleSubmit(handleFormSubmit)} className="flex flex-col gap-5">
+        {showEnergyType && (
           <ComboBoxFormComponent
-            label="Refresh Time"
-            data={[
-              { label: '1 minute', value: '1m' },
-              { label: '5 minutes', value: '5m' },
-              { label: '15 minutes', value: '15m' },
-              { label: '30 minutes', value: '30m' },
-              { label: '1 hour', value: '1h' },
-            ]}
-            selectorName="refreshTime"
+            label="Type of Energy"
+            data={energyTypeOptions}
+            selectorName="energy_type"
             setValue={setValue}
-            title="Refresh Time"
+            title="Energy Type"
             watch={watch}
-            error={errors.refreshTime?.message}
+            error={errors.energy_type?.message}
             register={register}
           />
         )}
-
-        <ComboBoxFormComponent
-          label="Type of Energy"
-          data={energyTypeArray}
-          selectorName="energy_type"
-          setValue={setValue}
-          title="Energy Type"
-          watch={watch}
-          error={errors.energy_type?.message}
-          register={register}
-        />
-
-        {high.includes(role as string) && (
+        {showOrg && (
           <ComboBoxFormComponent
             label="Organization"
             data={allOrgs}
@@ -147,35 +144,69 @@ const EnergyFilter = ({
             register={register}
           />
         )}
-
-        {(high.includes(role as string) || mid.includes(role as string)) && (
+        {showFacilityDropdown && (
           <ComboBoxFormComponent
             label="Facility"
-            data={allFacilitiesByOrg(selectedOrg as string)}
+            data={facilityData}
             selectorName="facility"
             setValue={setValue}
             title="Facility"
             watch={watch}
             error={errors.facility?.message}
             register={register}
-            disabled={!selectedOrg}
+            disabled={facilityDisabled}
           />
         )}
-
-        {(high.includes(role as string) || mid.includes(role as string) || low.includes(role as string)) && (
-          <ComboBoxFormComponent
-            label="Tenant"
-            data={allTenantsByFacility(selectedFacility as string)}
-            selectorName="tenant"
-            setValue={setValue}
-            title="Tenant"
-            watch={watch}
-            error={errors.tenant?.message}
-            register={register}
-            disabled={!selectedFacility}
-          />
+        {showDateRange && (
+          <div className="flex gap-4">
+            <div>
+              <label className="block mb-1">Start Date</label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={'w-full justify-start text-left font-normal ' + (!startDate ? 'text-gray-400' : '')}
+                  >
+                    {startDate ? startDate.toISOString().slice(0, 10) : 'Pick a date'}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent align="start" className="min-w-[320px] p-4">
+                  <Calendar
+                    mode="single"
+                    selected={startDate}
+                    onSelect={(date) => {
+                      setStartDate(date);
+                    }}
+                    className="rounded-md border"
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+            <div>
+              <label className="block mb-1">End Date</label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={'w-full justify-start text-left font-normal ' + (!endDate ? 'text-gray-400' : '')}
+                  >
+                    {endDate ? endDate.toISOString().slice(0, 10) : 'Pick a date'}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent align="start" className="min-w-[320px] p-4">
+                  <Calendar
+                    mode="single"
+                    selected={endDate}
+                    onSelect={(date) => {
+                      setEndDate(date);
+                    }}
+                    className="rounded-md border"
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+          </div>
         )}
-
         <div className="w-full flex items-center gap-5 mt-10">
           <Button type="button" className="w-full" variant="outline" onClick={reset}>
             Reset

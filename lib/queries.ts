@@ -1,6 +1,6 @@
 import axios from './middleware';
 import { TFormUser, TRole } from '@/app/types';
-import { baseUrl, getDateIndexes } from '@/lib/utils';
+import { baseUrl, getDateIndexes, getToken } from '@/lib/utils';
 
 //lists
 const listByRoleRq = async (role: TRole) => {
@@ -250,6 +250,23 @@ const setThresholdRq = async (energyThreshold: number) => {
   return response;
 };
 
+const getEnergyRegressionRq = async (start_date: string, end_date: string, energy_type: string, facility: string) => {
+  try {
+  const response = await axios.get(
+    `${baseUrl}/statistic/energyStat/energyLinearRegression?start_date=${start_date}&end_date=${end_date}&energy_type=${energy_type}&facility=${facility}`,
+    {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    },
+  );
+    return response.data;
+  } catch (e) {
+    console.error('error in getEnergyRegressionRq', e);
+    return null;
+  }
+};
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   listByRoleRq,
@@ -295,4 +312,5 @@ export default {
   realTimeRq,
   getThresholdRq,
   setThresholdRq,
+  getEnergyRegressionRq,
 };

@@ -265,15 +265,19 @@ export function QueriesCtxProvider({ children }: React.PropsWithChildren<{}>) {
   const getFacilitiesQuery = () => {
     if (high.includes(role as string)) {
       return qry.getFacilitiesRq();
-    } else {
+    } else if (mid.includes(role as string)) {
       return qry.listFacilityByOrgId(orgUserAdminId as string);
+    } else if (role === 'tenant') {
+      // For tenant, get their facility directly
+      const user = getUser() as TFacilityUser;
+      return qry.getFacilityRq(user?.facility?._id);
     }
   };
 
   const facilityQry = {
     queryKey: ['facilities', role, orgUserAdminId, facilityUserAdminId],
     queryFn: getFacilitiesQuery,
-    enabled: defaultEnable && blockTenant && blockFacilityManager,
+    enabled: defaultEnable && !!getFacilitiesQuery, // Enable for all roles if they have the right query
   };
 
   const facilities = useQuery(facilityQry);

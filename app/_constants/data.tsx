@@ -90,8 +90,8 @@ export const analyticsOptionsArry = (
 
 export const energyTypeArray = [
   { label: 'Electricity', value: 'electricity' },
+  { label: 'Gas', value: 'gas' },
   // { label: 'Water', value: 'water' },
-  // { label: 'Gas', value: 'gas' },
   // { label: 'Heat', value: 'heat' },
 ];
 
