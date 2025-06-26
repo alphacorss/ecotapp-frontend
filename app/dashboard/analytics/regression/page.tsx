@@ -41,6 +41,8 @@ const RegressionAnalysis = () => {
     end_date: end,
   });
 
+  const orgAndFacultyFilterExists = filter?.organization !== '' || filter?.facility !== '';
+
   // Always pass required fields to the hook
   const regressionFilter: RegressionFilter = {
     energy_type: 'gas',
@@ -77,7 +79,15 @@ const RegressionAnalysis = () => {
       </div>
 
       <div className="flex flex-col h-full">
-        {isLoading ? (
+        {!orgAndFacultyFilterExists && !isError ? (
+          <div className="flex flex-col items-center justify-center h-full">
+            <p className="text-gray-500">Please update the filter</p>
+          </div>
+        ) : isError || !chartData ? (
+          <div className="flex flex-col items-center justify-center h-full">
+            <p className="text-gray-500">No data found</p>
+          </div>
+        ) : isLoading ? (
           <ChartSpinnerLoader />
         ) : chartData.length > 0 ? (
           <ScatterComponent data={chartData} />

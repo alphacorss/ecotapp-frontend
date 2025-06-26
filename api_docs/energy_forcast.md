@@ -2,7 +2,7 @@
 
 Api request endpoint and query :
 
-curl --location 'http://localhost:4000/api/v1/statistic/energyStat/regression/consumption?unit=201&start\*date=2024-04-01&end_date=2024-11-10&energy_type=gas&organization=684ed176a0158325c82936a3&facility=684ed28b8ab869c2c883f901' \
+curl --location 'http://localhost:4000/api/v1/statistic/energyStat/regression/consumption?start\*date=2024-04-01&end_date=2024-11-10&energy_type=gas&organization=684ed176a0158325c82936a3&facility=684ed28b8ab869c2c883f901' \
 --header 'Authorization: Bearer <token>'
 
 Note:

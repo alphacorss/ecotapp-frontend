@@ -25,7 +25,7 @@ export const useRegressionAnalysis = (filter: RegressionFilter) => {
   const regressionQuery = useQuery({
     queryKey: ['regression', energy_type, facility, start_date, end_date],
     queryFn: () => qry.getEnergyRegressionRq(start_date, end_date, energy_type, facility),
-    enabled: !!facility && !!energy_type && !!start_date && !!end_date,
+    enabled: true,
   });
 
   // Transform regression data into chart points

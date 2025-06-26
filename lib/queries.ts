@@ -250,21 +250,48 @@ const setThresholdRq = async (energyThreshold: number) => {
   return response;
 };
 
+// NEW CHARTS API
+
 const getEnergyRegressionRq = async (start_date: string, end_date: string, energy_type: string, facility: string) => {
   try {
-  const response = await axios.get(
-    `${baseUrl}/statistic/energyStat/energyLinearRegression?start_date=${start_date}&end_date=${end_date}&energy_type=${energy_type}&facility=${facility}`,
-    {
+    const params = new URLSearchParams();
+    params.append('start_date', start_date);
+    params.append('end_date', end_date);
+    params.append('energy_type', energy_type);
+    params.append('facility', facility);
+
+    const response = await axios.get(`${baseUrl}/statistic/energyStat/energyLinearRegression`, {
+      params,
       headers: {
         Authorization: `Bearer ${getToken()}`,
       },
-    },
-  );
+    });
     return response.data;
   } catch (e) {
     console.error('error in getEnergyRegressionRq', e);
     return null;
   }
+};
+
+const getEnergyForecastRq = async (start_date?: string, end_date?: string, energy_type?: string, facility?: string) => {
+    const params = new URLSearchParams();
+    start_date && params.append('start_date', start_date);
+    end_date && params.append('end_date', end_date);
+    energy_type && params.append('energy_type', energy_type);
+    facility && params.append('facility', facility);
+
+    const response = await axios.get(
+      `
+      ${baseUrl}/statistic/energyStat/regression/consumption`,
+      {
+        params,
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      },
+    );
+
+    return response?.data;
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -313,4 +340,5 @@ export default {
   getThresholdRq,
   setThresholdRq,
   getEnergyRegressionRq,
+  getEnergyForecastRq,
 };

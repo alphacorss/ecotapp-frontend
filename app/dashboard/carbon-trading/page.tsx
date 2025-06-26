@@ -112,7 +112,7 @@ const CarbonTrading = () => {
         open={showFilterModal}
         setOpen={() => setShowFilterModal(false)}
         contentClass="min-w-[min(90vw,500px)] max-h-[90svh] overflow-y-auto"
-        content={<EnergyFilter setShowFilterModal={setShowFilterModal} />}
+        content={<EnergyFilter setShowFilterModal={setShowFilterModal} onSubmit={() => {}} />}
       />
     </div>
   );
