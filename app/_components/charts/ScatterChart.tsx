@@ -38,7 +38,7 @@ export default function ScatterComponent({ data }: { data: any[] }) {
           margin={{
             top: -50,
             right: 0,
-            left: 10,
+            left: 40,
             bottom: 0,
           }}
         >
@@ -87,7 +87,8 @@ export default function ScatterComponent({ data }: { data: any[] }) {
               }}
               angle={270}
               value={'(Energy consumption (m3/day))'}
-              position="left"
+              position="insideLeft"
+              offset={-8}
             />
           </YAxis>
           <Tooltip

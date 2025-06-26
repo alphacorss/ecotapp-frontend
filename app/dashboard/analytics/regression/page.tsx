@@ -60,7 +60,6 @@ const RegressionAnalysis = () => {
     setShowFilterModal(false);
   };
 
-  if (isLoading) return <ChartSpinnerLoader />;
   if (isError) return <div className="error-page">Failed to load regression data</div>;
 
   return (
